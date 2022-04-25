@@ -1,0 +1,24 @@
+assets folder:
+    consists of all the project resources (images etc.)
+
+components folder:
+    consists of all the styled + customized reusable components sorted into their categories
+    *example usage can refer to SignIn.js > Line 52-55 (RoundedTextInput)
+    *the styles are pre-defined, just need to assign needed params like "text", "onChangeText" according to needs
+
+screens folder:
+    consists of all the UI + logic components
+
+App.js:
+    the starting point and the project root with navigation defined
+
+Project color scheme:
+    primary button color: "#61d5ff" (baby blue)
+        *example usage "Sign In" button in SignIn.js > Line 66 / components > PrimaryButton.js
+    secondary button color: "#fff"
+    secondary button border color: "#61d5ff"
+    primary text color: "#000000"
+    secondary text color: "#00a2ff" (dark blue)
+        *example usage "Forgot Password?" button in SignIn.js > 64 / components > UnderlinedButton.js
+
+Pull-to-refresh can be done in ScrollView, FlatList, SectionList using "refreshControl" property -> https://www.youtube.com/watch?v=ANdSdIlgsEw (1:18:00)

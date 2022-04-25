@@ -1,20 +1,52 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import "react-native-gesture-handler";
+import { NavigationContainer } from "@react-navigation/native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { StatusBar } from "expo-status-bar";
+import Toast from "react-native-toast-message";
+import SignIn from "./screens/SignIn";
+import SignUp from "./screens/SignUp";
+import Home from "./screens/Home";
+import ForgotPassword from "./screens/ForgotPassword";
 
-export default function App() {
+const Stack = createNativeStackNavigator();
+const Drawer = createDrawerNavigator();
+
+const Root = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Drawer.Navigator useLegacyImplementation={true} initialRouteName="Home">
+      <Stack.Screen
+        name="Home"
+        component={Home}
+        options={{
+          drawerItemStyle: { display: "none" },
+        }}
+      />
+      <Drawer.Screen name="Sign In" component={SignIn} />
+      <Drawer.Screen name="Sign Up" component={SignUp} />
+    </Drawer.Navigator>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const App = () => {
+  return (
+    <NavigationContainer>
+      <SafeAreaProvider>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Root"
+            component={Root}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen name="Forgot Password" component={ForgotPassword} />
+        </Stack.Navigator>
+      </SafeAreaProvider>
+      <StatusBar backgroundColor="#fff" style="auto" />
+      <Toast position="bottom" />
+    </NavigationContainer>
+  );
+};
+
+export default App;
