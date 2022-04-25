@@ -5,6 +5,7 @@ const ForgotPassword = () => {
   return (
     <View>
       <Text>This is Forgot Password screen.</Text>
+      <RoundedTextInput placeholder="Enter your email" secureTextEntry={true} />
     </View>
   );
 };
