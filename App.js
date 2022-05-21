@@ -6,10 +6,10 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
 import Toast from "react-native-toast-message";
-import SignIn from "./screens/SignIn";
-import SignUp from "./screens/SignUp";
-import Home from "./screens/Home";
-import ForgotPassword from "./screens/ForgotPassword";
+import SignIn from "./screens/common/SignIn";
+import SignUp from "./screens/common/SignUp";
+import Home from "./screens/common/Home";
+import ForgotPassword from "./screens/common/ForgotPassword";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
