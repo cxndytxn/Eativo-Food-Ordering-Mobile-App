@@ -22,3 +22,5 @@ Project color scheme:
         *example usage "Forgot Password?" button in SignIn.js > 64 / components > UnderlinedButton.js
 
 Pull-to-refresh can be done in ScrollView, FlatList, SectionList using "refreshControl" property -> https://www.youtube.com/watch?v=ANdSdIlgsEw (1:18:00)
+
+***used expo install firebase command instead of npm install @react-native-firebase as according to a youtuber the latter will cause issues

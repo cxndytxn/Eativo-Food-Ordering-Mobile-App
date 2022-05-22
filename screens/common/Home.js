@@ -1,14 +1,12 @@
 import React from "react";
 import { View, Text } from "react-native";
+import RestaurantCard from "../../components/cards/RestaurantCard";
 
-const Home = (props) => {
-  //   const { email, password } = props.route.params;
-
+const Home = ({ navigation }) => {
   return (
     <View>
-      <Text>This is Home Screen.</Text>
-      {/* <Text>Email: {email}</Text>
-      <Text>Password: {password}</Text> */}
+      <Text>This is Home screen.</Text>
+      <RestaurantCard />
     </View>
   );
 };

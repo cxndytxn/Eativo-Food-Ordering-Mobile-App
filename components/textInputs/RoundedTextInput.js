@@ -14,16 +14,12 @@ const RoundedTextInput = ({ placeholder, secureTextEntry, onChangeText }) => {
 
 const styles = StyleSheet.create({
   textInput: {
-    width: "80%",
+    width: "100%",
     maxWidth: 300,
     paddingHorizontal: 20,
     paddingVertical: 8,
     backgroundColor: "#fff",
-    borderRadius: 20,
-  },
-  elevation: {
-    elevation: 5,
-    shadowColor: "#000000",
+    borderRadius: 30,
   },
   margin: {
     marginVertical: 5,
