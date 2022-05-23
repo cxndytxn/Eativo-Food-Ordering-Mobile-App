@@ -19,16 +19,18 @@ const ForgotPassword = () => {
           style={styles.image}
         />
       </View>
-      <Spacing marginTop={30} />
-      <Text style={styles.title}>Forgot password? Worry not!</Text>
-      <Spacing marginTop={5} />
-      <Text style={styles.subtitle}>
-        Just tell us your email to reset your password.
-      </Text>
-      <Spacing marginBottom={40} />
-      <RoundedTextInput placeholder="Enter your email" />
-      <Spacing marginTop={60} />
-      <PrimaryButton onPress={ResetPassword} text="Submit" />
+      <View style={styles.contentContainer}>
+        <Spacing marginTop={30} />
+        <Text style={styles.title}>Forgot password? Worry not!</Text>
+        <Spacing marginTop={5} />
+        <Text style={styles.subtitle}>
+          Just tell us your email to reset your password.
+        </Text>
+        <Spacing marginBottom={40} />
+        <RoundedTextInput placeholder="Enter your email" />
+        <Spacing marginTop={60} />
+        <PrimaryButton onPress={ResetPassword} text="Submit" />
+      </View>
     </SafeAreaView>
   );
 };
@@ -38,17 +40,20 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
   },
+  contentContainer: {
+    width: "85%",
+  },
   title: {
     textAlign: "left",
-    width: "90%",
-    maxWidth: 300,
+    width: "100%",
+    maxWidth: 350,
     fontWeight: "bold",
     fontSize: 20,
   },
   subtitle: {
     textAlign: "left",
-    width: "90%",
-    maxWidth: 300,
+    width: "100%",
+    maxWidth: 350,
     fontSize: 14,
     color: "#666666",
   },

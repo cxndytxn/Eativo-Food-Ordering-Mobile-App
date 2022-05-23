@@ -10,7 +10,6 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { StatusBar } from "expo-status-bar";
 import Toast from "react-native-toast-message";
 import SignOut from "./screens/common/SignOut";
-import Home from "./screens/common/Home";
 import Cart from "./screens/tan-xin-li/Cart";
 import Order from "./screens/tan-xin-li/Order";
 import Favorite from "./screens/tan-xin-li/Favorite";
@@ -20,6 +19,10 @@ import HeaderLeftButton from "./components/buttons/HeaderLeftButton";
 import { Provider } from "react-native-paper";
 import SignInStack from "./navigation/SignInStack";
 import SignUpStack from "./navigation/SignUpStack";
+import Home from "./screens/common/Home";
+import Restaurant from "./screens/tan-xin-li/Restaurant";
+import RatingReview from "./screens/tan-xin-li/RatingReview";
+import Meal from "./screens/tan-xin-li/Meal";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -102,6 +105,9 @@ const StackNavigation = () => {
           headerLeft: () => <HeaderLeftButton />,
         })}
       />
+      <Stack.Screen name="Restaurant" component={Restaurant} />
+      <Stack.Screen name="Ratings & Reviews" component={RatingReview} />
+      <Stack.Screen name="Meal" component={Meal} />
     </Stack.Navigator>
   );
 };
@@ -111,7 +117,12 @@ const App = () => {
     <NavigationContainer>
       <SafeAreaProvider>
         <Provider>
-          <Drawer.Navigator backBehavior="history">
+          <Drawer.Navigator
+            backBehavior="history"
+            screenOptions={{
+              swipeEnabled: false,
+            }}
+          >
             <Drawer.Screen
               name="DrawerNavigation"
               component={StackNavigation}
@@ -171,6 +182,17 @@ const App = () => {
       <StatusBar backgroundColor="#fff" style="auto" />
     </NavigationContainer>
   );
+};
+
+const getHomeStackHeaderTitle = (route) => {
+  const routeName = getFocusedRouteNameFromRoute(route) ?? "Home";
+
+  switch (routeName) {
+    case "Home":
+      return "Home";
+    case "Restaurant":
+      return "Restaurant";
+  }
 };
 
 const getHeaderTitle = (route) => {

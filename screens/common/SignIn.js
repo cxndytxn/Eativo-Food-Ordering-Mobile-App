@@ -65,7 +65,7 @@ const SignIn = ({ navigation }) => {
             secureTextEntry={true}
           />
           <Spacing marginTop={10} />
-          <View style={{ width: "85%" }}>
+          <View style={{ width: "95%" }}>
             <TextButton
               onPress={ForgotPassword}
               text="Forgot Password?"
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 2,
-    width: "100%",
+    width: "85%",
     maxWidth: 350,
     maxHeight: 670,
     alignItems: "center",
@@ -119,8 +119,8 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 30,
   },
   bodyText: {
-    width: "90%",
-    maxWidth: 300,
+    width: "100%",
+    maxWidth: 350,
     fontSize: 14,
   },
   shadow: {

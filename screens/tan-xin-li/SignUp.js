@@ -64,7 +64,8 @@ const SignIn = ({ navigation }) => {
           <View
             style={{
               flexDirection: "row",
-              width: "85%",
+              width: "100%",
+              maxWidth: 350,
             }}
           >
             <View style={{ flex: 1 }}>
@@ -76,7 +77,7 @@ const SignIn = ({ navigation }) => {
                 secureTextEntry={true}
               />
             </View>
-            <View style={{ marginLeft: 7 }} />
+            <View style={{ marginLeft: 10 }} />
             <View style={{ flex: 1 }}>
               <Spacing marginTop={10} />
               <Text style={styles.bodyText}>Confirmed Password</Text>
@@ -120,7 +121,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 2,
-    width: "100%",
+    width: "85%",
     maxWidth: 350,
     maxHeight: 670,
     alignItems: "center",
@@ -137,8 +138,8 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 30,
   },
   bodyText: {
-    width: "90%",
-    maxWidth: 300,
+    width: "100%",
+    maxWidth: 350,
     fontSize: 14,
   },
   shadow: {
