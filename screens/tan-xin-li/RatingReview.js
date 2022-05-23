@@ -1,44 +1,41 @@
 import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  FlatList,
-  TouchableOpacity,
-} from "react-native";
-import MealCard from "../../components/cards/MealCard";
+import { View, Text, Image, StyleSheet } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
+import ReviewsCard from "../../components/cards/ReviewsCard";
 import Spacing from "../../components/views/Spacing";
-import { useNavigation } from "@react-navigation/native";
 
 const Data = [
   {
     image:
       "https://img.freepik.com/free-photo/big-hamburger-with-double-beef-french-fries_252907-8.jpg?w=2000",
-    mealName: "Aglio Olio Spaghetti",
-    description: "A signature dish from The Italian Flavor - classic Oglio Olio Spaghetti with minced chicken.",
-    price: 15.5,
+    username: "Erin",
+    rating: 4,
+    review: "The food was great!",
+    date: "10-04-2022 01:00 AM",
   },
   {
     image:
       "https://img.freepik.com/free-photo/big-hamburger-with-double-beef-french-fries_252907-8.jpg?w=2000",
-    mealName: "Aglio Olio Spaghetti",
-    description: "A signature dish from The Italian Flavor - classic Oglio Olio Spaghetti with minced chicken.",
-    price: 15.5,
+    username: "Erin",
+    rating: 4,
+    review: "The food was great!",
+    date: "10-04-2022 01:00 AM",
   },
   {
     image:
       "https://img.freepik.com/free-photo/big-hamburger-with-double-beef-french-fries_252907-8.jpg?w=2000",
-    mealName: "Aglio Olio Spaghetti",
-    description: "A signature dish from The Italian Flavor - classic Oglio Olio Spaghetti with minced chicken.",
-    price: 15.5,
+    username: "Erin",
+    rating: 4,
+    review: "The food was great!",
+    date: "10-04-2022 01:00 AM",
   },
   {
     image:
       "https://img.freepik.com/free-photo/big-hamburger-with-double-beef-french-fries_252907-8.jpg?w=2000",
-    mealName: "Aglio Olio Spaghetti",
-    description: "A signature dish from The Italian Flavor - classic Oglio Olio Spaghetti with minced chicken.",
-    price: 15.5,
+    username: "Erin",
+    rating: 4,
+    review: "The food was great!",
+    date: "10-04-2022 01:00 AM",
   },
 ];
 
@@ -46,11 +43,10 @@ const VerticalFlatListItemSeparator = () => {
   return <View style={{ marginBottom: 10 }} />;
 };
 
-const Restaurant = ({ navigation, route }) => {
+const RatingReview = ({ route }) => {
   const { image, restaurantName, address, ratings, time } = route.params;
 
   const ListHeaderComponent = () => {
-    const navigation = useNavigation();
     return (
       <View>
         <Image
@@ -61,21 +57,7 @@ const Restaurant = ({ navigation, route }) => {
           resizeMode="cover"
         />
         <View style={styles.absoluteContainer}>
-          <TouchableOpacity
-            style={styles.infoSection}
-            onPress={() =>
-              navigation.navigate("DrawerNavigation", {
-                screen: "Ratings & Reviews",
-                params: {
-                  image: image,
-                  restaurantName: restaurantName,
-                  address: address,
-                  ratings: ratings,
-                  time: time,
-                },
-              })
-            }
-          >
+          <View style={styles.infoSection}>
             <View style={{ flex: 1 }}>
               <Text style={styles.restaurantName}>{restaurantName}</Text>
               <Text style={styles.address}>{address}</Text>
@@ -86,10 +68,10 @@ const Restaurant = ({ navigation, route }) => {
               </View>
               <Text style={styles.time}>{time} min</Text>
             </View>
-          </TouchableOpacity>
+          </View>
         </View>
         <Spacing marginBottom={50} />
-        <Text style={styles.sectionHeader}>Meals</Text>
+        <Text style={styles.sectionHeader}>Reviews</Text>
         <Spacing marginBottom={10} />
       </View>
     );
@@ -99,22 +81,12 @@ const Restaurant = ({ navigation, route }) => {
     <FlatList
       data={Data}
       renderItem={({ item, index }) => (
-        <MealCard
+        <ReviewsCard
           image={item.image}
-          description={item.description}
-          mealName={item.mealName}
-          price={item.price}
-          onPress={() =>
-            navigation.navigate("DrawerNavigation", {
-              screen: "Meal",
-              params: {
-                image: item.image,
-                mealName: item.mealName,
-                description: item.description,
-                price: item.price,
-              },
-            })
-          }
+          dateTime={item.date}
+          rating={item.rating}
+          review={item.review}
+          username={item.username}
           key={index}
         />
       )}
@@ -128,12 +100,12 @@ const Restaurant = ({ navigation, route }) => {
 };
 
 const styles = StyleSheet.create({
+  verticalRestaurantCard: {
+    paddingBottom: 10,
+  },
   backgroundImage: {
     height: 220,
     width: "100%",
-  },
-  verticalRestaurantCard: {
-    paddingBottom: 10,
   },
   infoSection: {
     backgroundColor: "white",
@@ -184,4 +156,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Restaurant;
+export default RatingReview;

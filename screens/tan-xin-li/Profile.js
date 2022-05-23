@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     height: 170,
   },
   container: {
-    width: "100%",
+    width: "85%",
     maxWidth: 350,
     alignItems: "center",
   },
@@ -117,8 +117,8 @@ const styles = StyleSheet.create({
     borderRadius: 100,
   },
   bodyText: {
-    width: "90%",
-    maxWidth: 300,
+    width: "100%",
+    maxWidth: 350,
     fontSize: 14,
   },
   shadow: {

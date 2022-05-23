@@ -15,7 +15,7 @@ const RoundedTextInput = ({ placeholder, secureTextEntry, onChangeText }) => {
 const styles = StyleSheet.create({
   textInput: {
     width: "100%",
-    maxWidth: 300,
+    maxWidth: 350,
     paddingHorizontal: 20,
     paddingVertical: 8,
     backgroundColor: "#fff",
