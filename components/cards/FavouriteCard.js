@@ -1,8 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import Spacing from "../views/Spacing";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
-const MealCard = ({ image, mealName, description, price, onPress, style }) => {
+const FavouriteCard = ({
+  image,
+  restaurantName,
+  mealName,
+  price,
+  onPress,
+  style,
+}) => {
+  const [isClicked, setIsClicked] = useState(false);
+
+  const RemoveFavourite = () => {
+    setIsClicked(!isClicked);
+  };
+
   return (
     <TouchableOpacity style={[styles.container, style]} onPress={onPress}>
       <Image source={{ uri: image }} style={styles.image} resizeMode="cover" />
@@ -11,13 +25,26 @@ const MealCard = ({ image, mealName, description, price, onPress, style }) => {
           <Spacing marginTop={5} />
           <Text style={styles.restaurantName}>{mealName}</Text>
           <Spacing marginBottom={5} />
-          <Text style={styles.address} numberOfLines={3}>
-            {description}
-          </Text>
+          <Text style={styles.address}>By: {restaurantName}</Text>
         </View>
         <Spacing marginTop={5} />
         <Text style={styles.price}>RM {parseFloat(price).toFixed(2)}</Text>
       </View>
+      <TouchableOpacity
+        style={{
+          flexGrow: 1,
+          justifyContent: "center",
+          alignItems: "flex-end",
+        }}
+      >
+        <Ionicons
+          name={isClicked ? "heart-outline" : "heart"}
+          color="#ff4340"
+          size={32}
+          style={{ marginEnd: 10 }}
+          onPress={RemoveFavourite}
+        />
+      </TouchableOpacity>
     </TouchableOpacity>
   );
 };
@@ -43,11 +70,14 @@ const styles = StyleSheet.create({
   },
   price: {
     fontWeight: "bold",
-    color: "#FFAA3A",
+    fontSize: 16,
   },
-  contentContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+  status: {
+    borderRadius: 50,
+    backgroundColor: "white",
+    textAlign: "center",
+    paddingHorizontal: 10,
+    alignSelf: "flex-start",
   },
   infoContainer: {
     justifyContent: "space-between",
@@ -59,8 +89,7 @@ const styles = StyleSheet.create({
   address: {
     color: "#666666",
     fontSize: 12,
-    width: "90%",
   },
 });
 
-export default MealCard;
+export default FavouriteCard;

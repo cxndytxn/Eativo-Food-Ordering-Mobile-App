@@ -1,15 +1,8 @@
 import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  FlatList,
-  TouchableOpacity,
-} from "react-native";
-import MealCard from "../../components/cards/MealCard";
+import { View, Image, Text, StyleSheet, FlatList } from "react-native";
 import Spacing from "../../components/views/Spacing";
-import { useNavigation } from "@react-navigation/native";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import MealCard from "../../components/cards/MealCard";
 
 const Data = [
   {
@@ -46,11 +39,10 @@ const VerticalFlatListItemSeparator = () => {
   return <View style={{ marginBottom: 10 }} />;
 };
 
-const Restaurant = ({ navigation, route }) => {
-  const { image, restaurantName, address, ratings, time } = route.params;
+const OrderDetails = ({ navigation, route }) => {
+  const { image, restaurantName, price, dateTime, status } = route?.params;
 
   const ListHeaderComponent = () => {
-    const navigation = useNavigation();
     return (
       <View>
         <Image
@@ -61,36 +53,58 @@ const Restaurant = ({ navigation, route }) => {
           resizeMode="cover"
         />
         <View style={styles.absoluteContainer}>
-          <TouchableOpacity
-            style={styles.infoSection}
-            onPress={() =>
-              navigation.navigate("DrawerNavigation", {
-                screen: "Ratings & Reviews",
-                params: {
-                  image: image,
-                  restaurantName: restaurantName,
-                  address: address,
-                  ratings: ratings,
-                  time: time,
-                },
-              })
-            }
-          >
+          <View style={styles.infoSection}>
             <View style={{ flex: 1 }}>
               <Text style={styles.restaurantName}>{restaurantName}</Text>
-              <Text style={styles.address}>{address}</Text>
+              <Text style={styles.address}>address</Text>
             </View>
             <View>
               <View style={styles.ratings}>
-                <Text style={styles.ratingsText}>{ratings}</Text>
+                <Text style={styles.ratingsText}>ratings</Text>
               </View>
-              <Text style={styles.time}>{time} min</Text>
+              <Text style={styles.time}>time min</Text>
             </View>
-          </TouchableOpacity>
+          </View>
         </View>
         <Spacing marginBottom={50} />
-        <Text style={styles.sectionHeader}>Meals</Text>
-        <Spacing marginBottom={10} />
+        <View style={styles.infoContainer}>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Ionicons
+              name="restaurant"
+              size={24}
+              style={{ marginHorizontal: 10 }}
+            />
+            <Text>{status}</Text>
+          </View>
+          <Spacing marginBottom={10} />
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Ionicons
+              name="location-sharp"
+              size={24}
+              style={{ marginHorizontal: 10 }}
+            />
+            <Text>Restaurant Address</Text>
+          </View>
+          <Spacing marginBottom={10} />
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Ionicons
+              name="time-sharp"
+              size={24}
+              style={{ marginHorizontal: 10 }}
+            />
+            <Text>{dateTime}</Text>
+          </View>
+          <Spacing marginBottom={10} />
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Ionicons
+              name="wallet"
+              size={24}
+              style={{ marginHorizontal: 10 }}
+            />
+            <Text>RM {parseFloat(price).toFixed(2)}</Text>
+          </View>
+        </View>
+        <Spacing marginBottom={15} />
       </View>
     );
   };
@@ -128,12 +142,12 @@ const Restaurant = ({ navigation, route }) => {
 };
 
 const styles = StyleSheet.create({
+  verticalRestaurantCard: {
+    paddingBottom: 10,
+  },
   backgroundImage: {
     height: 220,
     width: "100%",
-  },
-  verticalRestaurantCard: {
-    paddingBottom: 10,
   },
   infoSection: {
     elevation: 4,
@@ -184,6 +198,12 @@ const styles = StyleSheet.create({
   absoluteContainer: {
     position: "relative",
   },
+  infoContainer: {
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 10,
+    margin: 10,
+  },
 });
 
-export default Restaurant;
+export default OrderDetails;

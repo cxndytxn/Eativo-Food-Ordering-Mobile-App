@@ -1,6 +1,6 @@
 import React from "react";
 import { FlatList, StyleSheet, View } from "react-native";
-import OrderCard from "../../components/cards/OrderCard";
+import FavouriteCard from "../../components/cards/FavouriteCard";
 import NoRecords from "./empty-states/NoRecords";
 
 const Data = [
@@ -8,16 +8,14 @@ const Data = [
     image:
       "https://img.freepik.com/free-photo/big-hamburger-with-double-beef-french-fries_252907-8.jpg?w=2000",
     restaurantName: "McDonald's",
-    dateTime: "10-05-2022 02:45 PM",
-    status: "Order Received",
+    mealName: "McChicken",
     price: 15.5,
   },
   {
     image:
       "https://img.freepik.com/free-photo/big-hamburger-with-double-beef-french-fries_252907-8.jpg?w=2000",
     restaurantName: "McDonald's",
-    dateTime: "10-05-2022 02:45 PM",
-    status: "In Kitchen",
+    mealName: "Fillet O' Fish",
     price: 15.5,
   },
 ];
@@ -26,26 +24,24 @@ const VerticalFlatListItemSeparator = () => {
   return <View style={{ marginBottom: 10 }} />;
 };
 
-const Order = ({ navigation }) => {
+const Favourite = ({ navigation }) => {
   return (
     <FlatList
       data={Data}
       renderItem={({ item, index }) => (
-        <OrderCard
+        <FavouriteCard
           image={item.image}
-          dateTime={item.dateTime}
           restaurantName={item.restaurantName}
           price={item.price}
-          status={item.status}
+          mealName={item.mealName}
           onPress={() =>
             navigation.navigate("DrawerNavigation", {
-              screen: "Order Details",
+              screen: "Meal",
               params: {
                 image: item.image,
                 restaurantName: item.restaurantName,
                 price: item.price,
-                dateTime: item.dateTime,
-                status: item.status,
+                mealName: item.mealName,
               },
             })
           }
@@ -119,4 +115,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Order;
+export default Favourite;
