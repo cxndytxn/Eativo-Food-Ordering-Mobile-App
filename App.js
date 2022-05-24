@@ -12,7 +12,7 @@ import Toast from "react-native-toast-message";
 import SignOut from "./screens/common/SignOut";
 import Cart from "./screens/tan-xin-li/Cart";
 import Order from "./screens/tan-xin-li/Order";
-import Favorite from "./screens/tan-xin-li/Favorite";
+import Favorite from "./screens/tan-xin-li/Favourite";
 import Profile from "./screens/tan-xin-li/Profile";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import HeaderLeftButton from "./components/buttons/HeaderLeftButton";
@@ -23,6 +23,11 @@ import Home from "./screens/common/Home";
 import Restaurant from "./screens/tan-xin-li/Restaurant";
 import RatingReview from "./screens/tan-xin-li/RatingReview";
 import Meal from "./screens/tan-xin-li/Meal";
+import HeaderRightButton from "./components/buttons/HeaderRightButton";
+import SearchRestaurant from "./screens/tan-xin-li/SearchRestaurant";
+import Payment from "./screens/tan-xin-li/Payment";
+import OrderDetails from "./screens/tan-xin-li/OrderDetails";
+import SubmitRatingReview from "./screens/tan-xin-li/SubmitRatingReview";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -36,11 +41,11 @@ const TabNavigation = () => {
           let iconName;
           if (route.name === "Home") {
             iconName = focused ? "home" : "home-outline";
-          } else if (route.name === "Cart") {
-            iconName = focused ? "cart" : "cart-outline";
-          } else if (route.name === "Order") {
+          } else if (route.name === "Search") {
+            iconName = focused ? "search" : "search-outline";
+          } else if (route.name === "Orders") {
             iconName = focused ? "document-text" : "document-text-outline";
-          } else if (route.name === "Favorite") {
+          } else if (route.name === "Favourite") {
             iconName = focused ? "heart" : "heart-outline";
           } else if (route.name === "Profile") {
             iconName = focused ? "person" : "person-outline";
@@ -62,21 +67,21 @@ const TabNavigation = () => {
         }}
       />
       <Tab.Screen
-        name="Cart"
-        component={Cart}
+        name="Search"
+        component={SearchRestaurant}
         options={{
           headerShown: false,
         }}
       />
       <Tab.Screen
-        name="Order"
+        name="Orders"
         component={Order}
         options={{
           headerShown: false,
         }}
       />
       <Tab.Screen
-        name="Favorite"
+        name="Favourite"
         component={Favorite}
         options={{
           headerShown: false,
@@ -103,11 +108,17 @@ const StackNavigation = () => {
           headerTitle: getHeaderTitle(route),
           drawerItemStyle: { display: "none" },
           headerLeft: () => <HeaderLeftButton />,
+          headerRight: () => <HeaderRightButton />,
         })}
       />
       <Stack.Screen name="Restaurant" component={Restaurant} />
       <Stack.Screen name="Ratings & Reviews" component={RatingReview} />
       <Stack.Screen name="Meal" component={Meal} />
+      <Stack.Screen name="Cart" component={Cart} />
+      <Stack.Screen name="Search Restaurant" component={SearchRestaurant} />
+      <Stack.Screen name="Payment" component={Payment} />
+      <Stack.Screen name="Order Details" component={OrderDetails} />
+      <Stack.Screen name="Feedback" component={SubmitRatingReview} />
     </Stack.Navigator>
   );
 };
@@ -184,29 +195,18 @@ const App = () => {
   );
 };
 
-const getHomeStackHeaderTitle = (route) => {
-  const routeName = getFocusedRouteNameFromRoute(route) ?? "Home";
-
-  switch (routeName) {
-    case "Home":
-      return "Home";
-    case "Restaurant":
-      return "Restaurant";
-  }
-};
-
 const getHeaderTitle = (route) => {
   const routeName = getFocusedRouteNameFromRoute(route) ?? "Home";
 
   switch (routeName) {
     case "Home":
       return "Home";
-    case "Cart":
-      return "Cart";
-    case "Order":
-      return "Order";
-    case "Favorite":
-      return "Favorite";
+    case "Search":
+      return "Search Restaurants";
+    case "Orders":
+      return "Orders";
+    case "Favourite":
+      return "Favourite";
     case "Profile":
       return "Profile";
   }

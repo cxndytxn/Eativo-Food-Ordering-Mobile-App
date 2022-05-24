@@ -108,6 +108,8 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   infoSection: {
+    elevation: 4,
+    shadowColor: "#000000",
     backgroundColor: "white",
     borderRadius: 15,
     padding: 15,

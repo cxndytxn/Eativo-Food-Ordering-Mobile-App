@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
-import { Rating, AirbnbRating } from "react-native-ratings";
+import StarRating from "react-native-star-rating";
 import Spacing from "../views/Spacing";
 
 const ReviewsCard = ({ image, username, rating, review, dateTime }) => {
@@ -20,12 +20,14 @@ const ReviewsCard = ({ image, username, rating, review, dateTime }) => {
             <Text style={styles.dateTime}>{dateTime}</Text>
           </View>
           <Spacing marginBottom={5} />
-          <AirbnbRating
-            defaultRating={rating}
-            size={16}
-            reviews={false}
-            isDisabled={true}
-            ratingContainerStyle={{ marginTop: -55, alignSelf: "flex-start" }}
+          <StarRating
+            disabled={true}
+            maxStars={5}
+            fullStarColor={"#FFAA3A"}
+            rating={rating}
+            starSize={20}
+            emptyStarColor="lightgrey"
+            containerStyle={{ width: "40%" }}
           />
           <Spacing marginBottom={5} />
           <Text style={styles.review}>{review}</Text>

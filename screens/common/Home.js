@@ -148,6 +148,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginHorizontal: 10,
+    elevation: 4,
+    shadowColor: "#000000",
   },
   sectionHeader: {
     fontWeight: "bold",
