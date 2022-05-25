@@ -8,17 +8,31 @@ import RoundedTextInput from "../../components/textInputs/RoundedTextInput";
 import TextButton from "../../components/buttons/TextButton";
 import Spacing from "../../components/views/Spacing";
 import BackButton from "../../components/buttons/BackButton";
+import { auth } from "../../firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 const SignIn = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [user, setUser] = useState();
 
   const Login = () => {
     if (email.trim().length > 0 && password.trim().length > 0) {
-      navigation.navigate("Home", {
-        email: email,
-        password: password,
-      });
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredentials) => {
+          const user = userCredentials.user;
+          Toast.show({
+            type: "success",
+            text1: "Signed in successfully!",
+          });
+          navigation.navigate("DrawerNavigation", { screen: "Home" });
+        })
+        .catch((error) => {
+          Toast.show({
+            type: "error",
+            text1: error.message,
+          });
+        });
     } else {
       ShowToast();
     }

@@ -7,6 +7,8 @@ import SecondaryButton from "../../components/buttons/SecondaryButton";
 import RoundedTextInput from "../../components/textInputs/RoundedTextInput";
 import Spacing from "../../components/views/Spacing";
 import BackButton from "../../components/buttons/BackButton";
+import { auth } from "../../firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 const SignIn = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -28,6 +30,28 @@ const SignIn = ({ navigation }) => {
       username.trim().length > 0 &&
       confirmedPassword.trim().length > 0
     ) {
+      if (password.trim() === confirmedPassword.trim()) {
+        createUserWithEmailAndPassword(auth, email, password)
+          .then((userCredentials) => {
+            const user = userCredentials.user;
+            Toast.show({
+              type: "success",
+              text1: "Signed up successfully!",
+            });
+            navigation.navigate("DrawerNavigation", { screen: "Home" });
+          })
+          .catch((error) => {
+            Toast.show({
+              type: "error",
+              text1: error.message,
+            });
+          });
+      } else {
+        Toast.show({
+          type: "error",
+          text1: "Password and confirmed password are not matching!",
+        });
+      }
     } else {
       ShowToast();
     }
