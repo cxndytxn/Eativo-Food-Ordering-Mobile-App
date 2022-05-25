@@ -29,32 +29,36 @@ const OrderCard = ({
         <Spacing marginTop={5} />
         <Text style={styles.price}>RM {parseFloat(price).toFixed(2)}</Text>
       </View>
-      <TouchableOpacity
-        style={{
-          flexGrow: 1,
-          justifyContent: "center",
-          alignItems: "flex-end",
-        }}
-      >
-        <Ionicons
-          name={"star"}
-          color="#FFAA3A"
-          size={32}
-          style={{ marginEnd: 10 }}
-          onPress={() =>
-            navigation.navigate("DrawerNavigation", {
-              screen: "Feedback",
-              params: {
-                image: image,
-                restaurantName: restaurantName,
-                price: price,
-                dateTime: dateTime,
-                status: status,
-              },
-            })
-          }
-        />
-      </TouchableOpacity>
+      {status === "Picked Up" ? (
+        <TouchableOpacity
+          style={{
+            flexGrow: 1,
+            justifyContent: "center",
+            alignItems: "flex-end",
+          }}
+        >
+          <Ionicons
+            name={"star"}
+            color="#FFAA3A"
+            size={30}
+            style={{ marginEnd: 10 }}
+            onPress={() =>
+              navigation.navigate("DrawerNavigation", {
+                screen: "Feedback",
+                params: {
+                  image: image,
+                  restaurantName: restaurantName,
+                  price: price,
+                  dateTime: dateTime,
+                  status: status,
+                },
+              })
+            }
+          />
+        </TouchableOpacity>
+      ) : (
+        <></>
+      )}
     </TouchableOpacity>
   );
 };
@@ -89,11 +93,9 @@ const styles = StyleSheet.create({
   },
   status: {
     borderRadius: 50,
-    backgroundColor: "white",
     color: "#FFAA3A",
     fontWeight: "bold",
     textAlign: "center",
-    paddingHorizontal: 10,
     alignSelf: "flex-start",
   },
   infoContainer: {

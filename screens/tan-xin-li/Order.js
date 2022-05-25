@@ -17,7 +17,7 @@ const Data = [
       "https://img.freepik.com/free-photo/big-hamburger-with-double-beef-french-fries_252907-8.jpg?w=2000",
     restaurantName: "McDonald's",
     dateTime: "10-05-2022 02:45 PM",
-    status: "In Kitchen",
+    status: "Picked Up",
     price: 15.5,
   },
 ];

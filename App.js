@@ -6,7 +6,12 @@ import {
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { createDrawerNavigator } from "@react-navigation/drawer";
+import {
+  createDrawerNavigator,
+  DrawerContentScrollView,
+  DrawerItem,
+  DrawerItemList,
+} from "@react-navigation/drawer";
 import { StatusBar } from "expo-status-bar";
 import Toast from "react-native-toast-message";
 import SignOut from "./screens/common/SignOut";
@@ -28,6 +33,9 @@ import SearchRestaurant from "./screens/tan-xin-li/SearchRestaurant";
 import Payment from "./screens/tan-xin-li/Payment";
 import OrderDetails from "./screens/tan-xin-li/OrderDetails";
 import SubmitRatingReview from "./screens/tan-xin-li/SubmitRatingReview";
+import { auth } from "./firebase";
+import { signOut } from "firebase/auth";
+import { View } from "react-native";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -119,7 +127,36 @@ const StackNavigation = () => {
       <Stack.Screen name="Payment" component={Payment} />
       <Stack.Screen name="Order Details" component={OrderDetails} />
       <Stack.Screen name="Feedback" component={SubmitRatingReview} />
+      <Stack.Screen name="Sign Out" component={SignOut} />
     </Stack.Navigator>
+  );
+};
+
+const DrawerContent = (props) => {
+  return (
+    <DrawerContentScrollView {...props} contentContainerStyle={{ flex: 1 }}>
+      <DrawerItemList {...props} />
+      <View style={{ flex: 1 }}>
+        <DrawerItem
+          label="Sign Out"
+          icon={({ focused, color, size }) => (
+            
+            <Ionicons name="log-out-outline" size={size} color={"#666666"} />
+            
+          )}
+          onPress={() => {
+            var user = auth.currentUser;
+            if (user != null) {
+              signOut(auth);
+              props.navigation.navigate("Sign Out");
+            } else {
+              alert("You're not signed in!");
+            }
+          }}
+          style={{ flex: 1 }}
+        />
+      </View>
+    </DrawerContentScrollView>
   );
 };
 
@@ -133,6 +170,7 @@ const App = () => {
             screenOptions={{
               swipeEnabled: false,
             }}
+            drawerContent={(props) => <DrawerContent {...props} />}
           >
             <Drawer.Screen
               name="DrawerNavigation"
@@ -166,20 +204,6 @@ const App = () => {
                 drawerIcon: ({ focused, size }) => (
                   <Ionicons
                     name="person-add-outline"
-                    size={size}
-                    color={"#666666"}
-                  />
-                ),
-              }}
-            />
-            <Drawer.Screen
-              name="Sign Out"
-              component={SignOut}
-              options={{
-                headerShown: false,
-                drawerIcon: ({ focused, size }) => (
-                  <Ionicons
-                    name="log-out-outline"
                     size={size}
                     color={"#666666"}
                   />
