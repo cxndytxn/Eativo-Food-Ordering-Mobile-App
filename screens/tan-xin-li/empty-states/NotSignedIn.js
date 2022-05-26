@@ -2,17 +2,17 @@ import React from "react";
 import { View, Image, StyleSheet, Text } from "react-native";
 import Spacing from "../../../components/views/Spacing";
 
-const NoRecords = () => {
+const NotSignedIn = () => {
   return (
     <View style={styles.container}>
-      <Spacing marginTop={130} />
+      <Spacing marginTop={150} />
       <Image
-        source={require("../../../assets/images/no-records.png")}
+        source={require("../../../assets/images/access-denied.png")}
         style={styles.image}
         resizeMode="contain"
       />
       <Spacing marginTop={10} />
-      <Text style={styles.text}>Oops, nothing was found!</Text>
+      <Text style={styles.text}>Oops, you're not signed in!</Text>
       <Spacing marginBottom={30} />
     </View>
   );
@@ -20,8 +20,6 @@ const NoRecords = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    height: "100%",
     alignItems: "center",
   },
   image: {
@@ -36,4 +34,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NoRecords;
+export default NotSignedIn;

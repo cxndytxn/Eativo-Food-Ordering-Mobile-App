@@ -1,14 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import { Text, StyleSheet, View, Image } from "react-native";
 import BackButton from "../../components/buttons/BackButton";
 import { SafeAreaView } from "react-native-safe-area-context";
 import PrimaryButton from "../../components/buttons/PrimaryButton";
 import RoundedTextInput from "../../components/textInputs/RoundedTextInput";
 import Spacing from "../../components/views/Spacing";
+import { auth } from "../../firebase";
+import { sendPasswordResetEmail } from "firebase/auth";
+import Toast from "react-native-toast-message";
 
-const ResetPassword = () => {};
+const ResetPassword = (email) => {
+  sendPasswordResetEmail(auth, email)
+    .then(() => {
+      Toast.show({
+        type: "success",
+        text1: "Please check your email to reset password.",
+      });
+    })
+    .catch((error) =>
+      Toast.show({
+        type: "error",
+        text1: error.message,
+      })
+    );
+};
 
 const ForgotPassword = () => {
+  const [email, setEmail] = useState("");
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerBackground}>
@@ -27,9 +46,13 @@ const ForgotPassword = () => {
           Just tell us your email to reset your password.
         </Text>
         <Spacing marginBottom={40} />
-        <RoundedTextInput placeholder="Enter your email" />
+        <RoundedTextInput
+          placeholder="Enter your email"
+          onChangeText={(email) => setEmail(email)}
+          value={email}
+        />
         <Spacing marginTop={60} />
-        <PrimaryButton onPress={ResetPassword} text="Submit" />
+        <PrimaryButton onPress={() => ResetPassword(email)} text="Submit" />
       </View>
     </SafeAreaView>
   );

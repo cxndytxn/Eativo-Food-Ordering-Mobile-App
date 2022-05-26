@@ -1,13 +1,21 @@
 import React from "react";
 import { TextInput, StyleSheet } from "react-native";
 
-const RoundedTextInput = ({ placeholder, secureTextEntry, onChangeText }) => {
+const RoundedTextInput = ({
+  placeholder,
+  secureTextEntry,
+  onChangeText,
+  value,
+  editable,
+}) => {
   return (
     <TextInput
       placeholder={placeholder}
       secureTextEntry={secureTextEntry}
       style={[styles.textInput, styles.margin, styles.elevation]}
       onChangeText={onChangeText}
+      value={value}
+      editable={editable}
     ></TextInput>
   );
 };

@@ -14,13 +14,11 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 const SignIn = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState();
 
   const Login = () => {
     if (email.trim().length > 0 && password.trim().length > 0) {
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredentials) => {
-          const user = userCredentials.user;
           Toast.show({
             type: "success",
             text1: "Signed in successfully!",

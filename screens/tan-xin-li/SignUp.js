@@ -7,14 +7,26 @@ import SecondaryButton from "../../components/buttons/SecondaryButton";
 import RoundedTextInput from "../../components/textInputs/RoundedTextInput";
 import Spacing from "../../components/views/Spacing";
 import BackButton from "../../components/buttons/BackButton";
-import { auth } from "../../firebase";
+import { auth, firestore } from "../../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { setDoc, doc } from "firebase/firestore";
 
 const SignIn = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [confirmedPassword, setConfirmedPassword] = useState("");
+
+  const CreateUserDocument = async (email, username, uid) => {
+    await setDoc(doc(firestore, "users", uid), {
+      uid: uid,
+      username: username,
+      email: email,
+      type: "user",
+      address: "",
+      contactNumber: "",
+    });
+  };
 
   const ShowToast = () => {
     Toast.show({
@@ -34,6 +46,7 @@ const SignIn = ({ navigation }) => {
         createUserWithEmailAndPassword(auth, email, password)
           .then((userCredentials) => {
             const user = userCredentials.user;
+            CreateUserDocument(email, username, user.uid);
             Toast.show({
               type: "success",
               text1: "Signed up successfully!",

@@ -64,7 +64,7 @@ const RatingReview = ({ route }) => {
             </View>
             <View>
               <View style={styles.ratings}>
-                <Text style={styles.ratingsText}>{ratings}</Text>
+                <Text style={styles.ratingsText}>{parseFloat(ratings).toFixed(1)}</Text>
               </View>
               <Text style={styles.time}>{time} min</Text>
             </View>

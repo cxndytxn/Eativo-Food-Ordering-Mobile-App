@@ -1,9 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Text, StyleSheet, View, FlatList, Image } from "react-native";
 import VerticalRestaurantCard from "../../components/cards/VerticalRestaurantCard";
 import Spacing from "../../components/views/Spacing";
 import HorizontalRestaurantCard from "../../components/cards/HorizontalRestaurantCard";
 import { useNavigation } from "@react-navigation/native";
+import { auth, firestore } from "../../firebase";
+import {
+  collection,
+  doc,
+  onSnapshot,
+  query as firestoreQuery,
+} from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
+import Toast from "react-native-toast-message";
+import * as Location from "expo-location";
 
 const Data = [
   {
@@ -42,23 +52,78 @@ const VerticalFlatListItemSeparator = () => {
 
 const ListHeaderComponent = () => {
   const navigation = useNavigation();
+  const [username, setUsername] = useState("");
+  const [address, setAddress] = useState("");
+  const [uri, setUri] = useState("");
+  const [locationPermission, setLocationPermission] = useState(false);
+  const [location, setLocation] = useState(null);
+
+  onAuthStateChanged(auth, (currentUser) => {
+    if (currentUser) {
+      onSnapshot(doc(firestore, "users", currentUser.uid), (snapshot) => {
+        setUsername(snapshot.data().username);
+        setAddress(snapshot.data()?.address);
+        setUri(snapshot.data()?.imageUrl);
+      });
+    } else {
+      setUsername("");
+      setAddress("");
+      setUri("");
+    }
+  });
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        Toast.show({
+          type: "error",
+          text1: "Location permission had been denied!",
+        });
+        setLocationPermission(false);
+        return;
+      } else {
+        setLocationPermission(true);
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+      console.log(location);
+    })();
+  }, []);
 
   return (
     <View style={styles.container}>
       <Spacing marginTop={10} />
-      <View style={styles.greetingContainer}>
-        <Image
-          source={{
-            uri: "https://img.freepik.com/free-photo/big-hamburger-with-double-beef-french-fries_252907-8.jpg?w=2000",
-          }}
-          style={styles.image}
-          resizeMode="cover"
-        />
-        <View>
-          <Text style={styles.username}>Hello, Erin!</Text>
-          <Text style={styles.address}>168, Bukit Bintang, Kuala Lumpur</Text>
+      {locationPermission ? (
+        <View style={styles.greetingContainer}>
+          <Image
+            source={
+              uri === "" || uri == undefined
+                ? require("../../assets/images/default-user.jpg")
+                : {
+                    uri: uri,
+                  }
+            }
+            style={styles.image}
+            resizeMode="cover"
+          />
+          <View>
+            <Text style={styles.username}>
+              Hello,{" "}
+              {username === "" || username == undefined ? "Guest" : username}!
+            </Text>
+            <Spacing marginBottom={5} />
+            <Text style={styles.address}>
+              {address === "" || address == undefined
+                ? "Nice to see you!"
+                : address}
+            </Text>
+          </View>
         </View>
-      </View>
+      ) : (
+        <></>
+      )}
       <Spacing marginBottom={20} />
       <Text style={styles.sectionHeader}>Restaurants Near You</Text>
       <Spacing marginBottom={10} />
@@ -66,17 +131,17 @@ const ListHeaderComponent = () => {
         data={Data}
         renderItem={({ item, index }) => (
           <VerticalRestaurantCard
-            image={item.image}
-            restaurantName={item.restaurantName}
+            image={item.imageUrl}
+            restaurantName={item.username}
             address={item.address}
-            ratings={item.ratings}
+            ratings={parseFloat(item.ratings).toFixed(1)}
             time={item.time}
             onPress={() =>
               navigation.navigate("DrawerNavigation", {
                 screen: "Restaurant",
                 params: {
-                  image: item.image,
-                  restaurantName: item.restaurantName,
+                  image: item.imageUrl,
+                  restaurantName: item.username,
                   address: item.address,
                   ratings: item.ratings,
                   time: item.time,
@@ -99,24 +164,41 @@ const ListHeaderComponent = () => {
 };
 
 const Home = ({ navigation }) => {
-  const [userProfile, setUserProfile] = useState("");
+  const [rests, setRests] = useState([]);
+
+  const restaurants = [];
+
+  useEffect(() => {
+    const query = firestoreQuery(collection(firestore, "restaurants"));
+    const subscriber = onSnapshot(query, (querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        restaurants.push({
+          ...doc.data(),
+          key: doc.id,
+        });
+      });
+      setRests(restaurants);
+    });
+
+    return () => subscriber();
+  }, []);
 
   return (
     <FlatList
-      data={Data}
+      data={rests}
       renderItem={({ item, index }) => (
         <HorizontalRestaurantCard
-          image={item.image}
-          restaurantName={item.restaurantName}
+          image={item.imageUrl}
+          restaurantName={item.username}
           address={item.address}
-          ratings={item.ratings}
+          ratings={parseFloat(item.ratings).toFixed(1)}
           time={item.time}
           onPress={() =>
             navigation.navigate("DrawerNavigation", {
               screen: "Restaurant",
               params: {
-                image: item.image,
-                restaurantName: item.restaurantName,
+                image: item.imageUrl,
+                restaurantName: item.username,
                 address: item.address,
                 ratings: item.ratings,
                 time: item.time,
@@ -170,7 +252,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   address: {
-    fontSize: 12,
+    fontSize: 13,
     color: "#666666",
   },
 });

@@ -140,9 +140,7 @@ const DrawerContent = (props) => {
         <DrawerItem
           label="Sign Out"
           icon={({ focused, color, size }) => (
-            
             <Ionicons name="log-out-outline" size={size} color={"#666666"} />
-            
           )}
           onPress={() => {
             var user = auth.currentUser;
@@ -150,7 +148,10 @@ const DrawerContent = (props) => {
               signOut(auth);
               props.navigation.navigate("Sign Out");
             } else {
-              alert("You're not signed in!");
+              Toast.show({
+                type: "error",
+                text1: "You're not signed in!",
+              });
             }
           }}
           style={{ flex: 1 }}
