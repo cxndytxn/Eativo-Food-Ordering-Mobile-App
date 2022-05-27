@@ -18,7 +18,9 @@ const HorizontalRestaurantCard = ({
         <Spacing marginTop={5} />
         <Text style={styles.restaurantName}>{restaurantName}</Text>
         <Spacing marginBottom={5} />
-        <Text style={styles.address}>{address}</Text>
+        <View>
+          <Text style={styles.address}>{address}</Text>
+        </View>
         <Spacing marginTop={5} />
         <View style={styles.contentContainer}>
           <View style={styles.ratings}>
@@ -53,6 +55,7 @@ const styles = StyleSheet.create({
   address: {
     color: "#666666",
     fontSize: 12,
+    maxWidth: "78%",
   },
   ratings: {
     borderRadius: 50,

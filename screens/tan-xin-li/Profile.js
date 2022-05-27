@@ -107,7 +107,7 @@ const Profile = ({ navigation }) => {
           const img = await fetch(result.uri);
           const bytes = await img.blob();
 
-          var storagePath = "profileImages/" + auth.currentUser.uid;
+          var storagePath = "users/" + auth.currentUser.uid;
           const ref = reference(storage, storagePath);
 
           await uploadBytes(ref, bytes).then(

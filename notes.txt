@@ -24,3 +24,110 @@ Project color scheme:
 Pull-to-refresh can be done in ScrollView, FlatList, SectionList using "refreshControl" property -> https://www.youtube.com/watch?v=ANdSdIlgsEw (1:18:00)
 
 ***used expo install firebase command instead of npm install @react-native-firebase as according to a youtuber the latter will cause issues
+
+------------------------------------------------------------------Data-------------------------------------------------------------------
+Home.js
+
+const Data = [
+  {
+    image:
+      "https://img.freepik.com/free-photo/big-hamburger-with-double-beef-french-fries_252907-8.jpg?w=2000",
+    restaurantName: "McDonald's",
+    address: "Bkt Bintang, Kuala Lumpur",
+    ratings: 4.5,
+    time: 25,
+  },
+  {
+    image:
+      "https://www.restaurant-hospitality.com/sites/restaurant-hospitality.com/files/styles/article_featured_standard/public/Kensfoods_breakoutflavors_690784532.jpg?itok=DkJdjGlZ",
+    restaurantName: "The Italian Flavor",
+    address: "Bkt Bintang, Kuala Lumpur",
+    ratings: 4.5,
+    time: 25,
+  },
+  {
+    image:
+      "https://blogs.uoregon.edu/natewoodburyaad250/files/2012/10/PSD_Food_illustrations_3190_pancakes_with_butter-1wi1tz5.jpg",
+    restaurantName: "Burger Scientist",
+    address: "Bkt Bintang, Kuala Lumpur",
+    ratings: 4.5,
+    time: 25,
+  },
+];
+
+SearchRestaurant.js
+
+const Data = [
+  {
+    image:
+      "https://img.freepik.com/free-photo/big-hamburger-with-double-beef-french-fries_252907-8.jpg?w=2000",
+    restaurantName: "McDonald's",
+    address: "Bkt Bintang, Kuala Lumpur",
+    ratings: 4.5,
+    time: 25,
+  },
+  {
+    image:
+      "https://www.restaurant-hospitality.com/sites/restaurant-hospitality.com/files/styles/article_featured_standard/public/Kensfoods_breakoutflavors_690784532.jpg?itok=DkJdjGlZ",
+    restaurantName: "The Italian Flavor",
+    address: "Bkt Bintang, Kuala Lumpur",
+    ratings: 4.5,
+    time: 25,
+  },
+  {
+    image:
+      "https://blogs.uoregon.edu/natewoodburyaad250/files/2012/10/PSD_Food_illustrations_3190_pancakes_with_butter-1wi1tz5.jpg",
+    restaurantName: "Burger Scientist",
+    address: "Bkt Bintang, Kuala Lumpur",
+    ratings: 4.5,
+    time: 25,
+  },
+];
+
+Restaurant.js
+
+const Data = [
+  {
+    image:
+      "https://img.freepik.com/free-photo/big-hamburger-with-double-beef-french-fries_252907-8.jpg?w=2000",
+    mealName: "Aglio Olio Spaghetti",
+    description: "A signature dish from The Italian Flavor.",
+    price: 15.5,
+  },
+  {
+    image:
+      "https://img.freepik.com/free-photo/big-hamburger-with-double-beef-french-fries_252907-8.jpg?w=2000",
+    mealName: "Aglio Olio Spaghetti",
+    description: "A signature dish from The Italian Flavor.",
+    price: 15.5,
+  },
+  {
+    image:
+      "https://img.freepik.com/free-photo/big-hamburger-with-double-beef-french-fries_252907-8.jpg?w=2000",
+    mealName: "Aglio Olio Spaghetti",
+    description: "A signature dish from The Italian Flavor.",
+    price: 15.5,
+  },
+  {
+    image:
+      "https://img.freepik.com/free-photo/big-hamburger-with-double-beef-french-fries_252907-8.jpg?w=2000",
+    mealName: "Aglio Olio Spaghetti",
+    description: "A signature dish from The Italian Flavor.",
+    price: 15.5,
+  },
+];
+
+Cart.js
+
+const Data = [
+  {
+    mealName: "Aglio Olio Spaghetti",
+    quantity: 2,
+    price: 31.0,
+  },
+  {
+    mealName: "Aglio Olio Spaghetti",
+    quantity: 1,
+    price: 15.5,
+  },
+];

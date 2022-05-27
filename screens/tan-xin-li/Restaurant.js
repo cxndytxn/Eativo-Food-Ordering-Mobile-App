@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -10,44 +10,35 @@ import {
 import MealCard from "../../components/cards/MealCard";
 import Spacing from "../../components/views/Spacing";
 import { useNavigation } from "@react-navigation/native";
-
-const Data = [
-  {
-    image:
-      "https://img.freepik.com/free-photo/big-hamburger-with-double-beef-french-fries_252907-8.jpg?w=2000",
-    mealName: "Aglio Olio Spaghetti",
-    description: "A signature dish from The Italian Flavor.",
-    price: 15.5,
-  },
-  {
-    image:
-      "https://img.freepik.com/free-photo/big-hamburger-with-double-beef-french-fries_252907-8.jpg?w=2000",
-    mealName: "Aglio Olio Spaghetti",
-    description: "A signature dish from The Italian Flavor.",
-    price: 15.5,
-  },
-  {
-    image:
-      "https://img.freepik.com/free-photo/big-hamburger-with-double-beef-french-fries_252907-8.jpg?w=2000",
-    mealName: "Aglio Olio Spaghetti",
-    description: "A signature dish from The Italian Flavor.",
-    price: 15.5,
-  },
-  {
-    image:
-      "https://img.freepik.com/free-photo/big-hamburger-with-double-beef-french-fries_252907-8.jpg?w=2000",
-    mealName: "Aglio Olio Spaghetti",
-    description: "A signature dish from The Italian Flavor.",
-    price: 15.5,
-  },
-];
+import { collection, onSnapshot, query, where } from "firebase/firestore";
+import { firestore } from "../../firebase";
+import { Toast } from "react-native-toast-message/lib/src/Toast";
 
 const VerticalFlatListItemSeparator = () => {
   return <View style={{ marginBottom: 10 }} />;
 };
 
 const Restaurant = ({ navigation, route }) => {
-  const { image, restaurantName, address, ratings, time } = route.params;
+  const { image, restaurantName, restaurantId, address, ratings, time } =
+    route.params;
+  const [meals, setMeals] = useState([]);
+
+  useEffect(() => {
+    onSnapshot(
+      query(
+        collection(firestore, "meals"),
+        where("restaurantId", "==", restaurantId)
+      ),
+      (meals) => {
+        const mealsList = [];
+        meals.forEach((meal) => {
+          mealsList.push({ ...meal.data(), key: meal.id });
+        });
+
+        setMeals(mealsList);
+      }
+    );
+  }, []);
 
   const ListHeaderComponent = () => {
     const navigation = useNavigation();
@@ -76,13 +67,15 @@ const Restaurant = ({ navigation, route }) => {
               })
             }
           >
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 1, maxWidth: "90%" }}>
               <Text style={styles.restaurantName}>{restaurantName}</Text>
               <Text style={styles.address}>{address}</Text>
             </View>
-            <View>
+            <View style={{ alignSelf: "center" }}>
               <View style={styles.ratings}>
-                <Text style={styles.ratingsText}>{parseFloat(ratings).toFixed(1)}</Text>
+                <Text style={styles.ratingsText}>
+                  {parseFloat(ratings).toFixed(1)}
+                </Text>
               </View>
               <Text style={styles.time}>{time} min</Text>
             </View>
@@ -97,23 +90,33 @@ const Restaurant = ({ navigation, route }) => {
 
   return (
     <FlatList
-      data={Data}
+      data={meals}
       renderItem={({ item, index }) => (
         <MealCard
-          image={item.image}
+          image={item.imageUrl}
           description={item.description}
-          mealName={item.mealName}
+          mealName={item.name}
           price={item.price}
+          greyOut={item.quantity == 0}
+          quantity={item.quantity}
           onPress={() =>
-            navigation.navigate("DrawerNavigation", {
-              screen: "Meal",
-              params: {
-                image: item.image,
-                mealName: item.mealName,
-                description: item.description,
-                price: item.price,
-              },
-            })
+            item.quantity != 0
+              ? navigation.navigate("DrawerNavigation", {
+                  screen: "Meal",
+                  params: {
+                    mealId: item.key,
+                    image: item.imageUrl,
+                    mealName: item.name,
+                    description: item.description,
+                    price: item.price,
+                    quantity: item.quantity,
+                    restaurantId: item.restaurantId,
+                  },
+                })
+              : Toast.show({
+                  type: "error",
+                  text1: item.name + " is out of stock!",
+                })
           }
           key={index}
         />
@@ -159,6 +162,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     backgroundColor: "#FFAA3A",
     maxWidth: 45,
+    maxHeight: 25,
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
