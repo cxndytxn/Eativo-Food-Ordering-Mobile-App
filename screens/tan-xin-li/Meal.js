@@ -12,16 +12,53 @@ import Spacing from "../../components/views/Spacing";
 import InputSpinner from "react-native-input-spinner";
 import PrimaryButton from "../../components/buttons/PrimaryButton";
 import Toast from "react-native-toast-message";
+import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
+import { auth, firestore } from "../../firebase";
 
 const Meal = ({ route, navigation }) => {
-  const { image, mealName, description, price } = route.params;
+  const {
+    mealId,
+    image,
+    mealName,
+    description,
+    price,
+    quantity,
+    restaurantId,
+  } = route.params;
   const [total, setTotal] = useState(price);
   const [height, setHeight] = useState("100%");
+  const [remarks, setRemarks] = useState("");
+  const [qty, setQty] = useState(1);
 
-  const AddToCart = () => {
+  const AddToCart = async () => {
     if (total <= 0.0) {
       ShowToast();
+    } else if (auth.currentUser == null) {
+      Toast.show({
+        type: "error",
+        text1: "Please sign in before adding meals to cart!",
+      });
+      navigation.navigate("Sign In");
     } else {
+      await addDoc(collection(firestore, "carts"), {
+        uid: auth.currentUser.uid,
+        mealId: mealId,
+        mealName: mealName,
+        restaurantId: restaurantId,
+        quantity: qty,
+        total: parseFloat(total).toFixed(2),
+        remarks: remarks,
+        status: "in-cart",
+      }).then(async () => {
+        await updateDoc(doc(firestore, "meals", mealId), {
+          quantity: parseInt(quantity - qty),
+        }).then(
+          Toast.show({
+            type: "success",
+            text1: "You'd added " + qty + " " + mealName + " to cart!",
+          })
+        );
+      });
     }
   };
 
@@ -78,14 +115,15 @@ const Meal = ({ route, navigation }) => {
         >
           <Text style={styles.price}>RM {parseFloat(price).toFixed(2)}</Text>
           <InputSpinner
-            max={10}
+            max={quantity}
             min={0}
-            value={1}
+            value={qty}
             skin="clean"
             textColor="#FFAA3A"
             buttonTextColor="#FFAA3A"
             onChange={(num) => {
               setTotal(num * price);
+              setQty(num);
             }}
             fontSize={16}
             inputStyle={{ fontWeight: "bold" }}
@@ -100,6 +138,8 @@ const Meal = ({ route, navigation }) => {
           placeholder="I'm allergic to eggs."
           multiline={true}
           numberOfLines={5}
+          onChangeText={(remarks) => setRemarks(remarks)}
+          value={remarks}
         />
       </View>
       <View style={styles.bottomSheet}>

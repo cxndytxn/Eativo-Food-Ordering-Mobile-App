@@ -3,33 +3,8 @@ import { View, FlatList, StyleSheet } from "react-native";
 import { Searchbar } from "react-native-paper";
 import HorizontalRestaurantCard from "../../components/cards/HorizontalRestaurantCard";
 import { SafeAreaView } from "react-native-safe-area-context";
-
-const Data = [
-  {
-    image:
-      "https://img.freepik.com/free-photo/big-hamburger-with-double-beef-french-fries_252907-8.jpg?w=2000",
-    restaurantName: "McDonald's",
-    address: "Bkt Bintang, Kuala Lumpur",
-    ratings: 4.5,
-    time: 25,
-  },
-  {
-    image:
-      "https://www.restaurant-hospitality.com/sites/restaurant-hospitality.com/files/styles/article_featured_standard/public/Kensfoods_breakoutflavors_690784532.jpg?itok=DkJdjGlZ",
-    restaurantName: "The Italian Flavor",
-    address: "Bkt Bintang, Kuala Lumpur",
-    ratings: 4.5,
-    time: 25,
-  },
-  {
-    image:
-      "https://blogs.uoregon.edu/natewoodburyaad250/files/2012/10/PSD_Food_illustrations_3190_pancakes_with_butter-1wi1tz5.jpg",
-    restaurantName: "Burger Scientist",
-    address: "Bkt Bintang, Kuala Lumpur",
-    ratings: 4.5,
-    time: 25,
-  },
-];
+import { collection, onSnapshot } from "firebase/firestore";
+import { firestore } from "../../firebase";
 
 const VerticalFlatListItemSeparator = () => {
   return <View style={{ marginBottom: 10 }} />;
@@ -37,18 +12,25 @@ const VerticalFlatListItemSeparator = () => {
 
 const SearchRestaurant = ({ navigation }) => {
   const [searchText, setSearchText] = useState("");
+  const [restaurants, setRestaurants] = useState([]);
 
   const onChangeText = (text) => {
     setSearchText(text);
   };
 
-  const filteredRestaurant =
+  onSnapshot(collection(firestore, "restaurants"), (querySnapshot) => {
+    const rests = [];
+    querySnapshot.forEach((doc) => {
+      rests.push(doc.data());
+    });
+    setRestaurants(rests);
+  });
+
+  const filteredRestaurants =
     searchText === ""
-      ? Data
-      : Data.filter((restaurant) =>
-          restaurant.restaurantName
-            .toLowerCase()
-            .includes(searchText.toLowerCase())
+      ? restaurants
+      : restaurants.filter((restaurant) =>
+          restaurant.username.toLowerCase().includes(searchText.toLowerCase())
         );
 
   return (
@@ -62,20 +44,21 @@ const SearchRestaurant = ({ navigation }) => {
           placeholder="Search here..."
         />
         <FlatList
-          data={filteredRestaurant}
+          data={filteredRestaurants}
           renderItem={({ item, index }) => (
             <HorizontalRestaurantCard
-              image={item.image}
-              restaurantName={item.restaurantName}
+              image={item.imageUrl}
+              restaurantName={item.username}
               address={item.address}
-              ratings={item.ratings}
+              ratings={parseFloat(item.ratings).toFixed(1)}
               time={item.time}
               onPress={() =>
                 navigation.navigate("DrawerNavigation", {
                   screen: "Restaurant",
                   params: {
-                    image: item.image,
-                    restaurantName: item.restaurantName,
+                    image: item.imageUrl,
+                    restaurantId: item.uid,
+                    restaurantName: item.username,
                     address: item.address,
                     ratings: item.ratings,
                     time: item.time,
