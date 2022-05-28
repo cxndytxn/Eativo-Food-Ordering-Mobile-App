@@ -19,7 +19,7 @@ const HorizontalRestaurantCard = ({
         <Text style={styles.restaurantName}>{restaurantName}</Text>
         <Spacing marginBottom={5} />
         <View>
-          <Text style={styles.address}>{address}</Text>
+          <Text style={styles.address} numberOfLines={3} lineBreakMode="tail">{address}</Text>
         </View>
         <Spacing marginTop={5} />
         <View style={styles.contentContainer}>
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: 150,
-    height: 100,
+    height: 110,
     borderRadius: 20,
     marginRight: 10,
   },

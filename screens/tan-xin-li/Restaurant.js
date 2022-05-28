@@ -19,8 +19,16 @@ const VerticalFlatListItemSeparator = () => {
 };
 
 const Restaurant = ({ navigation, route }) => {
-  const { image, restaurantName, restaurantId, address, ratings, time } =
-    route.params;
+  const {
+    image,
+    restaurantName,
+    restaurantId,
+    address,
+    ratings,
+    time,
+    contactNumber,
+    email,
+  } = route.params;
   const [meals, setMeals] = useState([]);
 
   useEffect(() => {
@@ -56,13 +64,16 @@ const Restaurant = ({ navigation, route }) => {
             style={styles.infoSection}
             onPress={() =>
               navigation.navigate("DrawerNavigation", {
-                screen: "Ratings & Reviews",
+                screen: "Restaurant Details",
                 params: {
                   image: image,
                   restaurantName: restaurantName,
+                  restaurantId: restaurantId,
                   address: address,
                   ratings: ratings,
                   time: time,
+                  contactNumber: contactNumber,
+                  email: email,
                 },
               })
             }

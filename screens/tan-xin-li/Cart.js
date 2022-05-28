@@ -4,8 +4,16 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import Spacing from "../../components/views/Spacing";
 import CartMealCard from "../../components/cards/CartMealCard";
 import PrimaryButton from "../../components/buttons/PrimaryButton";
-import { onSnapshot, query, collection, where } from "firebase/firestore";
+import {
+  onSnapshot,
+  query,
+  collection,
+  where,
+  updateDoc,
+  doc,
+} from "firebase/firestore";
 import { auth, firestore } from "../../firebase";
+import { set } from "react-native-reanimated";
 
 const VerticalFlatListItemSeparator = () => {
   return (
@@ -22,23 +30,29 @@ const VerticalFlatListItemSeparator = () => {
 };
 
 const Cart = ({ navigation, route }) => {
+  //move the update firestore function to CartMealCard.js, create another screen for adjusting quantity or showing summary
   const [isPayable, setIsPayable] = useState(true);
   const [cartList, setCartList] = useState([]);
-  const [newTotal, setNewTotal] = useState(0.0);
+  //const [newTotal, setNewTotal] = useState(0.0);
+  const [newPrice, setNewPrice] = useState([]);
+  const [sumP, setSumP] = useState(0.0);
   const post = route?.params?.post;
 
   useEffect(() => {
-    var sum;
-    cartList.forEach((cart) => {
-      sum += parseFloat(cart.total).toFixed(2);
-      console.log(sum);
-      setNewTotal(sum);
+    UpdateDoc();
+  }, [newPrice]);
+
+  const UpdateDoc = async () => {
+    await updateDoc(doc(firestore, "carts", newPrice[2]), {
+      total: newPrice[0],
+      quantity: newPrice[1],
     });
-  }, [newTotal]);
+  };
 
   useEffect(() => {
     if (auth.currentUser != null) {
-      var sum;
+      var sum = 0.0;
+      var price = 0.0;
       onSnapshot(
         query(
           collection(firestore, "carts"),
@@ -51,16 +65,24 @@ const Cart = ({ navigation, route }) => {
               ...cart.data(),
               key: cart.id,
             });
-            sum += parseFloat(cart.data().total).toFixed(2);
-            setNewTotal(sum);
             setCartList(cartList);
+            // price = parseFloat(cart.data().total).toFixed(2);
+            // sum = parseFloat(sum + price).toFixed(2);
+            // setSumP(sum);
+            // setNewTotal(sumP);
           });
+          // setNewTotal(parseFloat(sum).toFixed(2));
           if (cartList.length == 0) {
             setIsPayable(false);
           }
+          //  else {
+          //   cartList.forEach((cart) => {
+          //     sum = newTotal + cart.total;
+          //     setNewTotal(sum);
+          //   });
+          // }
         }
       );
-    } else {
     }
   }, []);
 
@@ -119,11 +141,14 @@ const Cart = ({ navigation, route }) => {
         data={cartList}
         renderItem={({ item, index }) => (
           <CartMealCard
+            index={index}
             mealName={item.mealName}
             price={parseFloat(item.total).toFixed(2)}
             quantity={item.quantity}
-            setNewTotal={setNewTotal}
+            setNewPrice={setNewPrice}
+            newPrice={newPrice}
             key={index}
+            id={item.key}
           />
         )}
         scrollEnabled={true}
@@ -131,14 +156,14 @@ const Cart = ({ navigation, route }) => {
         ItemSeparatorComponent={VerticalFlatListItemSeparator}
         showsVerticalScrollIndicator={false}
       />
-      <View style={styles.bottomSheet}>
+      {/* <View style={styles.bottomSheet}>
         <Text style={{ fontWeight: "bold", fontSize: 18 }}>
-          Total: RM {parseFloat(newTotal).toFixed(2)}
-        </Text>
-        <View>
-          <PrimaryButton text="Order" onPress={Order} />
-        </View>
+          Total: RM {newTotal}
+        </Text> */}
+      <View style={{ alignSelf: "center" }}>
+        <PrimaryButton text="Order" onPress={Order} />
       </View>
+      {/* </View> */}
     </View>
   );
 };

@@ -36,6 +36,7 @@ import SubmitRatingReview from "./screens/tan-xin-li/SubmitRatingReview";
 import { auth } from "./firebase";
 import { signOut } from "firebase/auth";
 import { View } from "react-native";
+import ManagerSignUp from "./screens/ng-wei-bin/ManagerSignUp";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -120,7 +121,7 @@ const StackNavigation = () => {
         })}
       />
       <Stack.Screen name="Restaurant" component={Restaurant} />
-      <Stack.Screen name="Ratings & Reviews" component={RatingReview} />
+      <Stack.Screen name="Restaurant Details" component={RatingReview} />
       <Stack.Screen name="Meal" component={Meal} />
       <Stack.Screen name="Cart" component={Cart} />
       <Stack.Screen name="Search Restaurant" component={SearchRestaurant} />

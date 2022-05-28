@@ -77,7 +77,7 @@ const SubmitRatingReview = ({ navigation, route }) => {
           style={styles.infoSection}
           onPress={() =>
             navigation.navigate("DrawerNavigation", {
-              screen: "Ratings & Reviews",
+              screen: "Restaurant Details",
               params: {
                 image: image,
                 restaurantName: restaurantName,
@@ -172,6 +172,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     backgroundColor: "#FFAA3A",
     maxWidth: 45,
+    maxHeight: 25,
     flex: 1,
     justifyContent: "center",
     alignItems: "center",

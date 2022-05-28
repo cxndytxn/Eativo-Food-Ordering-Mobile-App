@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import InputSpinner from "react-native-input-spinner";
 import Spacing from "../views/Spacing";
@@ -8,11 +8,12 @@ const CartMealCard = ({
   quantity,
   price,
   onPress,
+  newPrice,
+  setNewPrice,
   style,
-  setNewTotal,
+  id,
 }) => {
   const [qty, setQty] = useState(quantity);
-  const [total, setTotal] = useState(price);
 
   const RemoveMeal = () => {};
 
@@ -21,9 +22,12 @@ const CartMealCard = ({
       RemoveMeal();
     }
     setQty(num);
-    setTotal((price / quantity) * num);
-    setNewTotal((price / quantity) * num);
+    setNewPrice([(price / quantity) * num, num, id]);
   };
+
+  useEffect(() => {
+    setNewPrice([price, quantity, id]);
+  }, []);
 
   return (
     <View style={[styles.container, style]} onPress={onPress}>
@@ -35,7 +39,7 @@ const CartMealCard = ({
           <Text style={styles.address}>Quantity: {qty}</Text>
         </View>
         <Spacing marginTop={5} />
-        <Text style={styles.price}>RM {parseFloat(total).toFixed(2)}</Text>
+        <Text style={styles.price}>RM {parseFloat(newPrice).toFixed(2)}</Text>
       </View>
       <InputSpinner
         max={10}
@@ -67,7 +71,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: 150,
-    height: 100,
+    height: 110,
     borderRadius: 20,
     marginRight: 10,
   },
