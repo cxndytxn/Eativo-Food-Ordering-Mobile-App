@@ -6,6 +6,7 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import VerticalRestaurantCard from "../../components/cards/VerticalRestaurantCard";
 import Spacing from "../../components/views/Spacing";
@@ -145,7 +146,7 @@ const Home = ({ navigation }) => {
       });
 
       return () => subscriber();
-    }, []);
+    }, [chip]);
 
     // const CalculateDistance = async (latitude, longitude) => {
     //   restaurants.forEach((restaurant) => {
@@ -224,13 +225,14 @@ const Home = ({ navigation }) => {
           </View>
         </TouchableOpacity>
         <Spacing marginTop={10} />
-        <View
-          style={{
-            flex: 1,
-            flexDirection: "row",
+        <ScrollView
+          contentContainerStyle={{
+            alignItems: "center",
+            justifyContent: "space-evenly",
             paddingLeft: 10,
-            overflow: "scroll",
           }}
+          horizontal
+          showsHorizontalScrollIndicator={false}
         >
           {chip.map((item, index) => {
             return (
@@ -251,7 +253,7 @@ const Home = ({ navigation }) => {
               />
             );
           })}
-        </View>
+        </ScrollView>
         {locationPermission ? (
           <View>
             <Spacing marginBottom={20} />
@@ -276,6 +278,8 @@ const Home = ({ navigation }) => {
                         address: item.address,
                         ratings: item.ratings,
                         time: item.time,
+                        contactNumber: item.contactNumber,
+                        email: item.email,
                       },
                     })
                   }
@@ -319,6 +323,8 @@ const Home = ({ navigation }) => {
                 address: item.address,
                 ratings: item.ratings,
                 time: item.time,
+                contactNumber: item.contactNumber,
+                email: item.email,
               },
             })
           }
