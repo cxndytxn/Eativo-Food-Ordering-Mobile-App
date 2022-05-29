@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, TextInput, Text, FlatList } from "react-native";
+import {
+  View,
+  StyleSheet,
+  TextInput,
+  Text,
+  FlatList,
+  LogBox,
+} from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Spacing from "../../components/views/Spacing";
 import CartMealCard from "../../components/cards/CartMealCard";
-import PrimaryButton from "../../components/buttons/PrimaryButton";
 import {
   onSnapshot,
   query,
@@ -11,9 +17,15 @@ import {
   where,
   updateDoc,
   doc,
+  getDocs,
 } from "firebase/firestore";
 import { auth, firestore } from "../../firebase";
-import { set } from "react-native-reanimated";
+import PrimaryButton from "../../components/buttons/PrimaryButton";
+import Toast from "react-native-toast-message";
+import NoCarts from "./empty-states/NoCarts";
+import NotSignedIn from "./empty-states/NotSignedIn";
+
+//LogBox.ignoreAllLogs(true);
 
 const VerticalFlatListItemSeparator = () => {
   return (
@@ -30,68 +42,117 @@ const VerticalFlatListItemSeparator = () => {
 };
 
 const Cart = ({ navigation, route }) => {
-  //move the update firestore function to CartMealCard.js, create another screen for adjusting quantity or showing summary
   const [isPayable, setIsPayable] = useState(true);
   const [cartList, setCartList] = useState([]);
-  //const [newTotal, setNewTotal] = useState(0.0);
   const [newPrice, setNewPrice] = useState([]);
-  const [sumP, setSumP] = useState(0.0);
+  const [restaurantId, setRestaurantId] = useState("");
+  const [restaurantAddress, setRestaurantAddress] = useState("");
+  const [time, setTime] = useState([]);
+  const [total, setTotal] = useState(0.0);
   const post = route?.params?.post;
 
   useEffect(() => {
-    UpdateDoc();
-  }, [newPrice]);
-
-  const UpdateDoc = async () => {
-    await updateDoc(doc(firestore, "carts", newPrice[2]), {
-      total: newPrice[0],
-      quantity: newPrice[1],
-    });
-  };
-
-  useEffect(() => {
     if (auth.currentUser != null) {
-      var sum = 0.0;
-      var price = 0.0;
+      const cartItems = [];
       onSnapshot(
         query(
           collection(firestore, "carts"),
-          where("uid", "==", auth.currentUser.uid)
+          where("uid", "==", auth.currentUser.uid),
+          where("status", "==", "in-cart")
         ),
         (querySnapshot) => {
           querySnapshot.forEach((cart) => {
-            const cartList = [];
-            cartList.push({
-              ...cart.data(),
-              key: cart.id,
-            });
-            setCartList(cartList);
-            // price = parseFloat(cart.data().total).toFixed(2);
-            // sum = parseFloat(sum + price).toFixed(2);
-            // setSumP(sum);
-            // setNewTotal(sumP);
+            if (cartList.filter(() => !cartList.includes(cart.id))) {
+              cartItems.push({
+                ...cart.data(),
+                key: cart.id,
+              });
+              setRestaurantId(cart.data().restaurantId);
+              setCartList(cartItems);
+            }
           });
-          // setNewTotal(parseFloat(sum).toFixed(2));
-          if (cartList.length == 0) {
-            setIsPayable(false);
-          }
-          //  else {
-          //   cartList.forEach((cart) => {
-          //     sum = newTotal + cart.total;
-          //     setNewTotal(sum);
-          //   });
-          // }
         }
       );
     }
-  }, []);
+  }, [newPrice]);
+
+  useEffect(() => {
+    onSnapshot(
+      query(
+        collection(firestore, "restaurants"),
+        where("uid", "==", restaurantId)
+      ),
+      (querySnapshot) => {
+        querySnapshot.forEach((restaurant) => {
+          setRestaurantAddress(restaurant.data().address);
+          var d = new Date();
+          d.setHours(
+            d.getHours(),
+            d.getMinutes() + parseInt(restaurant.data().time),
+            0,
+            0
+          );
+          setTime([d.toLocaleDateString(), d.toLocaleTimeString()]);
+        });
+      }
+    );
+  }, [restaurantId]);
 
   const Order = () => {
-    if (isPayable) {
-      navigation.navigate("Check Out");
+    if (cartList.length == 0) {
+      setIsPayable(false);
     } else {
+      setIsPayable(true);
+    }
+    if (isPayable && post != undefined) {
+      ConfirmOrder();
+    } else if (isPayable && post == undefined) {
+      Toast.show({
+        type: "error",
+        text1: "Kindly ensure payment field is filled!",
+      });
+    } else if (!isPayable && post != undefined) {
+      Toast.show({
+        type: "error",
+        text1: "Error!",
+      });
+    } else if (!isPayable && post == undefined) {
       ShowToast();
     }
+  };
+
+  const ConfirmOrder = async () => {
+    const q = query(
+      collection(firestore, "carts"),
+      where("uid", "==", auth.currentUser.uid),
+      where("status", "==", "in-cart")
+    );
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((cart) => {
+      UpdateDocument(cart);
+    });
+  };
+
+  const UpdateDocument = async (cart) => {
+    var d = new Date();
+    d.setHours(d.getHours(), d.getMinutes(), 0, 0);
+    var date = d.toLocaleDateString();
+    var time = d.toLocaleTimeString();
+    await updateDoc(doc(firestore, "carts", cart.id), {
+      status: "order-received",
+      date: date,
+      time: time,
+    })
+      .catch((error) => {
+        console.log(error.message);
+      })
+      .then(() => {
+        navigation.navigate("Home");
+        Toast.show({
+          type: "success",
+          text1: "Your order had been received!",
+        });
+      });
   };
 
   const ShowToast = () => {
@@ -101,69 +162,111 @@ const Cart = ({ navigation, route }) => {
     });
   };
 
+  useEffect(() => {
+    Calculate();
+  }, [newPrice]);
+
+  const Calculate = async () => {
+    const cost = [];
+    const querySnapshot = await getDocs(
+      query(
+        collection(firestore, "carts"),
+        where("uid", "==", auth.currentUser.uid),
+        where("status", "==", "in-cart")
+      )
+    );
+    querySnapshot.forEach((doc) => {
+      cost.push({
+        ...doc.data(),
+        key: doc.id,
+      });
+    });
+    var value = cost.reduce(
+      (totalCost, { total: itemCost }) => totalCost + parseFloat(itemCost),
+      0
+    );
+    setTotal(value);
+  };
+
   return (
     <View style={{ flex: 1 }}>
-      <Spacing marginTop={10} />
-      <View style={styles.infoSection}>
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Ionicons
-            name="location-sharp"
-            size={24}
-            style={{ marginHorizontal: 10 }}
+      {auth.currentUser != null ? (
+        <View style={{ flex: 1 }}>
+          <Spacing marginTop={10} />
+          {cartList.length != 0 ? (
+            <View style={styles.infoSection}>
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <Ionicons
+                  name="location-sharp"
+                  size={24}
+                  style={{ marginHorizontal: 10 }}
+                />
+                <Text>{restaurantAddress}</Text>
+              </View>
+              <Spacing marginBottom={10} />
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <Ionicons
+                  name="card-sharp"
+                  size={24}
+                  style={{ marginLeft: 10 }}
+                />
+                <TextInput
+                  value={post}
+                  style={styles.textInput}
+                  onPressIn={() =>
+                    navigation.navigate("DrawerNavigation", {
+                      screen: "Payment",
+                    })
+                  }
+                  placeholder="Card Number"
+                />
+              </View>
+              <Spacing marginBottom={10} />
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <Ionicons
+                  name="time-sharp"
+                  size={24}
+                  style={{ marginHorizontal: 10 }}
+                />
+                <Text>Your orders may be ready for pick up at {time[1]}.</Text>
+              </View>
+            </View>
+          ) : (
+            <></>
+          )}
+          <Text style={styles.sectionHeader}>Meals</Text>
+          <Spacing marginBottom={10} />
+          <FlatList
+            data={cartList}
+            renderItem={({ item, index }) => (
+              <CartMealCard
+                mealId={item.mealId}
+                mealName={item.mealName}
+                price={item.total}
+                quantity={item.quantity}
+                setNewPrice={setNewPrice}
+                key={index}
+                remarks={item.remarks}
+                id={item.key}
+              />
+            )}
+            contentContainerStyle={styles.verticalRestaurantCard}
+            ItemSeparatorComponent={VerticalFlatListItemSeparator}
+            showsVerticalScrollIndicator={false}
+            ListEmptyComponent={NoCarts}
           />
-          <Text>Restaurant Address</Text>
+          <View style={styles.bottomSheet}>
+            <Text style={{ fontWeight: "bold", fontSize: 18 }}>
+              Total: RM {parseFloat(total).toFixed(2)}
+            </Text>
+            <View>
+              <PrimaryButton onPress={Order} text="Confirm Order" />
+            </View>
+          </View>
         </View>
-        <Spacing marginBottom={10} />
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Ionicons name="card-sharp" size={24} style={{ marginLeft: 10 }} />
-          <TextInput
-            value={post}
-            style={styles.textInput}
-            onPressIn={() =>
-              navigation.navigate("DrawerNavigation", { screen: "Payment" })
-            }
-            placeholder="Card Number"
-          />
-        </View>
-        <Spacing marginBottom={10} />
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Ionicons
-            name="time-sharp"
-            size={24}
-            style={{ marginHorizontal: 10 }}
-          />
-          <Text>Your meal will be ready around 02:50PM.</Text>
-        </View>
-      </View>
-      <Text style={styles.sectionHeader}>Meals</Text>
-      <Spacing marginBottom={10} />
-      <FlatList
-        data={cartList}
-        renderItem={({ item, index }) => (
-          <CartMealCard
-            index={index}
-            mealName={item.mealName}
-            price={parseFloat(item.total).toFixed(2)}
-            quantity={item.quantity}
-            setNewPrice={setNewPrice}
-            newPrice={newPrice}
-            key={index}
-            id={item.key}
-          />
-        )}
-        scrollEnabled={true}
-        contentContainerStyle={styles.verticalRestaurantCard}
-        ItemSeparatorComponent={VerticalFlatListItemSeparator}
-        showsVerticalScrollIndicator={false}
-      />
-      {/* <View style={styles.bottomSheet}>
-        <Text style={{ fontWeight: "bold", fontSize: 18 }}>
-          Total: RM {newTotal}
-        </Text> */}
-      <View style={{ alignSelf: "center" }}>
-        <PrimaryButton text="Order" onPress={Order} />
-      </View>
-      {/* </View> */}
+      ) : (
+        <NotSignedIn />
+      )}
     </View>
   );
 };
@@ -190,6 +293,19 @@ const styles = StyleSheet.create({
     textAlign: "left",
     marginTop: 10,
     marginLeft: 10,
+  },
+  bottomSheet: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    width: "100%",
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    backgroundColor: "white",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: 15,
   },
   bottomSheet: {
     position: "absolute",

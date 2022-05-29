@@ -21,7 +21,9 @@ const Payment = ({ navigation }) => {
         <TextInput
           style={styles.textInput}
           placeholder={"Card Number"}
-          onChangeText={(num) => setCardNumber(num)}
+          onChangeText={(num) => {
+            setCardNumber(num);
+          }}
           maxLength={16}
           keyboardType="numeric"
           textContentType="creditCardNumber"

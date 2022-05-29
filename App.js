@@ -37,6 +37,8 @@ import { auth } from "./firebase";
 import { signOut } from "firebase/auth";
 import { View } from "react-native";
 import ManagerSignUp from "./screens/ng-wei-bin/ManagerSignUp";
+import EditMeal from "./screens/tan-xin-li/EditMeal";
+import Map from "./screens/tan-xin-li/Map";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -129,6 +131,8 @@ const StackNavigation = () => {
       <Stack.Screen name="Order Details" component={OrderDetails} />
       <Stack.Screen name="Feedback" component={SubmitRatingReview} />
       <Stack.Screen name="Sign Out" component={SignOut} />
+      <Stack.Screen name="Edit Meal" component={EditMeal} />
+      <Stack.Screen name="Map" component={Map} />
     </Stack.Navigator>
   );
 };
