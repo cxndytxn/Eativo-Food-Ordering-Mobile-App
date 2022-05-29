@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { View, FlatList, StyleSheet } from "react-native";
+import { View, FlatList, StyleSheet, TouchableOpacity } from "react-native";
 import { Searchbar } from "react-native-paper";
 import HorizontalRestaurantCard from "../../components/cards/HorizontalRestaurantCard";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { collection, onSnapshot } from "firebase/firestore";
 import { firestore } from "../../firebase";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 const VerticalFlatListItemSeparator = () => {
   return <View style={{ marginBottom: 10 }} />;
@@ -34,7 +35,7 @@ const SearchRestaurant = ({ navigation }) => {
         );
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ flex: 1 }}>
       <View>
         <Searchbar
           value={searchText}
@@ -74,6 +75,27 @@ const SearchRestaurant = ({ navigation }) => {
           showsVerticalScrollIndicator={false}
         />
       </View>
+      <TouchableOpacity
+        style={{
+          backgroundColor: "#FFAA3A",
+          borderRadius: 100,
+          width: 50,
+          position: "absolute",
+          bottom: 20,
+          right: 20,
+          height: 50,
+          elevation: 4,
+          zIndex: 10,
+          shadowColor: "#000000",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+        onPress={() =>
+          navigation.navigate("DrawerNavigation", { screen: "Map" })
+        }
+      >
+        <Ionicons name="map-outline" color={"white"} size={28} />
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
