@@ -51,6 +51,7 @@ const Order = ({ navigation }) => {
     orderList.forEach((order) => {
       summ = summ + Number(order.total).toFixed(2);
     });
+    console.log(summ);
     setSum(summ);
   };
 
