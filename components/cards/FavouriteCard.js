@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import Spacing from "../views/Spacing";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { deleteDoc, doc } from "firebase/firestore";
+import { firestore } from "../../firebase";
+import Toast from "react-native-toast-message";
 
 const FavouriteCard = ({
   image,
@@ -10,11 +13,20 @@ const FavouriteCard = ({
   price,
   onPress,
   style,
+  id,
 }) => {
   const [isClicked, setIsClicked] = useState(false);
 
-  const RemoveFavourite = () => {
+  const ToggleFavourite = async () => {
     setIsClicked(!isClicked);
+    if (isClicked) {
+      await deleteDoc(doc(firestore, "favourites", id)).then(
+        Toast.show({
+          type: "success",
+          text1: "You'd removed " + mealName + " from your Favourites List!",
+        })
+      );
+    }
   };
 
   return (
@@ -42,7 +54,7 @@ const FavouriteCard = ({
           color="#ff4340"
           size={32}
           style={{ marginEnd: 10 }}
-          onPress={RemoveFavourite}
+          onPress={ToggleFavourite}
         />
       </TouchableOpacity>
     </TouchableOpacity>

@@ -48,9 +48,11 @@ const Cart = ({ navigation, route }) => {
   const [newPrice, setNewPrice] = useState([]);
   const [restaurantId, setRestaurantId] = useState("");
   const [restaurantAddress, setRestaurantAddress] = useState("");
+  const [restaurantName, setRestaurantName] = useState("");
   const [time, setTime] = useState([]);
   const [total, setTotal] = useState(0.0);
   const [cartIds, setCartIds] = useState([]);
+  const [image, setImage] = useState("");
   const post = route?.params?.post;
 
   useEffect(() => {
@@ -95,6 +97,8 @@ const Cart = ({ navigation, route }) => {
             0
           );
           setTime([d.toLocaleDateString(), d.toLocaleTimeString()]);
+          setRestaurantName(restaurant.data().username);
+          setImage(restaurant.data().imageUrl);
         });
       }
     );
@@ -143,13 +147,20 @@ const Cart = ({ navigation, route }) => {
   }, [cartIds]);
 
   const AddOrder = async () => {
-    if (cartIds.length > 0) {
-      await addDoc(collection(firestore, "orders"), {
-        ids: cartIds,
-        uid: auth.currentUser.uid,
-      });
-    }
-    console.log(cartIds);
+    console.log(restaurantId, "1");
+    console.log(time, "2");
+    console.log(restaurantName, "3");
+    await addDoc(collection(firestore, "orders"), {
+      ids: cartIds,
+      uid: auth.currentUser.uid,
+      total: total,
+      date: time[0],
+      time: time[1],
+      restaurantId: restaurantId,
+      restaurantName: restaurantName,
+      status: "Order Received",
+      imageUrl: image,
+    });
   };
 
   const UpdateDocument = async (cart) => {
@@ -158,7 +169,7 @@ const Cart = ({ navigation, route }) => {
     var date = d.toLocaleDateString();
     var time = d.toLocaleTimeString();
     await updateDoc(doc(firestore, "carts", cart.id), {
-      status: "order-received",
+      status: "Order Received",
       date: date,
       time: time,
     })

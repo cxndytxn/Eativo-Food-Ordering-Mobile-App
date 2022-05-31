@@ -152,3 +152,55 @@ const Data = [
     price: 15.5,
   },
 ];
+
+OrderDetails.js
+
+const Data = [
+  {
+    image:
+      "https://img.freepik.com/free-photo/big-hamburger-with-double-beef-french-fries_252907-8.jpg?w=2000",
+    mealName: "Aglio Olio Spaghetti",
+    description: "A signature dish from The Italian Flavor.",
+    price: 15.5,
+  },
+  {
+    image:
+      "https://img.freepik.com/free-photo/big-hamburger-with-double-beef-french-fries_252907-8.jpg?w=2000",
+    mealName: "Aglio Olio Spaghetti",
+    description: "A signature dish from The Italian Flavor.",
+    price: 15.5,
+  },
+  {
+    image:
+      "https://img.freepik.com/free-photo/big-hamburger-with-double-beef-french-fries_252907-8.jpg?w=2000",
+    mealName: "Aglio Olio Spaghetti",
+    description: "A signature dish from The Italian Flavor.",
+    price: 15.5,
+  },
+  {
+    image:
+      "https://img.freepik.com/free-photo/big-hamburger-with-double-beef-french-fries_252907-8.jpg?w=2000",
+    mealName: "Aglio Olio Spaghetti",
+    description: "A signature dish from The Italian Flavor.",
+    price: 15.5,
+  },
+];
+
+Favourite.js
+
+const Data = [
+  {
+    image:
+      "https://img.freepik.com/free-photo/big-hamburger-with-double-beef-french-fries_252907-8.jpg?w=2000",
+    restaurantName: "McDonald's",
+    mealName: "McChicken",
+    price: 15.5,
+  },
+  {
+    image:
+      "https://img.freepik.com/free-photo/big-hamburger-with-double-beef-french-fries_252907-8.jpg?w=2000",
+    restaurantName: "McDonald's",
+    mealName: "Fillet O' Fish",
+    price: 15.5,
+  },
+];

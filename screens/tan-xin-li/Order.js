@@ -1,10 +1,4 @@
-import {
-  getDocs,
-  query,
-  collection,
-  where,
-  documentId,
-} from "firebase/firestore";
+import { getDocs, collection, where, query } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import OrderCard from "../../components/cards/OrderCard";
@@ -16,74 +10,26 @@ const VerticalFlatListItemSeparator = () => {
 };
 
 const Order = ({ navigation }) => {
-  const [orders, setOrders] = useState([]);
   const [orderList, setOrderList] = useState([]);
-  const [sum, setSum] = useState(0.0);
 
   useEffect(() => {
     GetOrders();
   }, []);
 
   const GetOrders = async () => {
-    var list = [];
+    const list = [];
     const q = query(
       collection(firestore, "orders"),
       where("uid", "==", auth.currentUser.uid)
     );
-    const snapshot = await getDocs(q);
-    snapshot.forEach((doc) => {
-      list = doc.data().ids;
-    });
-    setOrders(list);
-  };
-
-  useEffect(() => {
-    if (orders.length > 0) {
-      GetMeals();
-    }
-  }, [orders]);
-
-  const GetMeals = async () => {
-    orders.forEach((order) => {
-      GetCarts(order);
-    });
-    let summ = 0.0;
-    orderList.forEach((order) => {
-      summ = summ + Number(order.total).toFixed(2);
-    });
-    console.log(summ);
-    setSum(summ);
-  };
-
-  const GetCarts = async (order) => {
-    const q = query(
-      collection(firestore, "carts"),
-      where(documentId(), "==", order)
-    );
-    const snapshot = await getDocs(q);
-    snapshot.forEach((doc) => {
-      GetList(doc, order);
-    });
-  };
-
-  const GetList = async (doc, order) => {
-    const arr = [];
-    const que = query(
-      collection(firestore, "restaurants"),
-      where("uid", "==", doc.data().restaurantId)
-    );
-    const snaps = await getDocs(que);
-    snaps.forEach((snap) => {
-      arr.push({
-        ...doc.data(),
-        imageUrl: snap.data().imageUrl,
-        restaurantName: snap.data().username,
-        restaurantId: doc.data().restaurantId,
-        cartId: order,
-        key: doc.id,
+    const snapshots = await getDocs(q);
+    snapshots.forEach((snapshot) => {
+      list.push({
+        ...snapshot.data(),
+        key: snapshot.id,
       });
+      setOrderList(list);
     });
-    setOrderList(arr);
   };
 
   return (
@@ -94,7 +40,7 @@ const Order = ({ navigation }) => {
           image={item.imageUrl}
           dateTime={item.date + " " + item.time}
           restaurantName={item.restaurantName}
-          price={sum}
+          price={item.total}
           status={item.status}
           onPress={() =>
             navigation.navigate("DrawerNavigation", {
@@ -103,9 +49,9 @@ const Order = ({ navigation }) => {
                 image: item.imageUrl,
                 restaurantName: item.restaurantName,
                 restaurantId: item.restaurantId,
-                price: sum,
+                price: item.total,
                 dateTime: item.date + " " + item.time,
-                cartId: item.cartId,
+                cartId: item.ids,
                 status: item.status,
               },
             })
