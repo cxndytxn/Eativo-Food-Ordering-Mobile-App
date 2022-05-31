@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import * as Location from "expo-location";
 import Carousel from "react-native-snap-carousel/";
-import { onSnapshot, collection } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { firestore } from "../../firebase";
 import { ParallaxImage } from "react-native-snap-carousel";
 import { getDistance } from "geolib";
@@ -19,11 +19,15 @@ const { width: screenWidth } = Dimensions.get("window");
 const Map = () => {
   const [latitude, setLatitude] = useState(0.0);
   const [longitude, setLongitude] = useState(0.0);
+  const [mapLat, setMapLat] = useState(0.0);
+  const [mapLng, setMapLng] = useState(0.0);
   const [restaurants, setRestaurants] = useState([]);
   const [nearbyRestaurants, setNearbyRestaurants] = useState([]);
 
   useEffect(() => {
     GetLocation();
+
+    return () => {};
   }, [latitude, longitude]);
 
   const GetLocation = async () => {
@@ -37,19 +41,28 @@ const Map = () => {
   };
 
   useEffect(() => {
-    onSnapshot(collection(firestore, "restaurants"), (querySnapshot) => {
-      const rests = [];
-      querySnapshot.forEach((doc) => {
-        rests.push({ ...doc.data(), key: doc.id });
-      });
-      setRestaurants(rests);
-      CalculateDistance();
+    GetDoc().then(CalculateDistance());
+  }, [restaurants]);
+
+  const GetDoc = async () => {
+    const rests = [];
+    const querySnapshot = await getDocs(collection(firestore, "restaurants"));
+    querySnapshot.forEach((doc) => {
+      rests.push({ ...doc.data(), key: doc.id });
     });
-  });
+    setRestaurants(rests);
+  };
 
   const renderItem = ({ item, index }, parallaxProps) => {
     return (
-      <TouchableOpacity style={styles.item}>
+      <TouchableOpacity
+        style={styles.item}
+        onPress={() => {
+          setMapLat(item.lat);
+          setMapLng(item.lng);
+        }}
+        key={index}
+      >
         <ParallaxImage
           source={{ uri: item.imageUrl }}
           containerStyle={styles.imageContainer}
@@ -59,13 +72,13 @@ const Map = () => {
         />
         <View
           style={{
-            backgroundColor: "black",
+            backgroundColor: "white",
             borderBottomLeftRadius: 10,
             borderBottomRightRadius: 10,
             padding: 10,
           }}
         >
-          <Text style={{ fontWeight: "bold", color: "white" }}>
+          <Text style={{ fontWeight: "bold", color: "black" }}>
             {item.username}
           </Text>
           <Text style={{ color: "#999999", fontSize: 12 }}>{item.address}</Text>
@@ -75,15 +88,15 @@ const Map = () => {
   };
 
   const CalculateDistance = () => {
+    const nr = [];
     restaurants.forEach((restaurant) => {
       var restaurantCoords = {
         latitude: restaurant.lat,
         longitude: restaurant.lng,
       };
       var userCoords = { latitude: latitude, longitude: longitude };
-      const nr = [];
       let dist = getDistance(restaurantCoords, userCoords, 1);
-      if (dist / 1000 < 20) {
+      if (dist / 1000 < 10) {
         nr.push({
           ...restaurant,
           key: restaurant.key,
@@ -99,6 +112,7 @@ const Map = () => {
         style={{ flex: 100 }}
         maxZoomLevel={25}
         minZoomLevel={15}
+        showsUserLocation
         initialRegion={{
           latitude: latitude,
           latitudeDelta: latitude,
@@ -113,8 +127,22 @@ const Map = () => {
             latitudeDelta: latitude,
             longitudeDelta: longitude,
           }}
-          pinColor="#FFAA3A"
+          pinColor="#FFC529"
         />
+        {nearbyRestaurants.map((marker, index) => (
+          <Marker
+            key={index}
+            coordinate={{
+              latitude: marker.lat,
+              latitudeDelta: marker.lat,
+              longitude: marker.lng,
+              longitudeDelta: marker.lng,
+            }}
+            title={marker.username}
+            description={marker.address}
+          >
+          </Marker>
+        ))}
       </MapView>
       <View
         style={{

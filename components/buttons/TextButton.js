@@ -11,7 +11,7 @@ const TextButton = ({ text, onPress, style }) => {
 
 const styles = StyleSheet.create({
   underlined: {
-    color: "#FFAA3A",
+    color: "#FFC529",
     marginVertical: 5,
     fontWeight: "bold",
   },

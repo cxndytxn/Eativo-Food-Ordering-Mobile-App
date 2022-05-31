@@ -23,7 +23,7 @@ const ReviewsCard = ({ image, username, rating, review, dateTime }) => {
           <StarRating
             disabled={true}
             maxStars={5}
-            fullStarColor={"#FFAA3A"}
+            fullStarColor={"#FFC529"}
             rating={rating}
             starSize={20}
             emptyStarColor="lightgrey"
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
   },
   username: {
     fontSize: 16,
-    color: "#FFAA3A",
+    color: "#FFC529",
     fontWeight: "bold",
   },
   review: {

@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontWeight: "bold",
-    color: "#FFAA3A",
+    color: "#FFC529",
     fontSize: 20,
   },
   address: {

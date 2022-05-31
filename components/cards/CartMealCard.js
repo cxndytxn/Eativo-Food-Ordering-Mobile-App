@@ -94,8 +94,8 @@ const CartMealCard = ({
           min={0}
           value={quantity}
           skin="clean"
-          textColor="#FFAA3A"
-          buttonTextColor="#FFAA3A"
+          textColor="#FFC529"
+          buttonTextColor="#FFC529"
           onChange={(num) => {
             QuantityChanged(num);
           }}
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
   },
   price: {
     fontWeight: "bold",
-    color: "#FFAA3A",
+    color: "#FFC529",
   },
   contentContainer: {
     flexDirection: "row",

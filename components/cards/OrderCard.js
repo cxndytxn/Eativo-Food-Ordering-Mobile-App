@@ -39,7 +39,7 @@ const OrderCard = ({
         >
           <Ionicons
             name={"star"}
-            color="#FFAA3A"
+            color="#FFC529"
             size={30}
             style={{ marginEnd: 10 }}
             onPress={() =>
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
   },
   status: {
     borderRadius: 50,
-    color: "#FFAA3A",
+    color: "#FFC529",
     fontWeight: "bold",
     textAlign: "center",
     alignSelf: "flex-start",

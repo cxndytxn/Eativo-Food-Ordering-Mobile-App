@@ -151,8 +151,8 @@ const EditMeal = ({ route, navigation }) => {
             max={quantity}
             value={qty}
             skin="clean"
-            textColor="#FFAA3A"
-            buttonTextColor="#FFAA3A"
+            textColor="#FFC529"
+            buttonTextColor="#FFC529"
             onChange={(num) => {
               setQty(num);
               setTotal(num * price);
@@ -208,13 +208,13 @@ const styles = StyleSheet.create({
   },
   textInput: {
     borderRadius: 20,
-    backgroundColor: "white",
+    backgroundColor: "black",
     padding: 10,
     width: "100%",
     textAlignVertical: "top",
   },
   price: {
-    color: "#FFAA3A",
+    color: "#FFC529",
     fontSize: 18,
     fontWeight: "bold",
   },
@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
     width: "100%",
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-    backgroundColor: "white",
+    backgroundColor: "black",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",

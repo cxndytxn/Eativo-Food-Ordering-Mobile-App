@@ -6,7 +6,7 @@ const HeaderText = ({ text }) => {
 
 const styles = StyleSheet.create({
   headerText: {
-    color: "#FFAA3A",
+    color: "#FFC529",
     fontSize: 20,
     fontWeight: "700",
   },

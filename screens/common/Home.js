@@ -241,14 +241,14 @@ const Home = ({ navigation }) => {
                 children={item.category}
                 key={index}
                 selected={selected === item.category ? true : false}
-                selectedColor="white"
+                selectedColor="black"
                 textStyle={{
-                  color: selected === item.category ? "white" : "black",
+                  color: selected === item.category ? "black" : "#666666",
                 }}
                 style={{
                   marginRight: 5,
                   backgroundColor:
-                    selected === item.category ? "#FFAA3A" : "lightgrey",
+                    selected === item.category ? "#FFC529" : "lightgrey",
                 }}
               />
             );
@@ -372,7 +372,7 @@ const styles = StyleSheet.create({
   },
   username: {
     fontSize: 16,
-    color: "#FFAA3A",
+    color: "#FFC529",
     fontWeight: "bold",
   },
   address: {

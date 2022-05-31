@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
   },
   ratings: {
     borderRadius: 50,
-    backgroundColor: "#FFAA3A",
+    backgroundColor: "#FFC529",
     maxWidth: 45,
     maxHeight: 25,
     flex: 1,
@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   ratingsText: {
-    color: "white",
+    color: "black",
     fontSize: 12,
     padding: 2,
     fontWeight: "bold",

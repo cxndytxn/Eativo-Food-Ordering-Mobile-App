@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
   },
   status: {
     borderRadius: 50,
-    backgroundColor: "white",
+    backgroundColor: "black",
     textAlign: "center",
     paddingHorizontal: 10,
     alignSelf: "flex-start",

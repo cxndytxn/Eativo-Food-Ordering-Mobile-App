@@ -41,7 +41,7 @@ const SearchRestaurant = ({ navigation }) => {
           value={searchText}
           onChangeText={(text) => onChangeText(text)}
           style={styles.searchBar}
-          selectionColor={"#FFAA3A"}
+          selectionColor={"#FFC529"}
           placeholder="Search here..."
         />
         <FlatList
@@ -77,7 +77,7 @@ const SearchRestaurant = ({ navigation }) => {
       </View>
       <TouchableOpacity
         style={{
-          backgroundColor: "#FFAA3A",
+          backgroundColor: "#FFC529",
           borderRadius: 100,
           width: 50,
           position: "absolute",
@@ -94,7 +94,7 @@ const SearchRestaurant = ({ navigation }) => {
           navigation.navigate("DrawerNavigation", { screen: "Map" })
         }
       >
-        <Ionicons name="map-outline" color={"white"} size={28} />
+        <Ionicons name="map-outline" color={"black"} size={28} />
       </TouchableOpacity>
     </SafeAreaView>
   );
