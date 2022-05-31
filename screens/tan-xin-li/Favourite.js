@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   infoSection: {
-    backgroundColor: "white",
+    backgroundColor: "black",
     borderRadius: 15,
     padding: 15,
     width: "90%",
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
   },
   ratings: {
     borderRadius: 50,
-    backgroundColor: "#FFAA3A",
+    backgroundColor: "#FFC529",
     maxWidth: 45,
     flex: 1,
     justifyContent: "center",
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   ratingsText: {
-    color: "white",
+    color: "black",
     fontSize: 12,
     padding: 2,
     fontWeight: "bold",

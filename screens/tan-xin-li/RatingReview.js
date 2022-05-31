@@ -119,7 +119,7 @@ const RatingReview = ({ route }) => {
             <MapView
               style={styles.mapView}
               collapsable
-              loadingIndicatorColor="#FFAA3A"
+              loadingIndicatorColor="#FFC529"
               initialRegion={{
                 latitude: latitude,
                 longitude: longitude,
@@ -165,7 +165,7 @@ const RatingReview = ({ route }) => {
                     });
               }}
             >
-              <Text style={{ color: "#FFAA3A", fontWeight: "bold" }}>
+              <Text style={{ color: "#FFC529", fontWeight: "bold" }}>
                 {contactNumber}
               </Text>
             </TouchableOpacity>
@@ -187,7 +187,7 @@ const RatingReview = ({ route }) => {
                     });
               }}
             >
-              <Text style={{ color: "#FFAA3A", fontWeight: "bold" }}>
+              <Text style={{ color: "#FFC529", fontWeight: "bold" }}>
                 {email}
               </Text>
             </TouchableOpacity>
@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
   },
   ratings: {
     borderRadius: 50,
-    backgroundColor: "#FFAA3A",
+    backgroundColor: "#FFC529",
     maxWidth: 45,
     maxHeight: 25,
     flex: 1,
@@ -261,7 +261,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   ratingsText: {
-    color: "white",
+    color: "black",
     fontSize: 12,
     padding: 2,
     fontWeight: "bold",

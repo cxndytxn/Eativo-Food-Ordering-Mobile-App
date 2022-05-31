@@ -107,7 +107,7 @@ const SubmitRatingReview = ({ navigation, route }) => {
       <StarRating
         disabled={false}
         maxStars={5}
-        fullStarColor={"#FFAA3A"}
+        fullStarColor={"#FFC529"}
         rating={rating}
         animation="tada"
         emptyStarColor="lightgrey"
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     borderRadius: 20,
-    backgroundColor: "white",
+    backgroundColor: "black",
     padding: 10,
     marginHorizontal: 10,
     textAlignVertical: "top",
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   infoSection: {
-    backgroundColor: "white",
+    backgroundColor: "black",
     borderRadius: 15,
     padding: 15,
     width: "90%",
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
   },
   ratings: {
     borderRadius: 50,
-    backgroundColor: "#FFAA3A",
+    backgroundColor: "#FFC529",
     maxWidth: 45,
     maxHeight: 25,
     flex: 1,
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   ratingsText: {
-    color: "white",
+    color: "black",
     fontSize: 12,
     padding: 2,
     fontWeight: "bold",
@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
   },
   review: {
     fontWeight: "bold",
-    color: "#FFAA3A",
+    color: "#FFC529",
     fontSize: 22,
     textAlign: "center",
   },

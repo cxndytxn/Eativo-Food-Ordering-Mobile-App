@@ -1,50 +1,110 @@
-import React from "react";
+import {
+  getDocs,
+  query,
+  collection,
+  where,
+  documentId,
+} from "firebase/firestore";
+import React, { useEffect, useState } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import OrderCard from "../../components/cards/OrderCard";
 import NoRecords from "./empty-states/NoRecords";
-
-const Data = [
-  {
-    image:
-      "https://img.freepik.com/free-photo/big-hamburger-with-double-beef-french-fries_252907-8.jpg?w=2000",
-    restaurantName: "McDonald's",
-    dateTime: "10-05-2022 02:45 PM",
-    status: "Order Received",
-    price: 15.5,
-  },
-  {
-    image:
-      "https://img.freepik.com/free-photo/big-hamburger-with-double-beef-french-fries_252907-8.jpg?w=2000",
-    restaurantName: "McDonald's",
-    dateTime: "10-05-2022 02:45 PM",
-    status: "Picked Up",
-    price: 15.5,
-  },
-];
+import { firestore, auth } from "../../firebase";
 
 const VerticalFlatListItemSeparator = () => {
   return <View style={{ marginBottom: 10 }} />;
 };
 
 const Order = ({ navigation }) => {
+  const [orders, setOrders] = useState([]);
+  const [orderList, setOrderList] = useState([]);
+  const [sum, setSum] = useState(0.0);
+
+  useEffect(() => {
+    GetOrders();
+  }, []);
+
+  const GetOrders = async () => {
+    var list = [];
+    const q = query(
+      collection(firestore, "orders"),
+      where("uid", "==", auth.currentUser.uid)
+    );
+    const snapshot = await getDocs(q);
+    snapshot.forEach((doc) => {
+      list = doc.data().ids;
+    });
+    setOrders(list);
+  };
+
+  useEffect(() => {
+    if (orders.length > 0) {
+      GetMeals();
+    }
+  }, [orders]);
+
+  const GetMeals = async () => {
+    orders.forEach((order) => {
+      GetCarts(order);
+    });
+    let summ = 0.0;
+    orderList.forEach((order) => {
+      summ = summ + Number(order.total).toFixed(2);
+    });
+    setSum(summ);
+  };
+
+  const GetCarts = async (order) => {
+    const q = query(
+      collection(firestore, "carts"),
+      where(documentId(), "==", order)
+    );
+    const snapshot = await getDocs(q);
+    snapshot.forEach((doc) => {
+      GetList(doc, order);
+    });
+  };
+
+  const GetList = async (doc, order) => {
+    const arr = [];
+    const que = query(
+      collection(firestore, "restaurants"),
+      where("uid", "==", doc.data().restaurantId)
+    );
+    const snaps = await getDocs(que);
+    snaps.forEach((snap) => {
+      arr.push({
+        ...doc.data(),
+        imageUrl: snap.data().imageUrl,
+        restaurantName: snap.data().username,
+        restaurantId: doc.data().restaurantId,
+        cartId: order,
+        key: doc.id,
+      });
+    });
+    setOrderList(arr);
+  };
+
   return (
     <FlatList
-      data={Data}
+      data={orderList}
       renderItem={({ item, index }) => (
         <OrderCard
-          image={item.image}
-          dateTime={item.dateTime}
+          image={item.imageUrl}
+          dateTime={item.date + " " + item.time}
           restaurantName={item.restaurantName}
-          price={item.price}
+          price={sum}
           status={item.status}
           onPress={() =>
             navigation.navigate("DrawerNavigation", {
               screen: "Order Details",
               params: {
-                image: item.image,
+                image: item.imageUrl,
                 restaurantName: item.restaurantName,
-                price: item.price,
-                dateTime: item.dateTime,
+                restaurantId: item.restaurantId,
+                price: sum,
+                dateTime: item.date + " " + item.time,
+                cartId: item.cartId,
                 status: item.status,
               },
             })
@@ -71,7 +131,7 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   infoSection: {
-    backgroundColor: "white",
+    backgroundColor: "black",
     borderRadius: 15,
     padding: 15,
     width: "90%",
@@ -90,7 +150,7 @@ const styles = StyleSheet.create({
   },
   ratings: {
     borderRadius: 50,
-    backgroundColor: "#FFAA3A",
+    backgroundColor: "#FFC529",
     maxWidth: 45,
     flex: 1,
     justifyContent: "center",
@@ -98,7 +158,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   ratingsText: {
-    color: "white",
+    color: "black",
     fontSize: 12,
     padding: 2,
     fontWeight: "bold",

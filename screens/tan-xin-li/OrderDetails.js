@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Image, Text, StyleSheet, FlatList } from "react-native";
 import Spacing from "../../components/views/Spacing";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import MealCard from "../../components/cards/MealCard";
+import { collection, getDocs, query } from "firebase/firestore";
+import { firestore } from "../../firebase";
 
 const Data = [
   {
@@ -40,7 +42,23 @@ const VerticalFlatListItemSeparator = () => {
 };
 
 const OrderDetails = ({ navigation, route }) => {
-  const { image, restaurantName, price, dateTime, status } = route?.params;
+  const {
+    image,
+    restaurantName,
+    restaurantId,
+    price,
+    dateTime,
+    cartId,
+    status,
+  } = route?.params;
+
+  useEffect(() => {
+    GetRestaurant();
+  }, []);
+
+  const GetRestaurant = async () => {
+    const query = query(collection(firestore, "restaurants"));
+  };
 
   const ListHeaderComponent = () => {
     return (
@@ -171,7 +189,7 @@ const styles = StyleSheet.create({
   },
   ratings: {
     borderRadius: 50,
-    backgroundColor: "#FFAA3A",
+    backgroundColor: "#FFC529",
     maxWidth: 45,
     flex: 1,
     justifyContent: "center",
@@ -179,7 +197,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   ratingsText: {
-    color: "white",
+    color: "black",
     fontSize: 12,
     padding: 2,
     fontWeight: "bold",

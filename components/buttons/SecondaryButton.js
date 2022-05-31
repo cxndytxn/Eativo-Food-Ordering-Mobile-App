@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   functionalText: {
     fontSize: 14,
     textAlign: "center",
-    color: "#FFAA3A",
+    color: "#FFC529",
     fontWeight: "bold",
   },
   margin: {

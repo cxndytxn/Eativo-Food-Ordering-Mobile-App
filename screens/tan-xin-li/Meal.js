@@ -48,7 +48,7 @@ const Meal = ({ route, navigation }) => {
         quantity: qty,
         total: parseFloat(total).toFixed(2),
         remarks: remarks,
-        status: "in-cart",
+        status: "In Cart",
       }).then(async () => {
         await updateDoc(doc(firestore, "meals", mealId), {
           quantity: parseInt(quantity - qty),
@@ -119,8 +119,8 @@ const Meal = ({ route, navigation }) => {
             min={0}
             value={qty}
             skin="clean"
-            textColor="#FFAA3A"
-            buttonTextColor="#FFAA3A"
+            textColor="#FFC529"
+            buttonTextColor="#FFC529"
             onChange={(num) => {
               setTotal(num * price);
               setQty(num);
@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
     textAlignVertical: "top",
   },
   price: {
-    color: "#FFAA3A",
+    color: "#FFC529",
     fontSize: 18,
     fontWeight: "bold",
   },

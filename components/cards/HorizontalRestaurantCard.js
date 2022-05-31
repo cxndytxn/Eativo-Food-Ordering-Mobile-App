@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   },
   ratings: {
     borderRadius: 50,
-    backgroundColor: "#FFAA3A",
+    backgroundColor: "#FFC529",
     width: "30%",
     maxWidth: 45,
     flex: 1,
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   ratingsText: {
-    color: "white",
+    color: "black",
     fontSize: 12,
     padding: 2,
     fontWeight: "bold",

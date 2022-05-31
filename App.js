@@ -66,7 +66,7 @@ const TabNavigation = () => {
           );
         },
         tabBarInactiveTintColor: "#666666",
-        tabBarActiveTintColor: "#FFAA3A",
+        tabBarActiveTintColor: "#FFC529",
         tabBarHideOnKeyboard: true,
       })}
     >

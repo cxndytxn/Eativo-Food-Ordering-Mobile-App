@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   },
   price: {
     fontWeight: "bold",
-    color: "#FFAA3A",
+    color: "#FFC529",
   },
   contentContainer: {
     flexDirection: "row",

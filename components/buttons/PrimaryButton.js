@@ -14,7 +14,7 @@ const PrimaryButton = ({ onPress, text }) => {
 
 const styles = StyleSheet.create({
   primaryButton: {
-    backgroundColor: "#FFAA3A",
+    backgroundColor: "#FFC529",
     width: "100%",
     maxWidth: 350,
     borderRadius: 20,
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: "center",
     fontWeight: "bold",
-    color: "white",
+    color: "black",
   },
   elevation: {
     elevation: 4,

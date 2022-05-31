@@ -18,6 +18,7 @@ import {
   updateDoc,
   doc,
   getDocs,
+  addDoc,
 } from "firebase/firestore";
 import { auth, firestore } from "../../firebase";
 import PrimaryButton from "../../components/buttons/PrimaryButton";
@@ -49,6 +50,7 @@ const Cart = ({ navigation, route }) => {
   const [restaurantAddress, setRestaurantAddress] = useState("");
   const [time, setTime] = useState([]);
   const [total, setTotal] = useState(0.0);
+  const [cartIds, setCartIds] = useState([]);
   const post = route?.params?.post;
 
   useEffect(() => {
@@ -58,7 +60,7 @@ const Cart = ({ navigation, route }) => {
         query(
           collection(firestore, "carts"),
           where("uid", "==", auth.currentUser.uid),
-          where("status", "==", "in-cart")
+          where("status", "==", "In Cart")
         ),
         (querySnapshot) => {
           querySnapshot.forEach((cart) => {
@@ -122,15 +124,32 @@ const Cart = ({ navigation, route }) => {
   };
 
   const ConfirmOrder = async () => {
+    const ids = [];
     const q = query(
       collection(firestore, "carts"),
       where("uid", "==", auth.currentUser.uid),
-      where("status", "==", "in-cart")
+      where("status", "==", "In Cart")
     );
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((cart) => {
       UpdateDocument(cart);
+      ids.push(cart.id);
+      setCartIds(ids);
     });
+  };
+
+  useEffect(() => {
+    AddOrder();
+  }, [cartIds]);
+
+  const AddOrder = async () => {
+    if (cartIds.length > 0) {
+      await addDoc(collection(firestore, "orders"), {
+        ids: cartIds,
+        uid: auth.currentUser.uid,
+      });
+    }
+    console.log(cartIds);
   };
 
   const UpdateDocument = async (cart) => {
@@ -146,7 +165,7 @@ const Cart = ({ navigation, route }) => {
       .catch((error) => {
         console.log(error.message);
       })
-      .then(() => {
+      .then(async () => {
         navigation.navigate("Home");
         Toast.show({
           type: "success",
@@ -172,7 +191,7 @@ const Cart = ({ navigation, route }) => {
       query(
         collection(firestore, "carts"),
         where("uid", "==", auth.currentUser.uid),
-        where("status", "==", "in-cart")
+        where("status", "==", "In Cart")
       )
     );
     querySnapshot.forEach((doc) => {
@@ -293,19 +312,6 @@ const styles = StyleSheet.create({
     textAlign: "left",
     marginTop: 10,
     marginLeft: 10,
-  },
-  bottomSheet: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    width: "100%",
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    backgroundColor: "white",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    padding: 15,
   },
   bottomSheet: {
     position: "absolute",
