@@ -3,7 +3,7 @@ import { View, Image, Text, StyleSheet, FlatList } from "react-native";
 import Spacing from "../../components/views/Spacing";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import MealCard from "../../components/cards/MealCard";
-import { collection, getDocs, query } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { firestore } from "../../firebase";
 
 const Data = [
@@ -51,13 +51,18 @@ const OrderDetails = ({ navigation, route }) => {
     cartId,
     status,
   } = route?.params;
+  
 
   useEffect(() => {
     GetRestaurant();
   }, []);
 
   const GetRestaurant = async () => {
-    const query = query(collection(firestore, "restaurants"));
+    const docRef = doc(firestore, "restaurants", restaurantId);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      
+    }
   };
 
   const ListHeaderComponent = () => {

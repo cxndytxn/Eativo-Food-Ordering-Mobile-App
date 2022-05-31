@@ -26,7 +26,7 @@ import Toast from "react-native-toast-message";
 import NoCarts from "./empty-states/NoCarts";
 import NotSignedIn from "./empty-states/NotSignedIn";
 
-//LogBox.ignoreAllLogs(true);
+// LogBox.ignoreAllLogs(true);
 
 const VerticalFlatListItemSeparator = () => {
   return (
