@@ -1,47 +1,63 @@
-import React from "react";
+import {
+  collection,
+  getDocs,
+  onSnapshot,
+  query,
+  where,
+} from "firebase/firestore";
+import React, { useEffect, useState } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import FavouriteCard from "../../components/cards/FavouriteCard";
+import { auth, firestore } from "../../firebase";
 import NoRecords from "./empty-states/NoRecords";
-
-const Data = [
-  {
-    image:
-      "https://img.freepik.com/free-photo/big-hamburger-with-double-beef-french-fries_252907-8.jpg?w=2000",
-    restaurantName: "McDonald's",
-    mealName: "McChicken",
-    price: 15.5,
-  },
-  {
-    image:
-      "https://img.freepik.com/free-photo/big-hamburger-with-double-beef-french-fries_252907-8.jpg?w=2000",
-    restaurantName: "McDonald's",
-    mealName: "Fillet O' Fish",
-    price: 15.5,
-  },
-];
 
 const VerticalFlatListItemSeparator = () => {
   return <View style={{ marginBottom: 10 }} />;
 };
 
 const Favourite = ({ navigation }) => {
+  const [favouriteList, setFavouriteList] = useState([]);
+
+  useEffect(() => {
+    const GetFavourites = async () => {
+      const list = [];
+      const q = query(
+        collection(firestore, "favourites"),
+        where("uid", "==", auth.currentUser.uid)
+      );
+      onSnapshot(q, (snapshots) => {
+        snapshots.forEach((snapshot) => {
+          list.push({
+            ...snapshot.data(),
+            key: snapshot.id,
+          });
+          setFavouriteList(list);
+        });
+      });
+    };
+
+    GetFavourites();
+  }, []);
+
   return (
     <FlatList
-      data={Data}
+      data={favouriteList}
       renderItem={({ item, index }) => (
         <FavouriteCard
-          image={item.image}
+          image={item.imageUrl}
           restaurantName={item.restaurantName}
           price={item.price}
           mealName={item.mealName}
+          id={item.key}
           onPress={() =>
             navigation.navigate("DrawerNavigation", {
               screen: "Meal",
               params: {
-                image: item.image,
+                image: item.imageUrl,
                 restaurantName: item.restaurantName,
                 price: item.price,
                 mealName: item.mealName,
+                description: item.description,
               },
             })
           }

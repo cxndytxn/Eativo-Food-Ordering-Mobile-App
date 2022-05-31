@@ -52,7 +52,7 @@ const Map = () => {
         nearbyRestaurants.length +
         " restaurants were found nearby your location!",
     });
-  }, [nearbyRestaurants]);
+  }, []);
 
   const GetDoc = async () => {
     const rests = [];

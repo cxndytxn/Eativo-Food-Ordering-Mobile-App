@@ -10,8 +10,14 @@ import {
 import MealCard from "../../components/cards/MealCard";
 import Spacing from "../../components/views/Spacing";
 import { useNavigation } from "@react-navigation/native";
-import { collection, onSnapshot, query, where } from "firebase/firestore";
-import { firestore } from "../../firebase";
+import {
+  collection,
+  getDocs,
+  onSnapshot,
+  query,
+  where,
+} from "firebase/firestore";
+import { auth, firestore } from "../../firebase";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
 
 const VerticalFlatListItemSeparator = () => {
@@ -30,22 +36,49 @@ const Restaurant = ({ navigation, route }) => {
     email,
   } = route.params;
   const [meals, setMeals] = useState([]);
+  const [isHearted, setIsHearted] = useState(false);
 
   useEffect(() => {
-    onSnapshot(
-      query(
-        collection(firestore, "meals"),
-        where("restaurantId", "==", restaurantId)
-      ),
-      (meals) => {
-        const mealsList = [];
-        meals.forEach((meal) => {
-          mealsList.push({ ...meal.data(), key: meal.id });
-        });
+    const mealsList = [];
 
-        setMeals(mealsList);
+    const GetFavorites = async (meal) => {
+      const q = query(
+        collection(firestore, "favourites"),
+        where("uid", "==", auth.currentUser.uid),
+        where("restaurantId", "==", restaurantId),
+        where("mealId", "==", meal.id)
+      );
+      const snapshots = await getDocs(q);
+      if (snapshots.empty == true) {
+        setIsHearted(false);
+        mealsList.push({
+          ...meal.data(),
+          key: meal.id,
+          isHearted: isHearted,
+          isSaved: false,
+        });
+      } else {
+        setIsHearted(true);
+        mealsList.push({
+          ...meal.data(),
+          key: meal.id,
+          isHearted: isHearted,
+          isSaved: true,
+        });
       }
+      setMeals(mealsList);
+      console.log(meals);
+    };
+
+    const q = query(
+      collection(firestore, "meals"),
+      where("restaurantId", "==", restaurantId)
     );
+    onSnapshot(q, (meals) => {
+      meals.forEach((meal) => {
+        GetFavorites(meal);
+      });
+    });
   }, []);
 
   const ListHeaderComponent = () => {
@@ -104,12 +137,17 @@ const Restaurant = ({ navigation, route }) => {
       data={meals}
       renderItem={({ item, index }) => (
         <MealCard
+          mealId={item.key}
+          restaurantId={item.restaurantId}
           image={item.imageUrl}
           description={item.description}
           mealName={item.name}
           price={item.price}
           greyOut={item.quantity == 0}
           quantity={item.quantity}
+          isHearted={item.isHearted}
+          setIsHearted={setIsHearted}
+          isSaved={item.isSaved}
           onPress={() =>
             item.quantity != 0
               ? navigation.navigate("DrawerNavigation", {

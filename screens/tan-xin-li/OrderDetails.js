@@ -1,41 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Image, Text, StyleSheet, FlatList } from "react-native";
 import Spacing from "../../components/views/Spacing";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import MealCard from "../../components/cards/MealCard";
-import { doc, getDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  documentId,
+  getDoc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 import { firestore } from "../../firebase";
-
-const Data = [
-  {
-    image:
-      "https://img.freepik.com/free-photo/big-hamburger-with-double-beef-french-fries_252907-8.jpg?w=2000",
-    mealName: "Aglio Olio Spaghetti",
-    description: "A signature dish from The Italian Flavor.",
-    price: 15.5,
-  },
-  {
-    image:
-      "https://img.freepik.com/free-photo/big-hamburger-with-double-beef-french-fries_252907-8.jpg?w=2000",
-    mealName: "Aglio Olio Spaghetti",
-    description: "A signature dish from The Italian Flavor.",
-    price: 15.5,
-  },
-  {
-    image:
-      "https://img.freepik.com/free-photo/big-hamburger-with-double-beef-french-fries_252907-8.jpg?w=2000",
-    mealName: "Aglio Olio Spaghetti",
-    description: "A signature dish from The Italian Flavor.",
-    price: 15.5,
-  },
-  {
-    image:
-      "https://img.freepik.com/free-photo/big-hamburger-with-double-beef-french-fries_252907-8.jpg?w=2000",
-    mealName: "Aglio Olio Spaghetti",
-    description: "A signature dish from The Italian Flavor.",
-    price: 15.5,
-  },
-];
 
 const VerticalFlatListItemSeparator = () => {
   return <View style={{ marginBottom: 10 }} />;
@@ -51,7 +28,10 @@ const OrderDetails = ({ navigation, route }) => {
     cartId,
     status,
   } = route?.params;
-  
+  const [time, setTime] = useState(0);
+  const [ratings, setRatings] = useState(0);
+  const [address, setAddress] = useState("");
+  const [meals, setMeals] = useState([]);
 
   useEffect(() => {
     GetRestaurant();
@@ -61,8 +41,61 @@ const OrderDetails = ({ navigation, route }) => {
     const docRef = doc(firestore, "restaurants", restaurantId);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
-      
+      setTime(docSnap.data().time);
+      setRatings(docSnap.data().ratings);
+      setAddress(docSnap.data().address);
     }
+  };
+
+  useEffect(() => {
+    GetMeals();
+  }, []);
+
+  const GetMeals = () => {
+    if (cartId.length > 1) {
+      cartId.forEach((cart) => {
+        GetCarts(cart);
+      });
+    } else {
+      GetCart(cartId[0]);
+    }
+  };
+
+  const GetCart = async (cart) => {
+    const docRef = query(
+      collection(firestore, "carts"),
+      where(documentId(), "==", cart)
+    );
+    const snapshots = await getDocs(docRef);
+    snapshots.forEach((snapshot) => {
+      GetMeal(snapshot);
+    });
+  };
+
+  const GetMeal = async (snapshot) => {
+    const mealList = [];
+    const q = doc(firestore, "meals", snapshot.data().mealId);
+    const snap = await getDoc(q);
+    if (snap.exists) {
+      mealList.push({
+        ...snapshot.data(),
+        key: snapshot.id,
+        imageUrl: snap.data().imageUrl,
+        description: snap.data().description,
+      });
+      setMeals(mealList);
+    }
+  };
+
+  const GetCarts = async (cart) => {
+    const docRef = query(
+      collection(firestore, "carts"),
+      where(documentId(), "==", cart)
+    );
+    const snapshots = await getDocs(docRef);
+    snapshots.forEach((snapshot) => {
+      GetMeal(snapshot);
+    });
   };
 
   const ListHeaderComponent = () => {
@@ -79,13 +112,15 @@ const OrderDetails = ({ navigation, route }) => {
           <View style={styles.infoSection}>
             <View style={{ flex: 1 }}>
               <Text style={styles.restaurantName}>{restaurantName}</Text>
-              <Text style={styles.address}>address</Text>
+              <Text style={styles.address}>{address}</Text>
             </View>
             <View>
               <View style={styles.ratings}>
-                <Text style={styles.ratingsText}>ratings</Text>
+                <Text style={styles.ratingsText}>
+                  {parseFloat(ratings).toFixed(1)}
+                </Text>
               </View>
-              <Text style={styles.time}>time min</Text>
+              <Text style={styles.time}>{time} min</Text>
             </View>
           </View>
         </View>
@@ -98,15 +133,6 @@ const OrderDetails = ({ navigation, route }) => {
               style={{ marginHorizontal: 10 }}
             />
             <Text>{status}</Text>
-          </View>
-          <Spacing marginBottom={10} />
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Ionicons
-              name="location-sharp"
-              size={24}
-              style={{ marginHorizontal: 10 }}
-            />
-            <Text>Restaurant Address</Text>
           </View>
           <Spacing marginBottom={10} />
           <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -134,21 +160,23 @@ const OrderDetails = ({ navigation, route }) => {
 
   return (
     <FlatList
-      data={Data}
+      data={meals}
       renderItem={({ item, index }) => (
         <MealCard
-          image={item.image}
+          image={item.imageUrl}
           description={item.description}
           mealName={item.mealName}
-          price={item.price}
+          quantity={item.quantity}
+          hideHeart
+          price={Number(item.total / item.quantity).toFixed(2)}
           onPress={() =>
             navigation.navigate("DrawerNavigation", {
               screen: "Meal",
               params: {
-                image: item.image,
+                image: item.imageUrl,
                 mealName: item.mealName,
                 description: item.description,
-                price: item.price,
+                price: Number(item.total / item.quantity).toFixed(2),
               },
             })
           }
@@ -196,6 +224,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     backgroundColor: "#FFC529",
     maxWidth: 45,
+    maxHeight: 25,
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
