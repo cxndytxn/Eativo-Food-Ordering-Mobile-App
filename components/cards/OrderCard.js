@@ -7,6 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 const OrderCard = ({
   image,
   restaurantName,
+  restaurantId,
   price,
   dateTime,
   status,
@@ -14,6 +15,7 @@ const OrderCard = ({
   style,
 }) => {
   const navigation = useNavigation();
+
   return (
     <TouchableOpacity style={[styles.container, style]} onPress={onPress}>
       <Image source={{ uri: image }} style={styles.image} resizeMode="cover" />
@@ -47,6 +49,7 @@ const OrderCard = ({
                 screen: "Feedback",
                 params: {
                   image: image,
+                  restaurantId: restaurantId,
                   restaurantName: restaurantName,
                   price: price,
                   dateTime: dateTime,

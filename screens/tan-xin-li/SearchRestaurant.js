@@ -63,6 +63,8 @@ const SearchRestaurant = ({ navigation }) => {
                     address: item.address,
                     ratings: item.ratings,
                     time: item.time,
+                    contactNumber: item.contactNumber,
+                    email: item.email,
                   },
                 })
               }
