@@ -117,11 +117,9 @@ const Restaurant = ({ navigation, route }) => {
             </View>
             <View style={{ alignSelf: "center" }}>
               <View style={styles.ratings}>
-                <Text style={styles.ratingsText}>
-                  {parseFloat(ratings).toFixed(1)}
-                </Text>
+                <Text style={styles.ratingsText}>{time} min</Text>
               </View>
-              <Text style={styles.time}>{time} min</Text>
+              {/* <Text style={styles.time}>{time} min</Text> */}
             </View>
           </TouchableOpacity>
         </View>
@@ -210,8 +208,9 @@ const styles = StyleSheet.create({
   ratings: {
     borderRadius: 50,
     backgroundColor: "#FFC529",
-    maxWidth: 45,
+    maxWidth: 60,
     maxHeight: 25,
+    padding: 3,
     flex: 1,
     justifyContent: "center",
     alignItems: "center",

@@ -85,6 +85,12 @@ const RatingReview = ({ route }) => {
     }
   };
 
+  useEffect(() => {
+    GetRatingsReviews();
+  });
+
+  const GetRatingsReviews = async () => {};
+
   const ListHeaderComponent = () => {
     return (
       <View>
@@ -101,13 +107,11 @@ const RatingReview = ({ route }) => {
               <Text style={styles.restaurantName}>{restaurantName}</Text>
               <Text style={styles.address}>{address}</Text>
             </View>
-            <View>
+            <View style={{ alignItems: "center", justifyContent: "center" }}>
               <View style={styles.ratings}>
-                <Text style={styles.ratingsText}>
-                  {parseFloat(ratings).toFixed(1)}
-                </Text>
+                <Text style={styles.ratingsText}>{time} min</Text>
               </View>
-              <Text style={styles.time}>{time} min</Text>
+              {/* <Text style={styles.time}>{time} min</Text> */}
             </View>
           </View>
         </View>

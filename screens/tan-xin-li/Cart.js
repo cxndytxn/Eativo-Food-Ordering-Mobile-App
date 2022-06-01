@@ -147,9 +147,6 @@ const Cart = ({ navigation, route }) => {
   }, [cartIds]);
 
   const AddOrder = async () => {
-    console.log(restaurantId, "1");
-    console.log(time, "2");
-    console.log(restaurantName, "3");
     await addDoc(collection(firestore, "orders"), {
       ids: cartIds,
       uid: auth.currentUser.uid,
@@ -290,7 +287,7 @@ const Cart = ({ navigation, route }) => {
               Total: RM {parseFloat(total).toFixed(2)}
             </Text>
             <View>
-              <PrimaryButton onPress={Order} text="Confirm Order" />
+              <PrimaryButton onPress={() => Order()} text="Confirm Order" />
             </View>
           </View>
         </View>

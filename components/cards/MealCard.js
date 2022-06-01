@@ -29,8 +29,9 @@ const MealCard = ({
   isHearted,
   setIsHearted,
   hideHeart,
+  isSaved,
 }) => {
-  const [hearted, setHearted] = useState(isHearted);
+  const [hearted, setHearted] = useState(isSaved);
   const [restaurantName, setRestaurantName] = useState("");
 
   useEffect(() => {
@@ -39,8 +40,10 @@ const MealCard = ({
       const snapshot = await getDoc(q);
       setRestaurantName(snapshot.data().username);
     };
-
+    console.log(hearted);
     GetRestaurant();
+
+    return () => GetRestaurant();
   });
 
   const ToggleHeart = async () => {

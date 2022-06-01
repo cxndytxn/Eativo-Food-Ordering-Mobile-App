@@ -19,17 +19,19 @@ const HorizontalRestaurantCard = ({
         <Text style={styles.restaurantName}>{restaurantName}</Text>
         <Spacing marginBottom={5} />
         <View>
-          <Text style={styles.address} numberOfLines={3} lineBreakMode="tail">{address}</Text>
+          <Text style={styles.address} numberOfLines={3} lineBreakMode="tail">
+            {address}
+          </Text>
         </View>
         <Spacing marginTop={5} />
         <View style={styles.contentContainer}>
           <View style={styles.ratings}>
-            <Text style={styles.ratingsText}>{ratings}</Text>
+            <Text style={styles.ratingsText}>{time} min</Text>
           </View>
-          <Spacing marginRight={10} />
+          {/* <Spacing marginRight={10} />
           <View>
             <Text style={styles.time}>{time} min</Text>
-          </View>
+          </View> */}
         </View>
       </View>
     </TouchableOpacity>
@@ -61,7 +63,8 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     backgroundColor: "#FFC529",
     width: "30%",
-    maxWidth: 45,
+    maxWidth: 60,
+    paddingVertical: 3,
     flex: 1,
     justifyContent: "center",
     alignItems: "center",

@@ -32,6 +32,8 @@ const OrderDetails = ({ navigation, route }) => {
   const [ratings, setRatings] = useState(0);
   const [address, setAddress] = useState("");
   const [meals, setMeals] = useState([]);
+  const [mealId, setMealId] = useState([]);
+  const [unique, setUnique] = useState([]);
 
   useEffect(() => {
     GetRestaurant();
@@ -49,7 +51,7 @@ const OrderDetails = ({ navigation, route }) => {
 
   useEffect(() => {
     GetMeals();
-  }, []);
+  }, [time, ratings, address]);
 
   const GetMeals = () => {
     if (cartId.length > 1) {
@@ -72,21 +74,6 @@ const OrderDetails = ({ navigation, route }) => {
     });
   };
 
-  const GetMeal = async (snapshot) => {
-    const mealList = [];
-    const q = doc(firestore, "meals", snapshot.data().mealId);
-    const snap = await getDoc(q);
-    if (snap.exists) {
-      mealList.push({
-        ...snapshot.data(),
-        key: snapshot.id,
-        imageUrl: snap.data().imageUrl,
-        description: snap.data().description,
-      });
-      setMeals(mealList);
-    }
-  };
-
   const GetCarts = async (cart) => {
     const docRef = query(
       collection(firestore, "carts"),
@@ -94,8 +81,51 @@ const OrderDetails = ({ navigation, route }) => {
     );
     const snapshots = await getDocs(docRef);
     snapshots.forEach((snapshot) => {
-      GetMeal(snapshot);
+      setMealId([{ ...snapshot.data(), key: snapshot.id }]);
     });
+  };
+
+  useEffect(() => {
+    GetMeal();
+  }, [mealId]);
+
+  const GetMeal = () => {
+    console.log(mealId, "why");
+    mealId.forEach((id) => {
+      GetItem(id);
+    });
+  };
+
+  const GetItem = async (id) => {
+    console.log(id.mealId);
+    const q = doc(firestore, "meals", id.mealId);
+    await getDoc(q)
+      .then((snap) => {
+        if (meals !== undefined) {
+          console.log(meals);
+          if (!meals.includes(snap.data().mealId))
+            setMeals((prev) => [
+              ...prev,
+              {
+                ...id,
+                imageUrl: snap.data().imageUrl,
+                description: snap.data().description,
+              },
+            ]);
+        } else {
+          setMeals([
+            {
+              ...id,
+              imageUrl: snap.data().imageUrl,
+              description: snap.data().description,
+            },
+          ]);
+        }
+        console.log(meals);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const ListHeaderComponent = () => {
@@ -114,13 +144,11 @@ const OrderDetails = ({ navigation, route }) => {
               <Text style={styles.restaurantName}>{restaurantName}</Text>
               <Text style={styles.address}>{address}</Text>
             </View>
-            <View>
+            <View style={{ alignItems: "center", justifyContent: "center" }}>
               <View style={styles.ratings}>
-                <Text style={styles.ratingsText}>
-                  {parseFloat(ratings).toFixed(1)}
-                </Text>
+                <Text style={styles.ratingsText}>{time} min</Text>
               </View>
-              <Text style={styles.time}>{time} min</Text>
+              {/* <Text style={styles.time}>{time} min</Text> */}
             </View>
           </View>
         </View>
@@ -158,9 +186,27 @@ const OrderDetails = ({ navigation, route }) => {
     );
   };
 
+  useEffect(() => {
+    if (meals !== undefined) {
+      if (typeof meals !== undefined) {
+        setUnique([...new Set(meals.map((data) => data.mealId))]);
+        setUnique(
+          meals.filter((value, index, _meals) => {
+            return (
+              _meals.indexOf(
+                _meals.find((item) => item.mealId == value.mealId)
+              ) === index
+            );
+          })
+        );
+      }
+      console.log(unique);
+    }
+  }, [meals]);
+
   return (
     <FlatList
-      data={meals}
+      data={unique}
       renderItem={({ item, index }) => (
         <MealCard
           image={item.imageUrl}
@@ -168,6 +214,7 @@ const OrderDetails = ({ navigation, route }) => {
           mealName={item.mealName}
           quantity={item.quantity}
           hideHeart
+          restaurantId={item.restaurantId}
           price={Number(item.total / item.quantity).toFixed(2)}
           onPress={() =>
             navigation.navigate("DrawerNavigation", {
@@ -183,6 +230,7 @@ const OrderDetails = ({ navigation, route }) => {
           key={index}
         />
       )}
+      keyExtractor={(item, index) => String(index)}
       scrollEnabled={true}
       contentContainerStyle={styles.verticalRestaurantCard}
       ItemSeparatorComponent={VerticalFlatListItemSeparator}
@@ -223,7 +271,8 @@ const styles = StyleSheet.create({
   ratings: {
     borderRadius: 50,
     backgroundColor: "#FFC529",
-    maxWidth: 45,
+    maxWidth: 60,
+    padding: 3,
     maxHeight: 25,
     flex: 1,
     justifyContent: "center",
