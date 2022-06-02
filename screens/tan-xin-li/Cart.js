@@ -26,7 +26,7 @@ import Toast from "react-native-toast-message";
 import NoCarts from "./empty-states/NoCarts";
 import NotSignedIn from "./empty-states/NotSignedIn";
 
-// LogBox.ignoreAllLogs(true);
+LogBox.ignoreAllLogs(true);
 
 const VerticalFlatListItemSeparator = () => {
   return (
@@ -128,18 +128,20 @@ const Cart = ({ navigation, route }) => {
   };
 
   const ConfirmOrder = async () => {
-    const ids = [];
-    const q = query(
-      collection(firestore, "carts"),
-      where("uid", "==", auth.currentUser.uid),
-      where("status", "==", "In Cart")
-    );
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((cart) => {
-      UpdateDocument(cart);
-      ids.push(cart.id);
-      setCartIds(ids);
-    });
+    if (auth.currentUser != null) {
+      const ids = [];
+      const q = query(
+        collection(firestore, "carts"),
+        where("uid", "==", auth.currentUser.uid),
+        where("status", "==", "In Cart")
+      );
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((cart) => {
+        UpdateDocument(cart);
+        ids.push(cart.id);
+        setCartIds(ids);
+      });
+    }
   };
 
   useEffect(() => {
@@ -147,17 +149,19 @@ const Cart = ({ navigation, route }) => {
   }, [cartIds]);
 
   const AddOrder = async () => {
-    await addDoc(collection(firestore, "orders"), {
-      ids: cartIds,
-      uid: auth.currentUser.uid,
-      total: total,
-      date: time[0],
-      time: time[1],
-      restaurantId: restaurantId,
-      restaurantName: restaurantName,
-      status: "Order Received",
-      imageUrl: image,
-    });
+    if (auth.currentUser != null) {
+      await addDoc(collection(firestore, "orders"), {
+        ids: cartIds,
+        uid: auth.currentUser.uid,
+        total: total,
+        date: time[0],
+        time: time[1],
+        restaurantId: restaurantId,
+        restaurantName: restaurantName,
+        status: "Order Received",
+        imageUrl: image,
+      });
+    }
   };
 
   const UpdateDocument = async (cart) => {
@@ -194,25 +198,27 @@ const Cart = ({ navigation, route }) => {
   }, [newPrice]);
 
   const Calculate = async () => {
-    const cost = [];
-    const querySnapshot = await getDocs(
-      query(
-        collection(firestore, "carts"),
-        where("uid", "==", auth.currentUser.uid),
-        where("status", "==", "In Cart")
-      )
-    );
-    querySnapshot.forEach((doc) => {
-      cost.push({
-        ...doc.data(),
-        key: doc.id,
+    if (auth.currentUser != null) {
+      const cost = [];
+      const querySnapshot = await getDocs(
+        query(
+          collection(firestore, "carts"),
+          where("uid", "==", auth.currentUser.uid),
+          where("status", "==", "In Cart")
+        )
+      );
+      querySnapshot.forEach((doc) => {
+        cost.push({
+          ...doc.data(),
+          key: doc.id,
+        });
       });
-    });
-    var value = cost.reduce(
-      (totalCost, { total: itemCost }) => totalCost + parseFloat(itemCost),
-      0
-    );
-    setTotal(value);
+      var value = cost.reduce(
+        (totalCost, { total: itemCost }) => totalCost + parseFloat(itemCost),
+        0
+      );
+      setTotal(value);
+    }
   };
 
   return (

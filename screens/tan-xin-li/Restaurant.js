@@ -67,7 +67,6 @@ const Restaurant = ({ navigation, route }) => {
         });
       }
       setMeals(mealsList);
-      console.log(meals);
     };
 
     const q = query(
@@ -76,7 +75,15 @@ const Restaurant = ({ navigation, route }) => {
     );
     onSnapshot(q, (meals) => {
       meals.forEach((meal) => {
-        GetFavorites(meal);
+        if (auth.currentUser != null) {
+          GetFavorites(meal);
+        } else {
+          mealsList.push({
+            ...meal.data(),
+            key: meal.id,
+          });
+          setMeals(mealsList);
+        }
       });
     });
   }, []);
