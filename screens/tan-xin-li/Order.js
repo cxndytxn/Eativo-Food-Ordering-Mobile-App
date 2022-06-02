@@ -1,4 +1,9 @@
-import { getDocs, collection, where, query } from "firebase/firestore";
+import {
+  collection,
+  where,
+  query,
+  onSnapshot,
+} from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import OrderCard from "../../components/cards/OrderCard";
@@ -25,13 +30,14 @@ const Order = ({ navigation }) => {
       collection(firestore, "orders"),
       where("uid", "==", auth.currentUser.uid)
     );
-    const snapshots = await getDocs(q);
-    snapshots.forEach((snapshot) => {
-      list.push({
-        ...snapshot.data(),
-        key: snapshot.id,
+    onSnapshot(q, (querySnapshots) => {
+      querySnapshots.forEach((snapshot) => {
+        list.push({
+          ...snapshot.data(),
+          key: snapshot.id,
+        });
+        setOrderList(list);
       });
-      setOrderList(list);
     });
   };
 
