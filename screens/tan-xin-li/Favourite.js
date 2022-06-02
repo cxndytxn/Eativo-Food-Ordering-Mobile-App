@@ -1,16 +1,11 @@
-import {
-  collection,
-  getDocs,
-  onSnapshot,
-  query,
-  where,
-} from "firebase/firestore";
-import React, { useEffect, useState } from "react";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
+import React, { useState, useEffect } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import FavouriteCard from "../../components/cards/FavouriteCard";
 import { auth, firestore } from "../../firebase";
 import NoRecords from "./empty-states/NoRecords";
 import NotSignedIn from "./empty-states/NotSignedIn";
+import { useIsFocused } from "@react-navigation/native";
 
 const VerticalFlatListItemSeparator = () => {
   return <View style={{ marginBottom: 10 }} />;
@@ -18,63 +13,74 @@ const VerticalFlatListItemSeparator = () => {
 
 const Favourite = ({ navigation }) => {
   const [favouriteList, setFavouriteList] = useState([]);
+  const isFocused = useIsFocused();
 
   useEffect(() => {
-    const GetFavourites = async () => {
+    const unsubscribe = navigation.addListener("focus", () => {
       const list = [];
-      const q = query(
-        collection(firestore, "favourites"),
-        where("uid", "==", auth.currentUser.uid)
-      );
-      onSnapshot(q, (snapshots) => {
-        snapshots.forEach((snapshot) => {
-          list.push({
-            ...snapshot.data(),
-            key: snapshot.id,
+
+      if (auth.currentUser != null) {
+        const q = query(
+          collection(firestore, "favourites"),
+          where("uid", "==", auth.currentUser.uid)
+        );
+        onSnapshot(q, (snapshots) => {
+          snapshots.docChanges().forEach((snapshot) => {
+            if (snapshot.doc.exists) {
+              list.push({
+                ...snapshot.doc.data(),
+                key: snapshot.doc.id,
+              });
+              setFavouriteList(list);
+            }
+            if (snapshot.type === "removed") {
+              setFavouriteList([]);
+            }
           });
-          setFavouriteList(list);
         });
-      });
-    };
+      }
+    });
 
-    if (auth.currentUser != null) {
-      GetFavourites();
-    }
-  }, []);
+    return unsubscribe;
+  }, [isFocused]);
 
-  return auth.currentUser != null ? (
-    <FlatList
-      data={favouriteList}
-      renderItem={({ item, index }) => (
-        <FavouriteCard
-          image={item.imageUrl}
-          restaurantName={item.restaurantName}
-          price={item.price}
-          mealName={item.mealName}
-          id={item.key}
-          onPress={() =>
-            navigation.navigate("DrawerNavigation", {
-              screen: "Meal",
-              params: {
-                image: item.imageUrl,
-                restaurantName: item.restaurantName,
-                price: item.price,
-                mealName: item.mealName,
-                description: item.description,
-              },
-            })
-          }
-          key={index}
+  return (
+    <View style={{ flex: 1 }}>
+      {auth.currentUser != null ? (
+        <FlatList
+          data={favouriteList}
+          renderItem={({ item, index }) => (
+            <FavouriteCard
+              image={item.imageUrl}
+              restaurantName={item.restaurantName}
+              price={item.price}
+              mealName={item.mealName}
+              id={item.key}
+              onPress={() =>
+                navigation.navigate("DrawerNavigation", {
+                  screen: "Meal",
+                  params: {
+                    image: item.imageUrl,
+                    restaurantName: item.restaurantName,
+                    price: item.price,
+                    mealName: item.mealName,
+                    description: item.description,
+                  },
+                })
+              }
+              key={index}
+            />
+          )}
+          scrollEnabled={true}
+          contentContainerStyle={styles.verticalRestaurantCard}
+          ItemSeparatorComponent={VerticalFlatListItemSeparator}
+          showsVerticalScrollIndicator={false}
+          ListEmptyComponent={NoRecords}
         />
+      ) : (
+        <NotSignedIn />
       )}
-      scrollEnabled={true}
-      contentContainerStyle={styles.verticalRestaurantCard}
-      ItemSeparatorComponent={VerticalFlatListItemSeparator}
-      showsVerticalScrollIndicator={false}
-      ListEmptyComponent={NoRecords}
-    />
-  ) : (
-    <NotSignedIn />
+    </View>
   );
 };
 

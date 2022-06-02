@@ -18,15 +18,12 @@ const FavouriteCard = ({
   const [isClicked, setIsClicked] = useState(false);
 
   const ToggleFavourite = async () => {
-    setIsClicked(!isClicked);
-    if (isClicked) {
-      await deleteDoc(doc(firestore, "favourites", id)).then(
-        Toast.show({
-          type: "success",
-          text1: "You'd removed " + mealName + " from your Favourites List!",
-        })
-      );
-    }
+    await deleteDoc(doc(firestore, "favourites", id)).then(
+      Toast.show({
+        type: "success",
+        text1: "You'd removed " + mealName + " from your Favourites List!",
+      })
+    );
   };
 
   return (
@@ -54,7 +51,10 @@ const FavouriteCard = ({
           color="#ff4340"
           size={32}
           style={{ marginEnd: 10 }}
-          onPress={ToggleFavourite}
+          onPress={() => {
+            setIsClicked(!isClicked);
+            ToggleFavourite();
+          }}
         />
       </TouchableOpacity>
     </TouchableOpacity>

@@ -149,6 +149,7 @@ const Map = () => {
             setLatitude(mapLat);
             setLongitude(mapLng);
           }}
+          title="Your location"
         />
         {nearbyRestaurants.map((marker, index) => (
           <MarkerAnimated
