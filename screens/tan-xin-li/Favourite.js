@@ -10,6 +10,7 @@ import { FlatList, StyleSheet, View } from "react-native";
 import FavouriteCard from "../../components/cards/FavouriteCard";
 import { auth, firestore } from "../../firebase";
 import NoRecords from "./empty-states/NoRecords";
+import NotSignedIn from "./empty-states/NotSignedIn";
 
 const VerticalFlatListItemSeparator = () => {
   return <View style={{ marginBottom: 10 }} />;
@@ -36,10 +37,12 @@ const Favourite = ({ navigation }) => {
       });
     };
 
-    GetFavourites();
+    if (auth.currentUser != null) {
+      GetFavourites();
+    }
   }, []);
 
-  return (
+  return auth.currentUser != null ? (
     <FlatList
       data={favouriteList}
       renderItem={({ item, index }) => (
@@ -70,6 +73,8 @@ const Favourite = ({ navigation }) => {
       showsVerticalScrollIndicator={false}
       ListEmptyComponent={NoRecords}
     />
+  ) : (
+    <NotSignedIn />
   );
 };
 

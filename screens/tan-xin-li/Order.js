@@ -4,6 +4,7 @@ import { FlatList, StyleSheet, View } from "react-native";
 import OrderCard from "../../components/cards/OrderCard";
 import NoRecords from "./empty-states/NoRecords";
 import { firestore, auth } from "../../firebase";
+import NotSignedIn from "./empty-states/NotSignedIn";
 
 const VerticalFlatListItemSeparator = () => {
   return <View style={{ marginBottom: 10 }} />;
@@ -13,7 +14,9 @@ const Order = ({ navigation }) => {
   const [orderList, setOrderList] = useState([]);
 
   useEffect(() => {
-    GetOrders();
+    if (auth.currentUser != null) {
+      GetOrders();
+    }
   }, []);
 
   const GetOrders = async () => {
@@ -32,7 +35,7 @@ const Order = ({ navigation }) => {
     });
   };
 
-  return (
+  return auth.currentUser != null ? (
     <FlatList
       data={orderList}
       renderItem={({ item, index }) => (
@@ -65,6 +68,8 @@ const Order = ({ navigation }) => {
       showsVerticalScrollIndicator={false}
       ListEmptyComponent={NoRecords}
     />
+  ) : (
+    <NotSignedIn />
   );
 };
 

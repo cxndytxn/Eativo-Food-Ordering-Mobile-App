@@ -100,9 +100,17 @@ const MealCard = ({
             size={32}
             color="#ff4340"
             onPress={() => {
-              setIsHearted(!isHearted);
-              setHearted(!hearted);
-              ToggleHeart();
+              if (auth.currentUser != null) {
+                setIsHearted(!isHearted);
+                setHearted(!hearted);
+                ToggleHeart();
+              } else {
+                Toast.show({
+                  type: "error",
+                  text1:
+                    "Please sign in before adding meals to Favourites!",
+                });
+              }
             }}
           />
         ) : (
