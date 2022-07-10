@@ -24,6 +24,7 @@ const Map = () => {
   const [mapLng, setMapLng] = useState(0.0);
   const [restaurants, setRestaurants] = useState([]);
   const [nearbyRestaurants, setNearbyRestaurants] = useState([]);
+  const [isFirstRender, setIsFirstRender] = useState(false);
 
   useEffect(() => {
     GetLocation();
@@ -33,6 +34,7 @@ const Map = () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status === "granted") {
       await Location.getCurrentPositionAsync({}).then((location) => {
+        setIsFirstRender(true);
         setLatitude(location.coords.latitude);
         setLongitude(location.coords.longitude);
         setMapLat(location.coords.latitude);
@@ -46,12 +48,14 @@ const Map = () => {
   }, [latitude, longitude]);
 
   useEffect(() => {
-    Toast.show({
-      type: "info",
-      text1:
-        nearbyRestaurants.length +
-        " restaurants were found nearby your location!",
-    });
+    if (isFirstRender) {
+      Toast.show({
+        type: "info",
+        text1:
+          nearbyRestaurants.length +
+          " restaurants were found nearby your location!",
+      });
+    }
   }, [nearbyRestaurants]);
 
   const GetDoc = async () => {
@@ -70,6 +74,7 @@ const Map = () => {
         onPress={() => {
           setLatitude(item.lat);
           setLongitude(item.lng);
+          setIsFirstRender(false);
         }}
         key={index}
       >
@@ -148,6 +153,7 @@ const Map = () => {
           onPress={() => {
             setLatitude(mapLat);
             setLongitude(mapLng);
+            setIsFirstRender(true);
           }}
           title="Your location"
         />
@@ -163,6 +169,7 @@ const Map = () => {
             onPress={() => {
               setLatitude(marker.lat);
               setLongitude(marker.lng);
+              setIsFirstRender(false);
             }}
             title={marker.username}
             description={marker.address}
