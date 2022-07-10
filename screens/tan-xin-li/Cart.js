@@ -105,6 +105,7 @@ const Cart = ({ navigation, route }) => {
   }, [restaurantId]);
 
   const Order = () => {
+    console.log("order");
     if (cartList.length == 0) {
       setIsPayable(false);
     } else {
@@ -128,6 +129,7 @@ const Cart = ({ navigation, route }) => {
   };
 
   const ConfirmOrder = async () => {
+    console.log("confirm order");
     if (auth.currentUser != null) {
       const ids = [];
       const q = query(
@@ -145,11 +147,15 @@ const Cart = ({ navigation, route }) => {
   };
 
   useEffect(() => {
-    AddOrder();
+    if (time.length > 0) {
+      AddOrder();
+    }
   }, [cartIds]);
 
   const AddOrder = async () => {
+    console.log("add order");
     if (auth.currentUser != null) {
+      console.log(time);
       await addDoc(collection(firestore, "orders"), {
         ids: cartIds,
         uid: auth.currentUser.uid,
@@ -165,6 +171,7 @@ const Cart = ({ navigation, route }) => {
   };
 
   const UpdateDocument = async (cart) => {
+    console.log("update document");
     var d = new Date();
     d.setHours(d.getHours(), d.getMinutes(), 0, 0);
     var date = d.toLocaleDateString();
@@ -246,7 +253,7 @@ const Cart = ({ navigation, route }) => {
                 <TextInput
                   value={post}
                   style={styles.textInput}
-                  onPressIn={() =>
+                  onFocus={() =>
                     navigation.navigate("DrawerNavigation", {
                       screen: "Payment",
                     })
@@ -293,7 +300,12 @@ const Cart = ({ navigation, route }) => {
               Total: RM {parseFloat(total).toFixed(2)}
             </Text>
             <View>
-              <PrimaryButton onPress={() => Order()} text="Confirm Order" />
+              <PrimaryButton
+                onPress={() => {
+                  Order();
+                }}
+                text="Confirm Order"
+              />
             </View>
           </View>
         </View>

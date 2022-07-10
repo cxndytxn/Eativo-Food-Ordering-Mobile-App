@@ -54,7 +54,7 @@ const OrderDetails = ({ navigation, route }) => {
   }, [time, ratings, address]);
 
   const GetMeals = () => {
-    if (cartId.length > 1) {
+    if (cartId.length > 0) {
       cartId.forEach((cart) => {
         GetCarts(cart);
       });
@@ -181,7 +181,7 @@ const OrderDetails = ({ navigation, route }) => {
             <Text>RM {parseFloat(price).toFixed(2)}</Text>
           </View>
         </View>
-        <Spacing marginBottom={15} />
+        <Spacing marginBottom={3} />
       </View>
     );
   };

@@ -10,6 +10,7 @@ import OrderCard from "../../components/cards/OrderCard";
 import NoRecords from "./empty-states/NoRecords";
 import { firestore, auth } from "../../firebase";
 import NotSignedIn from "./empty-states/NotSignedIn";
+import { useIsFocused } from "@react-navigation/native";
 
 const VerticalFlatListItemSeparator = () => {
   return <View style={{ marginBottom: 10 }} />;
@@ -17,12 +18,13 @@ const VerticalFlatListItemSeparator = () => {
 
 const Order = ({ navigation }) => {
   const [orderList, setOrderList] = useState([]);
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     if (auth.currentUser != null) {
       GetOrders();
     }
-  }, []);
+  }, [isFocused]);
 
   const GetOrders = async () => {
     const list = [];
