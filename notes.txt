@@ -204,3 +204,40 @@ const Data = [
     price: 15.5,
   },
 ];
+
+RatingReview.js
+
+const Data = [
+  {
+    image:
+      "https://img.freepik.com/free-photo/big-hamburger-with-double-beef-french-fries_252907-8.jpg?w=2000",
+    username: "Erin",
+    rating: 4,
+    review: "The food was great!",
+    date: "10-04-2022 01:00 AM",
+  },
+  {
+    image:
+      "https://img.freepik.com/free-photo/big-hamburger-with-double-beef-french-fries_252907-8.jpg?w=2000",
+    username: "Erin",
+    rating: 4,
+    review: "The food was great!",
+    date: "10-04-2022 01:00 AM",
+  },
+  {
+    image:
+      "https://img.freepik.com/free-photo/big-hamburger-with-double-beef-french-fries_252907-8.jpg?w=2000",
+    username: "Erin",
+    rating: 4,
+    review: "The food was great!",
+    date: "10-04-2022 01:00 AM",
+  },
+  {
+    image:
+      "https://img.freepik.com/free-photo/big-hamburger-with-double-beef-french-fries_252907-8.jpg?w=2000",
+    username: "Erin",
+    rating: 4,
+    review: "The food was great!",
+    date: "10-04-2022 01:00 AM",
+  },
+];

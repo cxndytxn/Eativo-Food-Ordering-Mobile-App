@@ -7,7 +7,14 @@ const ReviewsCard = ({ image, username, rating, review, dateTime }) => {
   return (
     <View style={styles.container}>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <Image source={{ uri: image }} style={styles.image} />
+        {image !== "" ? (
+          <Image source={{ uri: image }} style={styles.image} />
+        ) : (
+          <Image
+            source={require("../../assets/images/default-user.jpg")}
+            style={styles.image}
+          />
+        )}
         <View style={{ flex: 1 }}>
           <View
             style={{

@@ -26,6 +26,8 @@ import Toast from "react-native-toast-message";
 import NoCarts from "./empty-states/NoCarts";
 import NotSignedIn from "./empty-states/NotSignedIn";
 
+//deduct meal's quantity following changes of quantity in cart
+
 LogBox.ignoreAllLogs(true);
 
 const VerticalFlatListItemSeparator = () => {
@@ -253,6 +255,7 @@ const Cart = ({ navigation, route }) => {
                 <TextInput
                   value={post}
                   style={styles.textInput}
+                  focusable={false}
                   onFocus={() =>
                     navigation.navigate("DrawerNavigation", {
                       screen: "Payment",

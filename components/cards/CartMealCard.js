@@ -22,7 +22,7 @@ const CartMealCard = ({
   const AddBackQuantity = async () => {
     const docRef = doc(firestore, "meals", mealId);
     const docSnap = await getDoc(docRef);
-    var originalQuantity;
+    var originalQuantity = 0;
     if (docSnap.exists()) {
       originalQuantity = docSnap.data().quantity;
       await updateDoc(doc(firestore, "meals", mealId), {
