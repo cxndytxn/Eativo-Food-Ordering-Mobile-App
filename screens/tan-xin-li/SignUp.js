@@ -25,6 +25,7 @@ const SignIn = ({ navigation }) => {
       type: "user",
       address: "",
       contactNumber: "",
+      imageUrl: "",
     });
   };
 

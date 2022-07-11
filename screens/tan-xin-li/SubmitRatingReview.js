@@ -12,16 +12,7 @@ import {
 import Spacing from "../../components/views/Spacing";
 import StarRating from "react-native-star-rating";
 import PrimaryButton from "../../components/buttons/PrimaryButton";
-import {
-  addDoc,
-  collection,
-  doc,
-  documentId,
-  getDoc,
-  getDocs,
-  where,
-  query,
-} from "firebase/firestore";
+import { addDoc, collection, doc, getDoc } from "firebase/firestore";
 import { auth, firestore } from "../../firebase";
 import Toast from "react-native-toast-message/";
 
@@ -34,6 +25,7 @@ const SubmitRatingReview = ({ navigation, route }) => {
     dateTime,
     cartId,
     status,
+    orderId,
   } = route?.params;
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState("Rate Me 👋");
@@ -41,7 +33,6 @@ const SubmitRatingReview = ({ navigation, route }) => {
   const [height, setHeight] = useState("100%");
   const [userImage, setUserImage] = useState("");
   const [username, setUsername] = useState("");
-  const [restId, setRestId] = useState("");
   const [address, setAddress] = useState("");
   const [ratings, setRatings] = useState("");
   const [time, setTime] = useState("");
@@ -73,28 +64,15 @@ const SubmitRatingReview = ({ navigation, route }) => {
   };
 
   useEffect(() => {
-    if (cartId !== undefined) {
-      GetRestaurant();
-    }
-  });
-
-  const GetRestaurant = async () => {
-    await getDocs(
-      query(collection(firestore, "carts"), where(documentId(), "==", cartId))
-    ).forEach((doc) => {
-      setRestId(doc.data().restaurantId);
-    });
-  };
-
-  useEffect(() => {
-    if (restId !== undefined && restId != "") {
+    if (restaurantId !== undefined && restaurantId != "") {
       GetRestaurantDetails();
     }
-  }, [restId]);
+  }, []);
 
   const GetRestaurantDetails = async () => {
-    const snapshot = await getDoc(doc(firestore, "restaurants", restId));
+    const snapshot = await getDoc(doc(firestore, "restaurants", restaurantId));
     if (snapshot.exists) {
+      console.log(snapshot.data().ratings);
       setAddress(snapshot.data().address);
       setRatings(snapshot.data().ratings);
       setTime(snapshot.data().time);
@@ -124,31 +102,36 @@ const SubmitRatingReview = ({ navigation, route }) => {
       const snapshot = await getDoc(
         doc(firestore, "users", auth.currentUser.uid)
       );
-      setUsername(snapshot.data().username);
-      setUserImage(snapshot.data().imageUrl);
+      if (snapshot.exists) {
+        setUsername(snapshot.data().username);
+        setUserImage(snapshot.data().imageUrl);
+      }
     };
 
     GetUser();
-  }, []);
+  });
 
   const Submit = async () => {
+    var d = new Date();
+    d.setHours(d.getHours(), d.getMinutes(), 0, 0);
     if (feedback != "" && rating != 0) {
-      await addDoc(collection(firestore, "ratings-reviews"), {
-        imageUrl: userImage !== undefined ? userImage : "",
+      await addDoc(collection(firestore, "feedbacks"), {
+        imageUrl: userImage !== "" ? userImage : "",
         username: username,
         rating: rating,
-        review: review,
-        dateTime: dateTime,
+        review: feedback,
+        dateTime: d.toLocaleDateString() + " " + d.toLocaleTimeString(),
         restaurantId: restaurantId,
-      })
-        .then(
-          Toast.show({
-            type: "success",
-            text1:
-              "You'd submitted ratings and reviews for " + restaurantName + "!",
-          })
-        )
-        .then(navigation.navigate("DrawerNavigation", { screen: "Home" }));
+        orderId: orderId,
+        uid: auth.currentUser.uid,
+      }).then(() => {
+        Toast.show({
+          type: "success",
+          text1:
+            "You'd submitted ratings and reviews for " + restaurantName + "!",
+        });
+        navigation.navigate("Home");
+      });
     } else {
       Toast.show({
         type: "error",
@@ -186,13 +169,13 @@ const SubmitRatingReview = ({ navigation, route }) => {
         >
           <View style={{ flex: 1 }}>
             <Text style={styles.restaurantName}>{restaurantName}</Text>
-            <Text style={styles.address}>address</Text>
+            <Text style={styles.address}>{address}</Text>
           </View>
           <View>
             <View style={styles.ratings}>
-              <Text style={styles.ratingsText}>ratings</Text>
+              <Text style={styles.ratingsText}>{time} min</Text>
             </View>
-            <Text style={styles.time}>time min</Text>
+            {/* <Text style={styles.time}>time min</Text> */}
           </View>
         </TouchableOpacity>
       </View>
@@ -271,8 +254,9 @@ const styles = StyleSheet.create({
   ratings: {
     borderRadius: 50,
     backgroundColor: "#FFC529",
-    maxWidth: 45,
+    maxWidth: 60,
     maxHeight: 25,
+    padding: 3,
     flex: 1,
     justifyContent: "center",
     alignItems: "center",

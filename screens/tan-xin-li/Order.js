@@ -51,7 +51,9 @@ const Order = ({ navigation }) => {
           image={item.imageUrl}
           dateTime={item.date + " " + item.time}
           restaurantName={item.restaurantName}
+          restaurantId={item.restaurantId}
           price={item.total}
+          orderId={item.key}
           status={item.status}
           onPress={() =>
             navigation.navigate("DrawerNavigation", {
@@ -91,7 +93,7 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   infoSection: {
-    backgroundColor: "black",
+    backgroundColor: "white",
     borderRadius: 15,
     padding: 15,
     width: "90%",

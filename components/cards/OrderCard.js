@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import Spacing from "../views/Spacing";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
+import { query, collection, where, onSnapshot } from "firebase/firestore";
+import { firestore } from "../../firebase";
+import { useIsFocused } from "@react-navigation/native";
 
 const OrderCard = ({
   image,
@@ -11,10 +14,32 @@ const OrderCard = ({
   price,
   dateTime,
   status,
+  orderId,
   onPress,
   style,
 }) => {
+  const isFocused = useIsFocused();
   const navigation = useNavigation();
+  const [isRated, setIsRated] = useState(false);
+
+  useEffect(() => {
+    const q = query(
+      collection(firestore, "feedbacks"),
+      where("orderId", "==", orderId)
+    );
+
+    const unsubsribe = onSnapshot(q, (querySnapshots) => {
+      if (querySnapshots.empty) {
+        setIsRated(false);
+      } else {
+        setIsRated(true);
+      }
+    });
+
+    return () => {
+      unsubsribe();
+    };
+  }, [isFocused]);
 
   return (
     <TouchableOpacity style={[styles.container, style]} onPress={onPress}>
@@ -31,7 +56,7 @@ const OrderCard = ({
         <Spacing marginTop={5} />
         <Text style={styles.price}>RM {parseFloat(price).toFixed(2)}</Text>
       </View>
-      {status === "Picked Up" ? (
+      {status == "Picked Up" && isRated == false ? (
         <TouchableOpacity
           style={{
             flexGrow: 1,
@@ -54,6 +79,7 @@ const OrderCard = ({
                   price: price,
                   dateTime: dateTime,
                   status: status,
+                  orderId: orderId,
                 },
               })
             }
