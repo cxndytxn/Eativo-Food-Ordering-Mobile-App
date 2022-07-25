@@ -1,4 +1,10 @@
-import { collection, onSnapshot, query, where } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  onSnapshot,
+  query,
+  where,
+} from "firebase/firestore";
 import React, { useState, useEffect } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import FavouriteCard from "../../components/cards/FavouriteCard";
@@ -16,33 +22,31 @@ const Favourite = ({ navigation }) => {
   const isFocused = useIsFocused();
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener("focus", () => {
-      const list = [];
-
-      if (auth.currentUser != null) {
-        const q = query(
-          collection(firestore, "favourites"),
-          where("uid", "==", auth.currentUser.uid)
-        );
-        onSnapshot(q, (snapshots) => {
-          snapshots.docChanges().forEach((snapshot) => {
-            if (snapshot.doc.exists) {
-              list.push({
-                ...snapshot.doc.data(),
-                key: snapshot.doc.id,
-              });
-              setFavouriteList(list);
-            }
-            if (snapshot.type === "removed") {
-              setFavouriteList([]);
-            }
-          });
-        });
-      }
-    });
-
-    return unsubscribe;
+    if (auth.currentUser != null) {
+      GetFavourites();
+    }
   }, [isFocused]);
+
+  const GetFavourites = async () => {
+    const list = [];
+    const q = await getDocs(
+      query(
+        collection(firestore, "favourites"),
+        where("uid", "==", auth.currentUser.uid)
+      )
+    );
+    if (!q.empty) {
+      q.forEach((snapshot) => {
+        list.push({
+          ...snapshot.data(),
+          key: snapshot.id,
+        });
+        setFavouriteList(list);
+      });
+    } else {
+      setFavouriteList([]);
+    }
+  };
 
   return (
     <View style={{ flex: 1 }}>

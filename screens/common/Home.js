@@ -94,9 +94,11 @@ const Home = ({ navigation }) => {
     onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
         onSnapshot(doc(firestore, "users", currentUser.uid), (snapshot) => {
-          setUsername(snapshot.data().username);
-          setAddress(snapshot.data()?.address);
-          setUri(snapshot.data()?.imageUrl);
+          if (snapshot !== undefined) {
+            setUsername(snapshot.data()?.username);
+            setAddress(snapshot.data()?.address);
+            setUri(snapshot.data()?.imageUrl);
+          }
         });
       } else {
         setUsername("");

@@ -71,7 +71,7 @@ const SubmitRatingReview = ({ navigation, route }) => {
 
   const GetRestaurantDetails = async () => {
     const snapshot = await getDoc(doc(firestore, "restaurants", restaurantId));
-    if (snapshot.exists) {
+    if (snapshot.exists()) {
       console.log(snapshot.data().ratings);
       setAddress(snapshot.data().address);
       setRatings(snapshot.data().ratings);
@@ -102,7 +102,7 @@ const SubmitRatingReview = ({ navigation, route }) => {
       const snapshot = await getDoc(
         doc(firestore, "users", auth.currentUser.uid)
       );
-      if (snapshot.exists) {
+      if (snapshot.exists()) {
         setUsername(snapshot.data().username);
         setUserImage(snapshot.data().imageUrl);
       }

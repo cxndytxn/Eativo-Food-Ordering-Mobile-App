@@ -36,13 +36,26 @@ import SubmitRatingReview from "./screens/tan-xin-li/SubmitRatingReview";
 import { auth } from "./firebase";
 import { signOut } from "firebase/auth";
 import { View } from "react-native";
-import ManagerSignUp from "./screens/ng-wei-bin/ManagerSignUp";
 import EditMeal from "./screens/tan-xin-li/EditMeal";
 import Map from "./screens/tan-xin-li/Map";
+import RestaurantHome from "./screens/ng-wei-bin/RestaurantHome";
+import StaffHome from "./screens/tan-soon-si-tyrone/StaffHome";
+import RestaurantOrders from "./screens/ng-wei-bin/RestaurantOrders";
+import RestaurantMenu from "./screens/ng-wei-bin/RestaurantMenu";
+import RestaurantStaffs from "./screens/ng-wei-bin/RestaurantStaffs";
+import RestaurantProfile from "./screens/ng-wei-bin/RestaurantProfile";
+import StaffOrders from "./screens/tan-soon-si-tyrone/StaffOrders";
+import StaffMenu from "./screens/tan-soon-si-tyrone/StaffMenu";
+import StaffProfile from "./screens/tan-soon-si-tyrone/StaffProfile";
+import RestaurantSignUpStack from "./navigation/RestaurantSignUpStack";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
+
+// -------------------------------------------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------Xin Li-------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------------------------------------------
 
 const TabNavigation = () => {
   return (
@@ -166,9 +179,175 @@ const DrawerContent = (props) => {
   );
 };
 
-// ------------------------------------------------------------------Xin Li-------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------Wei Bin------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------------------------------------------
+
+const RestaurantStack = () => {
+  return (
+    <Stack.Navigator initialRouteName="RestaurantTab">
+      <Stack.Screen
+        name="RestaurantTab"
+        component={RestaurantTab}
+        options={({ route }) => ({
+          headerTitle: getRestaurantHeader(route),
+          drawerItemStyle: { display: "none" },
+          headerLeft: () => <HeaderLeftButton />,
+        })}
+      />
+    </Stack.Navigator>
+  );
+};
+
+const RestaurantTab = () => {
+  return (
+    <Tab.Navigator
+      initialRouteName="Restaurant Home"
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+          if (route.name === "Home") {
+            iconName = focused ? "home" : "home-outline";
+          } else if (route.name === "Menu") {
+            iconName = focused ? "grid" : "grid-outline";
+          } else if (route.name === "Orders") {
+            iconName = focused ? "document-text" : "document-text-outline";
+          } else if (route.name === "Staffs") {
+            iconName = focused ? "people" : "people-outline";
+          } else if (route.name === "Profile") {
+            iconName = focused ? "person" : "person-outline";
+          }
+          return (
+            <Ionicons name={iconName} size={size} color={color}></Ionicons>
+          );
+        },
+        tabBarInactiveTintColor: "#666666",
+        tabBarActiveTintColor: "#FFC529",
+        tabBarHideOnKeyboard: true,
+      })}
+    >
+      <Tab.Screen
+        name="Home"
+        component={RestaurantHome}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen
+        name="Orders"
+        component={RestaurantOrders}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen
+        name="Menu"
+        component={RestaurantMenu}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen
+        name="Staffs"
+        component={RestaurantStaffs}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={RestaurantProfile}
+        options={{
+          headerShown: false,
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
+
+// -------------------------------------------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------Tyrone-------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------------------------------------------
+
+const StaffStack = () => {
+  return (
+    <Stack.Navigator initialRouteName="StaffTab">
+      <Stack.Screen
+        name="StaffTab"
+        component={StaffTab}
+        options={({ route }) => ({
+          headerTitle: getStaffHeader(route),
+          drawerItemStyle: { display: "none" },
+          headerLeft: () => <HeaderLeftButton />,
+        })}
+      />
+    </Stack.Navigator>
+  );
+};
+
+const StaffTab = () => {
+  return (
+    <Tab.Navigator
+      initialRouteName="Home"
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+          if (route.name === "Home") {
+            iconName = focused ? "home" : "home-outline";
+          } else if (route.name === "Menu") {
+            iconName = focused ? "grid" : "grid-outline";
+          } else if (route.name === "Orders") {
+            iconName = focused ? "document-text" : "document-text-outline";
+          } else if (route.name === "Profile") {
+            iconName = focused ? "person" : "person-outline";
+          }
+          return (
+            <Ionicons name={iconName} size={size} color={color}></Ionicons>
+          );
+        },
+        tabBarInactiveTintColor: "#666666",
+        tabBarActiveTintColor: "#FFC529",
+        tabBarHideOnKeyboard: true,
+      })}
+    >
+      <Tab.Screen
+        name="Home"
+        component={StaffHome}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen
+        name="Orders"
+        component={StaffOrders}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen
+        name="Menu"
+        component={StaffMenu}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={StaffProfile}
+        options={{
+          headerShown: false,
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
+
+// -------------------------------------------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------App.Js-------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------------------------------------------
 
 const App = () => {
+
   return (
     <NavigationContainer>
       <SafeAreaProvider>
@@ -183,6 +362,26 @@ const App = () => {
             <Drawer.Screen
               name="DrawerNavigation"
               component={StackNavigation}
+              options={{
+                headerShown: false,
+                drawerItemStyle: {
+                  display: "none",
+                },
+              }}
+            />
+            <Drawer.Screen
+              name="RestaurantNavigation"
+              component={RestaurantStack}
+              options={{
+                headerShown: false,
+                drawerItemStyle: {
+                  display: "none",
+                },
+              }}
+            />
+            <Drawer.Screen
+              name="StaffNavigation"
+              component={StaffStack}
               options={{
                 headerShown: false,
                 drawerItemStyle: {
@@ -218,6 +417,16 @@ const App = () => {
                 ),
               }}
             />
+            <Drawer.Screen
+              name="Restaurant Sign Up"
+              component={RestaurantSignUpStack}
+              options={{
+                headerShown: false,
+                drawerIcon: ({ focused, size }) => (
+                  <Ionicons name="cafe-outline" size={size} color={"#666666"} />
+                ),
+              }}
+            />
           </Drawer.Navigator>
         </Provider>
       </SafeAreaProvider>
@@ -239,6 +448,39 @@ const getHeaderTitle = (route) => {
       return "Orders";
     case "Favourite":
       return "Favourite";
+    case "Profile":
+      return "Profile";
+  }
+};
+
+const getRestaurantHeader = (route) => {
+  console.log(route);
+  const routeName = getFocusedRouteNameFromRoute(route) ?? "Home";
+
+  switch (routeName) {
+    case "Home":
+      return "Home";
+    case "Orders":
+      return "Orders";
+    case "Menu":
+      return "Menu";
+    case "Staffs":
+      return "Staffs";
+    case "Profile":
+      return "Profile";
+  }
+};
+
+const getStaffHeader = (route) => {
+  const routeName = getFocusedRouteNameFromRoute(route) ?? "Home";
+
+  switch (routeName) {
+    case "Home":
+      return "Home";
+    case "Orders":
+      return "Orders";
+    case "Menu":
+      return "Menu";
     case "Profile":
       return "Profile";
   }

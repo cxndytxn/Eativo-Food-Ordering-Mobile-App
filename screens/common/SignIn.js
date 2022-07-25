@@ -8,8 +8,9 @@ import RoundedTextInput from "../../components/textInputs/RoundedTextInput";
 import TextButton from "../../components/buttons/TextButton";
 import Spacing from "../../components/views/Spacing";
 import BackButton from "../../components/buttons/BackButton";
-import { auth } from "../../firebase";
+import { auth, firestore } from "../../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 
 const SignIn = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -18,12 +19,12 @@ const SignIn = ({ navigation }) => {
   const Login = () => {
     if (email.trim().length > 0 && password.trim().length > 0) {
       signInWithEmailAndPassword(auth, email, password)
-        .then((userCredentials) => {
+        .then((user) => {
+          GetUserType(user.user.uid);
           Toast.show({
             type: "success",
             text1: "Signed in successfully!",
           });
-          navigation.navigate("DrawerNavigation", { screen: "Home" });
         })
         .catch((error) => {
           Toast.show({
@@ -33,6 +34,30 @@ const SignIn = ({ navigation }) => {
         });
     } else {
       ShowToast();
+    }
+  };
+
+  const GetUserType = async (uid) => {
+    console.log(uid);
+    const q = doc(firestore, "users", uid);
+    const snapshot = await getDoc(q);
+    if (snapshot.exists()) {
+      navigation.navigate("DrawerNavigation", {
+        screen: "Home",
+      });
+    } else {
+      const query = doc(firestore, "restaurants", uid);
+      const snap = await getDoc(query);
+      if (snap.exists()) {
+        navigation.navigate("RestaurantNavigation", {
+          screen: "RestaurantTab",
+        });
+      } else {
+        //staffs
+        navigation.navigate("StaffNavigation", {
+          screen: "StaffTab",
+        });
+      }
     }
   };
 

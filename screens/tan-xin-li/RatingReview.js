@@ -81,7 +81,7 @@ const RatingReview = ({ route }) => {
 
   const GetLatLng = async () => {
     const snapshot = await getDoc(doc(firestore, "restaurants", restaurantId));
-    if (snapshot.exists) {
+    if (snapshot.exists()) {
       setLatitude(snapshot.data().lat);
       setLongitude(snapshot.data().lng);
     }

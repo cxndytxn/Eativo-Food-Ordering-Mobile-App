@@ -17,7 +17,11 @@ const SignOut = ({ navigation }) => {
         <Text style={styles.text}>You're logged out!</Text>
         <Spacing marginTop={40} />
         <PrimaryButton
-          onPress={() => navigation.navigate("Home")}
+          onPress={() =>
+            navigation.navigate("DrawerNavigation", {
+              screen: "TabNavigation",
+            })
+          }
           text="Home"
         />
       </View>

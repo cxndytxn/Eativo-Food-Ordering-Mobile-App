@@ -10,6 +10,7 @@ import BackButton from "../../components/buttons/BackButton";
 import { auth, firestore } from "../../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { setDoc, doc } from "firebase/firestore";
+import TextButton from "../../components/buttons/TextButton";
 
 const SignIn = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -130,6 +131,16 @@ const SignIn = ({ navigation }) => {
           </View>
           <Spacing marginTop={50} />
           <PrimaryButton onPress={SignUp} text="Sign Up" />
+          <Spacing marginTop={10} />
+          <TextButton
+            onPress={() =>
+              //navigation.navigate("Restaurant Sign Up")
+              navigation.navigate("StaffNavigation", {
+                screen: "StaffTab"
+              })
+            }
+            text="I'm a Restaurant Owner"
+          />
           <Spacing marginTop={30} />
           <SecondaryButton
             onPress={SignIn}

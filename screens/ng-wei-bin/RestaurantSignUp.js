@@ -6,7 +6,7 @@ import { TextInput } from "react-native-paper";
 import Toast from "react-native-toast-message";
 import { auth, firestore } from "../../firebase";
 
-const ManagerSignUp = () => {
+const RestaurantSignUp = () => {
   //Use geocodeasync from expo-location to get latitude and longitude from restaurant address, then store lat, lng to Firestore
   //Refer to data types of restaurants in Firebase (McDonald's) BUT DON'T MODIFY
 
@@ -31,7 +31,6 @@ const ManagerSignUp = () => {
       preparationTime.trim().length > 0 &&
       confirmedPassword.trim().length > 0
     ) {
-
       //Example of using geocodeasync
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status === "granted") {
@@ -50,7 +49,11 @@ const ManagerSignUp = () => {
             setLng(coords.longitude);
 
             //Start creating new restaurant account
-            if (password.trim() === confirmedPassword.trim() && lat !== 0.0 && lng !== 0.0) {
+            if (
+              password.trim() === confirmedPassword.trim() &&
+              lat !== 0.0 &&
+              lng !== 0.0
+            ) {
               createUserWithEmailAndPassword(auth, email, password)
                 .then((userCredentials) => {
                   const user = userCredentials.user;
@@ -60,8 +63,9 @@ const ManagerSignUp = () => {
                     text1: "Signed up successfully!",
                   });
 
-                  //Add your own navigation stack
-                  navigation.navigate("", { screen: "" });
+                  navigation.navigate("RestaurantNavigation", {
+                    screen: "Home",
+                  });
                 })
                 .catch((error) => {
                   Toast.show({
@@ -109,4 +113,4 @@ const ManagerSignUp = () => {
   );
 };
 
-export default ManagerSignUp;
+export default RestaurantSignUp;
