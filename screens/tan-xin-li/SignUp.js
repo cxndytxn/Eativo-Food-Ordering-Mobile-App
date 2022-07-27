@@ -73,6 +73,7 @@ const SignIn = ({ navigation }) => {
   };
 
   const SignIn = () => {
+    //navigation.navigate("StaffNavigation", {screen: "StaffTab"});
     navigation.navigate("SignIn");
   };
 
@@ -134,10 +135,10 @@ const SignIn = ({ navigation }) => {
           <Spacing marginTop={10} />
           <TextButton
             onPress={() =>
-              //navigation.navigate("Restaurant Sign Up")
-              navigation.navigate("StaffNavigation", {
-                screen: "StaffTab"
-              })
+              navigation.navigate("Restaurant Sign Up")
+              // navigation.navigate("StaffNavigation", {
+              //   screen: "StaffTab",
+              // })
             }
             text="I'm a Restaurant Owner"
           />
