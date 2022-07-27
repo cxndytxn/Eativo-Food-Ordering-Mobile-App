@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   verticalRestaurantCard: {
-    paddingBottom: 15,
+    paddingBottom: 70,
   },
   searchBar: {
     borderRadius: 50,
