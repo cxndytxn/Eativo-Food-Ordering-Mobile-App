@@ -70,7 +70,7 @@ const Home = ({ navigation }) => {
         where("category", "==", "Korean")
       );
 
-    onSnapshot(query, (querySnapshot) => {
+    const unsubscribe = onSnapshot(query, (querySnapshot) => {
       if (!querySnapshot.empty) {
         querySnapshot.forEach((doc) => {
           restaurants.push({
@@ -83,6 +83,11 @@ const Home = ({ navigation }) => {
         setRests([]);
       }
     });
+
+    return () => {
+      unsubscribe();
+    }
+
   }, [selected, isFocused]);
 
   const ListHeaderComponent = (props) => {

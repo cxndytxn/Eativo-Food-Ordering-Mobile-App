@@ -21,7 +21,7 @@ import {
   uploadBytes,
 } from "firebase/storage";
 
-const AddNewItem = ({ navigation }) => {
+const AddNewItem = ({ navigation, route }) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [quantity, setQuantity] = useState(0.0);
@@ -29,6 +29,7 @@ const AddNewItem = ({ navigation }) => {
   const [uri, setUri] = useState("");
   const [restaurantId, setRestaurantId] = useState("");
   const [restaurantName, setRestaurantName] = useState("");
+  const { restId } = route?.params
 
   useEffect(() => {
     const setRestaurantId = async () => {
@@ -54,7 +55,7 @@ const AddNewItem = ({ navigation }) => {
         quantity: Number(parseFloat(quantity).toFixed(2)),
         imageUrl: "",
         price: Number(parseFloat(price).toFixed(2)),
-        restaurantId: auth.currentUser.uid,
+        restaurantId: restId,
       }).then((meal) => {
         Toast.show({
           type: "success",
@@ -87,7 +88,7 @@ const AddNewItem = ({ navigation }) => {
           const img = await fetch(result.uri);
           const bytes = await img.blob();
 
-          var storagePath = "meals/" + auth.currentUser.uid;
+          var storagePath = "meals/" + restId;
           const ref = reference(storage, storagePath);
 
           await uploadBytes(ref, bytes).then(

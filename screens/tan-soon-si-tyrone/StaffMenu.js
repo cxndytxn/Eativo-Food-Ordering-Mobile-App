@@ -34,11 +34,11 @@ const StaffMenu = ({navigation}) => {
   const [price, setPrice] = useState("");
   const [meals, setMeals] = useState([]);
   const [restaurantId, setRestaurantId] = useState("");
-
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     FetchStaffs();
-  }, []);
+  }, [isFocused]);
 
   const FetchStaffs = async () => {
     const mealsList = [];
@@ -131,7 +131,10 @@ const StaffMenu = ({navigation}) => {
           justifyContent: "center",
         }}
         onPress={() => navigation.navigate("StaffNavigation", {
-          screen: "Add New Meal"
+          screen: "Add New Meal",
+          params: {
+            restId:restaurantId,
+          },
         })}
       >
         <Ionicons name="add-outline" color={"black"} size={28} />
