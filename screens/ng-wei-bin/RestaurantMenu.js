@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import MenuMealCard from "../../components/cards/MenuMealCard";
 import Spacing from "../../components/views/Spacing";
-import { useNavigation } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import {
   collection,
   getDocs,
@@ -31,33 +31,49 @@ const RestaurantMenu = ({ navigation }) => {
   const [quantity, setQuantity] = useState("");
   const [price, setPrice] = useState("");
   const [meals, setMeals] = useState([]);
-
+  const isFocused = useIsFocused();
   useEffect(() => {
+    FetchMeals();
+
+    // onSnapshot(q, (meals) => {
+    //   meals.docChanges().forEach((change) => {
+    //     if (change.doc.exists()) {
+    //       mealsList.push({
+    //         ...change.doc.data(),
+    //         key: change.doc.id,
+    //       });
+    //     }
+    //   });
+    //   // meals.forEach((meal) => {
+    //   //     mealsList.push({
+    //   //       ...meal.data(),
+    //   //       key: meal.id,
+    //   //     });
+    //   setMeals(mealsList);
+
+    //   //});
+    // });
+  }, [isFocused]);
+
+  const FetchMeals = async () => {
     const mealsList = [];
 
-    const q = query(
-      collection(firestore, "meals"),
-      where("restaurantId", "==", auth.currentUser.uid)
+    const q = await getDocs(
+      query(
+        collection(firestore, "meals"),
+        where("restaurantId", "==", auth?.currentUser?.uid)
+      )
     );
-    onSnapshot(q, (meals) => {
-      meals.docChanges().forEach((change) => {
-        if (change.doc.exists()) {
-          mealsList.push({
-            ...change.doc.data(),
-            key: change.doc.id,
-          });
-        }
+    if (!q.empty) {
+      q.forEach((docs) => {
+        mealsList.push({
+          ...docs.data(),
+          key: docs.id,
+        })
       });
-      // meals.forEach((meal) => {
-      //     mealsList.push({
-      //       ...meal.data(),
-      //       key: meal.id,
-      //     });
-      setMeals(mealsList);
-
-      //});
-    });
-  }, []);
+      setMeals(mealsList)
+    }
+  };
 
   const ListHeaderComponent = () => {
     const navigation = useNavigation();
@@ -75,7 +91,7 @@ const RestaurantMenu = ({ navigation }) => {
         renderItem={({ item, index }) => (
           <MenuMealCard
             mealId={item.key}
-            restaurantId={auth.currentUser.uid}
+            restaurantId={auth?.currentUser?.uid}
             image={item.imageUrl}
             description={item.description}
             mealName={item.name}
@@ -87,7 +103,7 @@ const RestaurantMenu = ({ navigation }) => {
                 screen: "Edit Menu Item",
                 params: {
                   mealId: item.key,
-                  restaurantId:auth.currentUser.uid
+                  restaurantId: auth.currentUser.uid,
                 },
               })
             }
@@ -115,9 +131,14 @@ const RestaurantMenu = ({ navigation }) => {
           alignItems: "center",
           justifyContent: "center",
         }}
-        onPress={() => navigation.navigate("RestaurantNavigation", {
-          screen: "Add New Meal"
-        })}
+        onPress={() =>
+          navigation.navigate("RestaurantNavigation", {
+            screen: "Add New Meal",
+            params: {
+              restId: auth.currentUser.uid,
+            },
+          })
+        }
       >
         <Ionicons name="add-outline" color={"black"} size={28} />
       </TouchableOpacity>
