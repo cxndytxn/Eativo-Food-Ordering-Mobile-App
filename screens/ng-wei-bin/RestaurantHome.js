@@ -45,7 +45,7 @@ const VerticalFlatListItemSeparator = () => {
   );
 };
 
-const RestaurantHome = ({ navigation }) => {
+const RestaurantHome = ({ navigation, route }) => {
   const [rests, setRests] = useState([]);
   const [nearbyRests, setNearbyRests] = useState([]);
   const [chip, setChip] = useState([]);
@@ -60,20 +60,23 @@ const RestaurantHome = ({ navigation }) => {
 
     onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
-        onSnapshot(doc(firestore, "restaurants", currentUser.uid), (snapshot) => {
-          if (snapshot !== undefined) {
-            setUsername(snapshot.data()?.username);
-            setAddress(snapshot.data()?.address);
-            setUri(snapshot.data()?.imageUrl);
+        onSnapshot(
+          doc(firestore, "restaurants", currentUser.uid),
+          (snapshot) => {
+            if (snapshot !== undefined) {
+              setUsername(snapshot.data()?.username);
+              setAddress(snapshot.data()?.address);
+              setUri(snapshot.data()?.imageUrl);
+            }
           }
-        });
+        );
       } else {
         setUsername("");
         setAddress("");
         setUri("");
       }
     });
-    
+
     return (
       <View style={styles.container}>
         <Spacing marginTop={10} />

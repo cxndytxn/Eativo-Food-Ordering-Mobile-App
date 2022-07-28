@@ -10,18 +10,17 @@ import {
 import { auth, firestore, storage } from "../../firebase";
 import Spacing from "../../components/views/Spacing";
 import RoundedTextInput from "../../components/textInputs/RoundedTextInput";
-import {  doc, addDoc, updateDoc } from "firebase/firestore";
+import {  doc, updateDoc, getDoc } from "firebase/firestore";
 import PrimaryButton from "../../components/buttons/PrimaryButton";
 import * as ImagePicker from "expo-image-picker";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
-import {  collection } from "firebase/firestore";
 import {
   getDownloadURL,
   ref as reference,
   uploadBytes,
 } from "firebase/storage";
 
-const AddNewItem = ({ navigation }) => {
+const EditMenuItem = ({ route, navigation }) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [quantity, setQuantity] = useState(0.0);
@@ -29,38 +28,90 @@ const AddNewItem = ({ navigation }) => {
   const [uri, setUri] = useState("");
   const [restaurantId, setRestaurantId] = useState("");
   const [restaurantName, setRestaurantName] = useState("");
+  const { mealId } = route.params;
 
   useEffect(() => {
-    const setRestaurantId = async () => {
-      const q = doc(firestore, "restaurants", restaurantId);
-      const snapshot = await getDoc(q);
-      setRestaurantName(snapshot.data().username);
-    };
+    GetData(mealId);
+
     setRestaurantId();
     return () => setRestaurantId();
-  });
+  }, []);
 
-  const NewItem = async () => {
+  const GetData = async () => {
+    const docRef = doc(firestore, "meals", mealId);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      setName(docSnap.data().name);
+      setDescription(docSnap.data()?.description);
+      setQuantity(docSnap.data()?.quantity);
+      setPrice(docSnap.data().price);
+      console.log(docSnap.data().price);
+      setUri(docSnap.data().imageUrl);
+    } else {
+      setName("");
+      setDescription("");
+      setQuantity("");
+      setPrice("");
+      setUri("");
+    }
+  };
+
+  const EditMeal = async (name, description, quantity, price) => {
+    await updateDoc(doc(firestore, "meals", mealId), {
+      name: name,
+      description: description,
+      quantity: Number(parseFloat(quantity).toFixed(2)),
+      imageUrl: "",
+      price: Number(parseFloat(price).toFixed(2)),
+      restaurantId: auth.currentUser.uid,
+    }).then(() => {
+      Toast.show({
+        type: "success",
+        text1: "You edited the meal!",
+      });
+      updateDoc(doc(firestore, "meals", mealId), {
+        imageUrl: uri,
+      });
+      navigation.navigate("Menu");
+    });
+  };
+
+  const Edit = () => {
+    if (name.trim().length > 0) {
+      EditMeal(name, description, quantity, price);
+    } else {
+      ShowToast();
+    }
+  };
+
+  const ShowToast = () => {
+    Toast.show({
+      type: "error",
+      text1: "Name shouldn't be empty!",
+    });
+  };
+
+  const editItem = async (name, description, quantity, price) => {
     //Meal Object
     if (
       name.trim().length > 0 &&
       description.trim().length > 0 &&
-      quantity.trim().length > 0 &&
-      price.trim().length > 0
+      quantity.length > 0 &&
+      price.length > 0
     ) {
-      await addDoc(collection(firestore, "meals"), {
+      await updateDoc(doc(firestore, "meals", mealId), {
         name: name,
         description: description,
-        quantity: Number(parseFloat(quantity).toFixed(2)),
+        quantity: quantity,
         imageUrl: "",
-        price: Number(parseFloat(price).toFixed(2)),
+        price: price,
         restaurantId: auth.currentUser.uid,
-      }).then((meal) => {
+      }).then(() => {
         Toast.show({
           type: "success",
-          text1: "You added a new meal!",
+          text1: "You edited the meal!",
         });
-        updateDoc(doc(firestore, "meals", meal.id), {
+        updateDoc(doc(firestore, "meals", mealId), {
           imageUrl: uri,
         });
         navigation.navigate("Menu");
@@ -152,7 +203,7 @@ const AddNewItem = ({ navigation }) => {
               <RoundedTextInput
                 onChangeText={(price) => setPrice(price)}
                 placeholder="Price (RM)"
-                value={price}
+                value={price.toString()}
               />
             </View>
             <View style={{ marginLeft: 10 }} />
@@ -162,12 +213,12 @@ const AddNewItem = ({ navigation }) => {
               <RoundedTextInput
                 onChangeText={(quantity) => setQuantity(quantity)}
                 placeholder="Quantity"
-                value={quantity}
+                value={quantity.toString()}
               />
             </View>
           </View>
           <Spacing marginBottom={20} />
-          <PrimaryButton onPress={NewItem} text="Add New Item" />
+          <PrimaryButton onPress={Edit} text="Edit Menu Item" />
         </View>
       </ScrollView>
     </View>
@@ -248,4 +299,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddNewItem;
+export default EditMenuItem;

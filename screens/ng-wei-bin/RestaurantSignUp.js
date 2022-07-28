@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import * as Location from "expo-location";
-import { Button, StyleSheet, ScrollView, View, Image,Text } from "react-native";
+import {
+  Button,
+  StyleSheet,
+  ScrollView,
+  View,
+  Image,
+  Text,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TextInput } from "react-native-paper";
 import Toast from "react-native-toast-message";
@@ -13,7 +20,7 @@ import { setDoc, doc } from "firebase/firestore";
 import TextButton from "../../components/buttons/TextButton";
 import PrimaryButton from "../../components/buttons/PrimaryButton";
 import SecondaryButton from "../../components/buttons/SecondaryButton";
-import DropDownPicker from 'react-native-dropdown-picker';
+import DropDownPicker from "react-native-dropdown-picker";
 import { useNavigation } from "@react-navigation/native";
 
 const RestaurantSignUp = () => {
@@ -31,8 +38,6 @@ const RestaurantSignUp = () => {
   const [lat, setLat] = useState(0.0);
   const [lng, setLng] = useState(0.0);
   const navigation = useNavigation();
-
-
 
   const SignUp = async () => {
     //Get all the entered inputs from UI, if none is empty, then create a new restaurant account
@@ -106,7 +111,8 @@ const RestaurantSignUp = () => {
       uid: uid,
       username: username,
       email: email,
-      imageUrl: "https://firebasestorage.googleapis.com/v0/b/mpma-ttn.appspot.com/o/restaurants%2Fdefaultlogo.jpg?alt=media&token=1838b53b-f0fe-40e3-90cd-ccfe99c7cad8",
+      imageUrl:
+        "https://firebasestorage.googleapis.com/v0/b/mpma-ttn.appspot.com/o/restaurants%2Fdefaultlogo.jpg?alt=media&token=1838b53b-f0fe-40e3-90cd-ccfe99c7cad8",
       ratings: 0,
       type: "restaurant",
       time: preparationTime,
@@ -145,7 +151,7 @@ const RestaurantSignUp = () => {
             placeholder="Restaurant Name"
           />
 
-           <Spacing marginTop={10} />
+          <Spacing marginTop={10} />
           <Text style={styles.bodyText}>Address</Text>
           <RoundedTextInput
             onChangeText={(address) => setAddress(address)}
@@ -155,7 +161,9 @@ const RestaurantSignUp = () => {
           <Spacing marginTop={10} />
           <Text style={styles.bodyText}>Average Waiting Time (minutes)</Text>
           <RoundedTextInput
-            onChangeText={(preparationTime) => setPreparationTime(preparationTime)}
+            onChangeText={(preparationTime) =>
+              setPreparationTime(preparationTime)
+            }
             placeholder="Average Waiting Time (minutes)"
           />
           <View
@@ -169,23 +177,21 @@ const RestaurantSignUp = () => {
               <Spacing marginTop={10} />
               <Text style={styles.bodyText}>Contact Number</Text>
               <RoundedTextInput
-                onChangeText={(contactNumber) => setContactNumber(contactNumber)}
+                onChangeText={(contactNumber) =>
+                  setContactNumber(contactNumber)
+                }
                 placeholder="Contact Number"
-
               />
             </View>
             <View style={{ marginLeft: 10 }} />
-            <View style={{ flex: 1}}>
+            <View style={{ flex: 1 }}>
               <Spacing marginTop={10} />
               <Text style={styles.bodyText}>Category</Text>
               <RoundedTextInput
-                onChangeText={(category) =>
-                  setCategory(category)
-                }
+                onChangeText={(category) => setCategory(category)}
                 placeholder="Category"
-
               />
-          {/*    <View style={styles.container}>
+              {/*    <View style={styles.container}>
               <DropDownPicker
                 items={[
                   { label: 'Western', value: 'Western',selected:true },
@@ -203,7 +209,7 @@ const RestaurantSignUp = () => {
                 setValue={setValue}      
             />
             </View>*/}
-            </View> 
+            </View>
           </View>
           <View
             style={{
@@ -234,8 +240,6 @@ const RestaurantSignUp = () => {
               />
             </View>
           </View>
-
-
 
           <Spacing marginTop={50} />
           <PrimaryButton onPress={SignUp} text="Sign Up" />
@@ -312,22 +316,22 @@ const styles = StyleSheet.create({
   containerStyles: {
     minHeight: 50,
     minWidth: 149,
-    borderColor: '#6F8C95',
+    borderColor: "#6F8C95",
     borderRadius: 6,
   },
   dropDownStyles: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   itemStyles: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
+    flexDirection: "row",
+    justifyContent: "flex-start",
   },
   container2: {
     marginHorizontal: 20,
     marginBottom: 22.5,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    flexDirection: 'row',
+    justifyContent: "flex-start",
+    alignItems: "center",
+    flexDirection: "row",
     zIndex: 1000,
   },
 });

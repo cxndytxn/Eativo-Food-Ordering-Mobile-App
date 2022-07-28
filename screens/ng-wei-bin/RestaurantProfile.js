@@ -69,7 +69,7 @@ const RestaurantProfile = ({ navigation }) => {
   };
 
   const EditProfile = async (username, address, contactNumber) => {
-    await updateDoc(doc(firestore, "users", auth.currentUser.uid), {
+    await updateDoc(doc(firestore, "restaurants", auth.currentUser.uid), {
       username: username,
       address: address,
       contactNumber: contactNumber,
@@ -120,7 +120,7 @@ const RestaurantProfile = ({ navigation }) => {
             setUri(url);
             updateDoc(doc(firestore, "restaurants", auth.currentUser.uid), {
               imageUrl: url,
-            })
+            });
           });
         }
       }
@@ -129,60 +129,60 @@ const RestaurantProfile = ({ navigation }) => {
 
   return (
     <View>
-        <ScrollView contentContainerStyle={styles.scrollContainer}>
-          <View style={styles.headerBackground}>
-            <TouchableOpacity onPress={UploadProfileImage}>
-              <Image
-                source={
-                  uri === "" || uri == undefined
-                    ? require("../../assets/images/default-user.jpg")
-                    : { uri: uri }
-                }
-                resizeMode="cover"
-                style={styles.image}
-              />
-            </TouchableOpacity>
-            <Spacing marginTop={10} />
-            <Text style={styles.text}>{username}</Text>
-            <Spacing marginTop={10} />
-            <Text style={styles.address}>
-              {address != "" || address != undefined ? address : ""}
-            </Text>
-          </View>
-          <View style={styles.container}>
-            <Text style={styles.bodyText}>Email</Text>
-            <RoundedTextInput
-              onChangeText={(email) => setEmail(email)}
-              placeholder="Email"
-              value={email}
-              editable={false}
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <View style={styles.headerBackground}>
+          <TouchableOpacity onPress={UploadProfileImage}>
+            <Image
+              source={
+                uri === "" || uri == undefined
+                  ? require("../../assets/images/default-user.jpg")
+                  : { uri: uri }
+              }
+              resizeMode="cover"
+              style={styles.image}
             />
-            <Spacing marginTop={10} />
-            <Text style={styles.bodyText}>Username</Text>
-            <RoundedTextInput
-              onChangeText={(username) => setUsername(username)}
-              placeholder="Username"
-              value={username}
-            />
-            <Spacing marginTop={10} />
-            <Text style={styles.bodyText}>Default Address</Text>
-            <RoundedTextInput
-              onChangeText={(address) => setAddress(address)}
-              placeholder="Default Address"
-              value={address}
-            />
-            <Spacing marginTop={10} />
-            <Text style={styles.bodyText}>Contact Number</Text>
-            <RoundedTextInput
-              onChangeText={(contactNumber) => setContactNumber(contactNumber)}
-              placeholder="Contact Number"
-              value={contactNumber}
-            />
-            <Spacing marginBottom={20} />
-            <PrimaryButton onPress={Edit} text="Edit" />
-            <Spacing marginBottom={20} />
-          </View>
-        </ScrollView>
+          </TouchableOpacity>
+          <Spacing marginTop={10} />
+          <Text style={styles.text}>{username}</Text>
+          <Spacing marginTop={10} />
+          <Text style={styles.address}>
+            {address != "" || address != undefined ? address : ""}
+          </Text>
+        </View>
+        <View style={styles.container}>
+          <Text style={styles.bodyText}>Email</Text>
+          <RoundedTextInput
+            onChangeText={(email) => setEmail(email)}
+            placeholder="Email"
+            value={email}
+            editable={false}
+          />
+          <Spacing marginTop={10} />
+          <Text style={styles.bodyText}>Username</Text>
+          <RoundedTextInput
+            onChangeText={(username) => setUsername(username)}
+            placeholder="Username"
+            value={username}
+          />
+          <Spacing marginTop={10} />
+          <Text style={styles.bodyText}>Default Address</Text>
+          <RoundedTextInput
+            onChangeText={(address) => setAddress(address)}
+            placeholder="Default Address"
+            value={address}
+          />
+          <Spacing marginTop={10} />
+          <Text style={styles.bodyText}>Contact Number</Text>
+          <RoundedTextInput
+            onChangeText={(contactNumber) => setContactNumber(contactNumber)}
+            placeholder="Contact Number"
+            value={contactNumber}
+          />
+          <Spacing marginBottom={20} />
+          <PrimaryButton onPress={Edit} text="Edit" />
+          <Spacing marginBottom={20} />
+        </View>
+      </ScrollView>
     </View>
   );
 };
@@ -244,6 +244,5 @@ const styles = StyleSheet.create({
     marginVertical: 5,
   },
 });
-
 
 export default RestaurantProfile;
