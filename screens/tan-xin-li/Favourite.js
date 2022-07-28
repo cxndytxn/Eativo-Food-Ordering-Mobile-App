@@ -1,11 +1,5 @@
-import {
-  collection,
-  getDocs,
-  onSnapshot,
-  query,
-  where,
-} from "firebase/firestore";
-import React, { useState, useEffect } from "react";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import FavouriteCard from "../../components/cards/FavouriteCard";
 import { auth, firestore } from "../../firebase";
@@ -25,7 +19,7 @@ const Favourite = ({ navigation }) => {
     if (auth.currentUser != null) {
       GetFavourites();
     }
-  }, [isFocused]);
+  }, [isFocused])
 
   const GetFavourites = async () => {
     const list = [];

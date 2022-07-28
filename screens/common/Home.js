@@ -11,7 +11,7 @@ import {
 import VerticalRestaurantCard from "../../components/cards/VerticalRestaurantCard";
 import Spacing from "../../components/views/Spacing";
 import HorizontalRestaurantCard from "../../components/cards/HorizontalRestaurantCard";
-import { useNavigation } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { auth, firestore } from "../../firebase";
 import {
   collection,
@@ -40,6 +40,7 @@ const Home = ({ navigation }) => {
   const [nearbyRests, setNearbyRests] = useState([]);
   const [chip, setChip] = useState([]);
   const [selected, setSelected] = useState("All");
+  const isFocused = useIsFocused();
 
   const restaurants = [];
   //let nearbyRestaurants = [];
@@ -82,7 +83,7 @@ const Home = ({ navigation }) => {
         setRests([]);
       }
     });
-  }, [selected]);
+  }, [selected, isFocused]);
 
   const ListHeaderComponent = (props) => {
     const navigation = useNavigation();
