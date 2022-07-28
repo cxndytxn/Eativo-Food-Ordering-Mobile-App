@@ -27,7 +27,7 @@ const VerticalFlatListItemSeparator = () => {
   return <View style={{ marginBottom: 10 }} />;
 };
 
-const StaffMenu = ({navigation}) => {
+const StaffMenu = ({ navigation }) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [quantity, setQuantity] = useState("");
@@ -47,8 +47,8 @@ const StaffMenu = ({navigation}) => {
     const docRef = doc(firestore, "staffs", uid);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
-      restaurantId = docSnap.data().restaurantId
-      setRestaurantId(restaurantId)
+      restaurantId = docSnap.data().restaurantId;
+      setRestaurantId(restaurantId);
       const q = query(
         collection(firestore, "meals"),
         where("restaurantId", "==", restaurantId)
@@ -101,8 +101,9 @@ const StaffMenu = ({navigation}) => {
               navigation.navigate("StaffNavigation", {
                 screen: "Edit Menu Item",
                 params: {
+                  type: "staff",
                   mealId: item.key,
-                  restaurantId:restaurantId,
+                  restaurantId: restaurantId,
                 },
               })
             }
@@ -130,12 +131,15 @@ const StaffMenu = ({navigation}) => {
           alignItems: "center",
           justifyContent: "center",
         }}
-        onPress={() => navigation.navigate("StaffNavigation", {
-          screen: "Add New Meal",
-          params: {
-            restId:restaurantId,
-          },
-        })}
+        onPress={() =>
+          navigation.navigate("StaffNavigation", {
+            screen: "Add New Meal",
+            params: {
+              type: "staff",
+              restId: restaurantId,
+            },
+          })
+        }
       >
         <Ionicons name="add-outline" color={"black"} size={28} />
       </TouchableOpacity>

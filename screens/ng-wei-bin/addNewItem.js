@@ -10,11 +10,11 @@ import {
 import { auth, firestore, storage } from "../../firebase";
 import Spacing from "../../components/views/Spacing";
 import RoundedTextInput from "../../components/textInputs/RoundedTextInput";
-import {  doc, addDoc, updateDoc } from "firebase/firestore";
+import { doc, addDoc, updateDoc } from "firebase/firestore";
 import PrimaryButton from "../../components/buttons/PrimaryButton";
 import * as ImagePicker from "expo-image-picker";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
-import {  collection } from "firebase/firestore";
+import { collection } from "firebase/firestore";
 import {
   getDownloadURL,
   ref as reference,
@@ -29,7 +29,7 @@ const AddNewItem = ({ navigation, route }) => {
   const [uri, setUri] = useState("");
   const [restaurantId, setRestaurantId] = useState("");
   const [restaurantName, setRestaurantName] = useState("");
-  const { restId } = route?.params
+  const { restId, type } = route?.params;
 
   useEffect(() => {
     const setRestaurantId = async () => {
@@ -64,7 +64,7 @@ const AddNewItem = ({ navigation, route }) => {
         updateDoc(doc(firestore, "meals", meal.id), {
           imageUrl: uri,
         });
-        navigation.navigate("Menu");
+        navigation.goBack();
       });
     }
   };
