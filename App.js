@@ -51,6 +51,7 @@ import RestaurantSignUpStack from "./navigation/RestaurantSignUpStack";
 import AddNewItem from "./screens/ng-wei-bin/AddNewItem";
 import EditMenuItem from "./screens/ng-wei-bin/EditMenuItem";
 import StaffOrderDetails from "./screens/tan-soon-si-tyrone/StaffOrderDetails";
+import AddStaffs from "./screens/ng-wei-bin/RestaurantAddStaffs";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -198,8 +199,13 @@ const RestaurantStack = () => {
           headerLeft: () => <HeaderLeftButton />,
         })}
       />
+
+      <Stack.Screen
+      name="Add Staffs"
+        component={AddStaffs}/>
       <Stack.Screen name="Add New Meal" component={AddNewItem} />
       <Stack.Screen name="Edit Menu Item" component={EditMenuItem} />
+
     </Stack.Navigator>
   );
 };
