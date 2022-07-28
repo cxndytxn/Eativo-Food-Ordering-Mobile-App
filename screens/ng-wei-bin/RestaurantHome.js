@@ -14,18 +14,18 @@ import HorizontalRestaurantCard from "../../components/cards/HorizontalRestauran
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { auth, firestore } from "../../firebase";
 import {
+  query,
   collection,
   doc,
+  getDoc,
+  getDocs,
   onSnapshot,
-  query as firestoreQuery,
   where,
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import Toast from "react-native-toast-message";
-import * as Location from "expo-location";
 import { Chip } from "react-native-paper";
-import { getDistance } from "geolib";
-import NoRestaurants from "../tan-xin-li/empty-states/NoRestaurants";
+import RestOrderCard from "../../components/cards/RestOrderCard";
 
 const FlatListItemSeparator = () => {
   return <View style={{ marginRight: 10 }} />;
@@ -50,6 +50,8 @@ const RestaurantHome = ({ navigation, route }) => {
   const [nearbyRests, setNearbyRests] = useState([]);
   const [chip, setChip] = useState([]);
   const [selected, setSelected] = useState("All");
+  const [orders, setOrders] = useState([]);
+  const isFocused = useIsFocused();
 
   const ListHeaderComponent = (props) => {
     const navigation = useNavigation();
@@ -58,24 +60,71 @@ const RestaurantHome = ({ navigation, route }) => {
     const [uri, setUri] = useState("");
     const [locationPermission, setLocationPermission] = useState(false);
 
-    onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser) {
-        onSnapshot(
-          doc(firestore, "restaurants", currentUser.uid),
-          (snapshot) => {
-            if (snapshot !== undefined) {
-              setUsername(snapshot.data()?.username);
-              setAddress(snapshot.data()?.address);
-              setUri(snapshot.data()?.imageUrl);
-            }
-          }
+
+
+    const FlatListItemSeparator = () => {
+      return (
+        <View
+          style={{
+            marginVertical: 10,
+            flex: 1,
+            borderBottomWidth: 1,
+            borderBottomColor: "lightgrey",
+          }}
+        />
+      );
+    };
+  
+    useEffect(() => {
+      FetchOrders();
+  
+    },[isFocused]);
+
+    const order = [];
+  
+    const FetchOrders = async () => {
+
+      const docRef = doc(firestore, "restaurants", auth.currentUser.uid);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+
+        //restaurantId = docSnap.data().restaurantId;
+        //restaurantId=auth.currentUser.uid
+        setUsername(docSnap.data().username);
+        setAddress(docSnap.data()?.address);
+        setUri(docSnap.data()?.imageUrl);
+        setEmail(docSnap.data().email);
+        setContactNumber(docSnap.data().contactNumber);
+
+        const ref = await getDocs(
+          query(
+            collection(firestore, "orders"),
+            where("restaurantId", "==", auth.currentUser.uid),
+            where("status", "==", "Order Received")
+          )
         );
-      } else {
-        setUsername("");
-        setAddress("");
-        setUri("");
+        ref.forEach((doc) => {
+          order.push({
+            ...doc.data(),
+            key: doc.id,
+          });
+        });
+        const secondRef = await getDocs(
+          query(
+            collection(firestore, "orders"),
+            where("restaurantId", "==", auth.currentUser.uid),
+            where("status", "==", "In Kitchen")
+          )
+        );
+        secondRef.forEach((doc) => {
+          order.push({
+            ...doc.data(),
+            key: doc.id,
+          });
+        });
+        setOrders(order);
       }
-    });
+    };
 
     return (
       <View style={styles.container}>
@@ -145,6 +194,30 @@ const RestaurantHome = ({ navigation, route }) => {
             );
           })}
         </ScrollView>
+
+        <Text style={styles.sectionHeader}>Incoming Orders</Text>
+      <FlatList
+        data={orders}
+        renderItem={({ item, index }) => (
+          <RestOrderCard
+            orderId={item.key}
+            date={item.date}
+            time={item.time}
+            status={item.status}
+            totalPrice={item.total}
+            key={index}
+          />
+        )}
+        keyExtractor={(item) => item.index}
+        ItemSeparatorComponent={FlatListItemSeparator}
+        contentContainerStyle={{
+          paddingBottom: 70,
+          marginHorizontal: 10,
+          paddingTop: 30,
+        }}
+        //ListHeaderComponent={ListHeaderComponent}
+      />
+
       </View>
     );
   };
