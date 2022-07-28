@@ -49,6 +49,7 @@ import StaffMenu from "./screens/tan-soon-si-tyrone/StaffMenu";
 import StaffProfile from "./screens/tan-soon-si-tyrone/StaffProfile";
 import RestaurantSignUpStack from "./navigation/RestaurantSignUpStack";
 import StaffOrderDetails from "./screens/tan-soon-si-tyrone/StaffOrderDetails";
+import AddStaffs from "./screens/ng-wei-bin/RestaurantAddStaffs";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -196,6 +197,9 @@ const RestaurantStack = () => {
           headerLeft: () => <HeaderLeftButton />,
         })}
       />
+      <Stack.Screen
+      name="Add Staffs"
+        component={AddStaffs}/>
     </Stack.Navigator>
   );
 };

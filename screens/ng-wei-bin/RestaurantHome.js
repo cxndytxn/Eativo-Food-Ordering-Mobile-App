@@ -11,7 +11,7 @@ import {
 import VerticalRestaurantCard from "../../components/cards/VerticalRestaurantCard";
 import Spacing from "../../components/views/Spacing";
 import HorizontalRestaurantCard from "../../components/cards/HorizontalRestaurantCard";
-import { useNavigation } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { auth, firestore } from "../../firebase";
 import {
   collection,
