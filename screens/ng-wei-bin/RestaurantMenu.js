@@ -69,9 +69,9 @@ const RestaurantMenu = ({ navigation }) => {
         mealsList.push({
           ...docs.data(),
           key: docs.id,
-        })
+        });
       });
-      setMeals(mealsList)
+      setMeals(mealsList);
     }
   };
 
@@ -102,6 +102,7 @@ const RestaurantMenu = ({ navigation }) => {
               navigation.navigate("RestaurantNavigation", {
                 screen: "Edit Menu Item",
                 params: {
+                  type: "restaurant",
                   mealId: item.key,
                   restaurantId: auth.currentUser.uid,
                 },
@@ -135,6 +136,7 @@ const RestaurantMenu = ({ navigation }) => {
           navigation.navigate("RestaurantNavigation", {
             screen: "Add New Meal",
             params: {
+              type: "restaurant",
               restId: auth.currentUser.uid,
             },
           })

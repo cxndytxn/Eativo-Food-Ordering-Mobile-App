@@ -10,7 +10,7 @@ import {
 import { auth, firestore, storage } from "../../firebase";
 import Spacing from "../../components/views/Spacing";
 import RoundedTextInput from "../../components/textInputs/RoundedTextInput";
-import {  doc, updateDoc, getDoc } from "firebase/firestore";
+import { doc, updateDoc, getDoc } from "firebase/firestore";
 import PrimaryButton from "../../components/buttons/PrimaryButton";
 import * as ImagePicker from "expo-image-picker";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
@@ -28,7 +28,7 @@ const EditMenuItem = ({ route, navigation }) => {
   const [uri, setUri] = useState("");
   const [restId, setRestaurantId] = useState("");
   const [restaurantName, setRestaurantName] = useState("");
-  const { mealId ,restaurantId} = route.params;
+  const { mealId, restaurantId, type } = route.params;
 
   useEffect(() => {
     GetData(mealId);
@@ -72,7 +72,7 @@ const EditMenuItem = ({ route, navigation }) => {
       updateDoc(doc(firestore, "meals", mealId), {
         imageUrl: uri,
       });
-      navigation.navigate("Menu");
+      navigation.goBack();
     });
   };
 

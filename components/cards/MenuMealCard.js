@@ -108,8 +108,10 @@ const MealCard = ({
             </Text>
           </View>
           <Spacing marginTop={5} />
-          <Text style={styles.quantity}>Remanining Quantity:{quantity}</Text>
-          <Text style={styles.price}>Pirce: RM {parseFloat(price).toFixed(2)}</Text>
+          <Text style={styles.quantity}>Remaining Quantity:{quantity}</Text>
+          <Text style={styles.price}>
+            Price: RM {parseFloat(price).toFixed(2)}
+          </Text>
         </View>
       </View>
     </TouchableOpacity>
