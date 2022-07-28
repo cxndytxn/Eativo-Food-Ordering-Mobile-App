@@ -115,7 +115,9 @@ const RestaurantMenu = ({ navigation }) => {
           alignItems: "center",
           justifyContent: "center",
         }}
-        onPress={() => navigation.navigate("Add New Meal")}
+        onPress={() => navigation.navigate("RestaurantNavigation", {
+          screen: "Add New Meal"
+        })}
       >
         <Ionicons name="add-outline" color={"black"} size={28} />
       </TouchableOpacity>

@@ -200,9 +200,7 @@ const RestaurantStack = () => {
         })}
       />
 
-      <Stack.Screen
-      name="Add Staffs"
-        component={AddStaffs}/>
+      <Stack.Screen name="Add Staffs" component={AddStaffs}/>
       <Stack.Screen name="Add New Meal" component={AddNewItem} />
       <Stack.Screen name="Edit Menu Item" component={EditMenuItem} />
 
@@ -293,6 +291,8 @@ const StaffStack = () => {
         })}
       />
       <Stack.Screen name="Order Details" component={StaffOrderDetails} />
+      <Stack.Screen name="Edit Menu Item" component={EditMenuItem} />
+      <Stack.Screen name="Add New Meal" component={AddNewItem} />
     </Stack.Navigator>
   );
 };
