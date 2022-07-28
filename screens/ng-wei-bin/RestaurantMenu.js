@@ -87,6 +87,7 @@ const RestaurantMenu = ({ navigation }) => {
                 screen: "Edit Menu Item",
                 params: {
                   mealId: item.key,
+                  restaurantId:auth.currentUser.uid
                 },
               })
             }

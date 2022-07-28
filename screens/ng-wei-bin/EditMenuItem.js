@@ -26,13 +26,13 @@ const EditMenuItem = ({ route, navigation }) => {
   const [quantity, setQuantity] = useState(0.0);
   const [price, setPrice] = useState(0.0);
   const [uri, setUri] = useState("");
-  const [restaurantId, setRestaurantId] = useState("");
+  const [restId, setRestaurantId] = useState("");
   const [restaurantName, setRestaurantName] = useState("");
-  const { mealId } = route.params;
+  const { mealId ,restaurantId} = route.params;
 
   useEffect(() => {
     GetData(mealId);
-
+    console.log(mealId);
     setRestaurantId();
     return () => setRestaurantId();
   }, []);
@@ -63,7 +63,7 @@ const EditMenuItem = ({ route, navigation }) => {
       quantity: Number(parseFloat(quantity).toFixed(2)),
       imageUrl: "",
       price: Number(parseFloat(price).toFixed(2)),
-      restaurantId: auth.currentUser.uid,
+      restaurantId: restaurantId,
     }).then(() => {
       Toast.show({
         type: "success",
@@ -105,7 +105,7 @@ const EditMenuItem = ({ route, navigation }) => {
         quantity: quantity,
         imageUrl: "",
         price: price,
-        restaurantId: auth.currentUser.uid,
+        restaurantId: restaurantId,
       }).then(() => {
         Toast.show({
           type: "success",
@@ -138,7 +138,7 @@ const EditMenuItem = ({ route, navigation }) => {
           const img = await fetch(result.uri);
           const bytes = await img.blob();
 
-          var storagePath = "meals/" + auth.currentUser.uid;
+          var storagePath = "meals/" + restaurantId;
           const ref = reference(storage, storagePath);
 
           await uploadBytes(ref, bytes).then(
