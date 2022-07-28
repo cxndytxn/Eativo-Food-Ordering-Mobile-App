@@ -52,6 +52,7 @@ import AddNewItem from "./screens/ng-wei-bin/AddNewItem";
 import EditMenuItem from "./screens/ng-wei-bin/EditMenuItem";
 import StaffOrderDetails from "./screens/tan-soon-si-tyrone/StaffOrderDetails";
 import AddStaffs from "./screens/ng-wei-bin/RestaurantAddStaffs";
+import RestaurantOrderDetails from "./screens/ng-wei-bin/RestaurantOrderDetails";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -201,6 +202,7 @@ const RestaurantStack = () => {
       />
 
       <Stack.Screen name="Add Staffs" component={AddStaffs}/>
+      <Stack.Screen name="Restaurant Order Details" component={RestaurantOrderDetails} />
       <Stack.Screen name="Add New Meal" component={AddNewItem} />
       <Stack.Screen name="Edit Menu Item" component={EditMenuItem} />
 
