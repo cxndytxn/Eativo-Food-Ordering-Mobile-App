@@ -98,7 +98,7 @@ const StaffMenu = ({navigation}) => {
             greyOut={item.quantity == 0}
             quantity={item.quantity}
             onPress={() =>
-              navigation.navigate("RestaurantNavigation", {
+              navigation.navigate("StaffNavigation", {
                 screen: "Edit Menu Item",
                 params: {
                   mealId: item.key,
@@ -130,7 +130,9 @@ const StaffMenu = ({navigation}) => {
           alignItems: "center",
           justifyContent: "center",
         }}
-        onPress={() => navigation.navigate("Add New Meal")}
+        onPress={() => navigation.navigate("StaffNavigation", {
+          screen: "Add New Meal"
+        })}
       >
         <Ionicons name="add-outline" color={"black"} size={28} />
       </TouchableOpacity>
