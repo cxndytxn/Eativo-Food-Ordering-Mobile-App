@@ -245,12 +245,13 @@ const RestaurantSignUp = () => {
           <PrimaryButton onPress={SignUp} text="Sign Up" />
           <Spacing marginTop={10} />
 
-          <Spacing marginTop={30} />
+          <Spacing marginTop={20} />
           <SecondaryButton
             onPress={SignUp}
             descriptiveText={"Have an account? "}
             functionalText={"Sign In!"}
           />
+          <Spacing marginBottom={20} />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -264,7 +265,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   headerBackground: {
-    paddingTop: 20,
     alignItems: "center",
     width: "100%",
     height: 200,
