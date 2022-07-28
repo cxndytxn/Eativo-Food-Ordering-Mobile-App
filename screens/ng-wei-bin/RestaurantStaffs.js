@@ -100,7 +100,7 @@ const RestaurantStaffs = ({ navigation }) => {
       />
       <TouchableOpacity
         style={{
-          backgroundColor: "white",
+          backgroundColor: "#FFC529",
           borderRadius: 100,
           width: 50,
           position: "absolute",
