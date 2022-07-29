@@ -16,6 +16,7 @@ import { auth, firestore } from "../../firebase";
 import {
   collection,
   doc,
+  getDocs,
   onSnapshot,
   query as firestoreQuery,
   where,
@@ -43,7 +44,6 @@ const Home = ({ navigation }) => {
   const isFocused = useIsFocused();
 
   const restaurants = [];
-  //let nearbyRestaurants = [];
 
   useEffect(() => {
     let query;
@@ -69,26 +69,39 @@ const Home = ({ navigation }) => {
         collection(firestore, "restaurants"),
         where("category", "==", "Korean")
       );
+    FetchRestaurants(query);
 
-    const unsubscribe = onSnapshot(query, (querySnapshot) => {
-      if (!querySnapshot.empty) {
-        querySnapshot.forEach((doc) => {
-          restaurants.push({
-            ...doc.data(),
-            key: doc.id,
-          });
+    // const unsubscribe = onSnapshot(query, (querySnapshot) => {
+    //   if (!querySnapshot.empty) {
+    //     querySnapshot.forEach((doc) => {
+    //       restaurants.push({
+    //         ...doc.data(),
+    //         key: doc.id,
+    //       });
+    //     });
+    //     setRests(restaurants);
+    //   } else {
+    //     setRests([]);
+    //   }
+    // });
+
+    // return () => {
+    //   unsubscribe();
+    // }
+  }, [selected, isFocused]);
+
+  const FetchRestaurants = async (query) => {
+    const q = await getDocs(query);
+    if (!q.empty) {
+      q.forEach((doc) => {
+        restaurants.push({
+          ...doc.data(),
+          key: doc.id,
         });
         setRests(restaurants);
-      } else {
-        setRests([]);
-      }
-    });
-
-    return () => {
-      unsubscribe();
+      });
     }
-
-  }, [selected, isFocused]);
+  };
 
   const ListHeaderComponent = (props) => {
     const navigation = useNavigation();
@@ -225,7 +238,11 @@ const Home = ({ navigation }) => {
               {username === "" || username == undefined ? "Guest" : username}!
             </Text>
             <Spacing marginBottom={5} />
-            <Text style={styles.address}>
+            <Text
+              style={styles.address}
+              numberOfLines={1}
+              ellipsizeMode={"tail"}
+            >
               {address === "" || address == undefined
                 ? "Nice to see you!"
                 : address}
@@ -386,6 +403,7 @@ const styles = StyleSheet.create({
   address: {
     fontSize: 13,
     color: "#666666",
+    maxWidth: 300,
   },
 });
 

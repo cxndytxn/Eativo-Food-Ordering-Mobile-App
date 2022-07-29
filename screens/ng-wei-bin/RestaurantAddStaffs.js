@@ -106,9 +106,9 @@ const AddStaffs = ({ navigation }) => {
             type: "success",
             text1: "Signed up successfully!",
           });
-          navigation.navigate("RestaurantNavigation", {
-            screen: "RestaurantTab",
-          });
+          // navigation.navigate("RestaurantNavigation", {
+          //   screen: "RestaurantTab",
+          // });
         })
         .catch((error) => {
           Toast.show({

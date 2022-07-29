@@ -34,6 +34,7 @@ const StaffOrders = () => {
   }, [isFocused]);
 
   const FetchOrders = async () => {
+    try{
     var uid = auth.currentUser?.uid;
     var restaurantId = "";
     const docRef = doc(firestore, "staffs", uid);
@@ -55,6 +56,9 @@ const StaffOrders = () => {
       });
       setOrders(order);
     }
+  }catch(error){
+    console.log(error);
+  }
   };
 
   return (

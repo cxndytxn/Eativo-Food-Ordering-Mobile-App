@@ -1,6 +1,12 @@
-import { collection, getDocs, query, where } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  query,
+  where,
+  onSnapshot,
+} from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { FlatList, StyleSheet, View } from "react-native";
+import { ActivityIndicator, FlatList, StyleSheet, View } from "react-native";
 import FavouriteCard from "../../components/cards/FavouriteCard";
 import { auth, firestore } from "../../firebase";
 import NoRecords from "./empty-states/NoRecords";
@@ -14,12 +20,62 @@ const VerticalFlatListItemSeparator = () => {
 const Favourite = ({ navigation }) => {
   const [favouriteList, setFavouriteList] = useState([]);
   const isFocused = useIsFocused();
+  //const [loading, isLoading] = useState(true);
+
+  useEffect(() => {
+    // const list = [];
+    if (auth.currentUser != null) {
+      const q = query(
+        collection(firestore, "favourites"),
+        where("uid", "==", auth.currentUser.uid)
+      );
+      const unsubscribe = onSnapshot(q, (snapshot) => {
+        if (snapshot.docChanges()) {
+          GetFavourites();
+          console.log("sub fav");
+        }
+        // snapshot.docChanges().forEach((change) => {
+        //   if (change.type === "removed") {
+        //     //return removed doc
+        //     favouriteList.forEach(x => console.log(x));
+        //     console.log(change.doc.data().mealId + "removed meal ID")
+        //     var favList = [];
+        //     favList.push(...favouriteList);
+        //     setFavouriteList([]);
+        //     favList.map((fav) => {
+        //       console.log(fav);
+        //       if (fav.mealId !== change.doc.data().mealId) {
+        //         list.push({
+        //           ...fav,
+        //           key: fav.mealId,
+        //         });
+        //       }
+        //       setFavouriteList(list);
+        //       console.log(favouriteList)
+        //     });
+        //     // console.log(favouriteList);
+        //     // console.log(change.doc.data())
+        //     // list.push({
+        //     //   ...change.doc.data(),
+        //     //   key: change.doc.id,
+        //     // });
+        //     // setFavouriteList(list);
+        //   }
+        // });
+      });
+
+      return () => {
+        unsubscribe();
+        console.log("unsubscribe fav");
+      };
+    }
+  }, []);
 
   useEffect(() => {
     if (auth.currentUser != null) {
       GetFavourites();
     }
-  }, [isFocused])
+  }, [isFocused]);
 
   const GetFavourites = async () => {
     const list = [];
@@ -37,13 +93,16 @@ const Favourite = ({ navigation }) => {
         });
         setFavouriteList(list);
       });
+      //isLoading(false);
     } else {
       setFavouriteList([]);
+      //isLoading(false);
     }
   };
 
   return (
     <View style={{ flex: 1 }}>
+      {/* <ActivityIndicator color={"#FFC529"} animating={loading} /> */}
       {auth.currentUser != null ? (
         <FlatList
           data={favouriteList}
@@ -88,8 +147,8 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   verticalRestaurantCard: {
-    paddingBottom: 15,
-    paddingTop: 20,
+    paddingBottom: 10,
+    paddingTop: 10,
   },
   infoSection: {
     backgroundColor: "black",

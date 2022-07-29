@@ -35,16 +35,24 @@ const MealCard = ({
   const [restaurantName, setRestaurantName] = useState("");
 
   useEffect(() => {
-    const GetRestaurant = async () => {
-      const q = doc(firestore, "restaurants", restaurantId);
-      const snapshot = await getDoc(q);
-      setRestaurantName(snapshot.data().username);
-    };
-    console.log(hearted);
     GetRestaurant();
 
-    return () => GetRestaurant();
   });
+
+  const GetRestaurant = async () => {
+    try{
+    const q = doc(firestore, "restaurants", restaurantId);
+    const snapshot = await getDoc(q);
+    setRestaurantName(snapshot.data().username);
+  }catch(error){
+         console.log(error)
+  }
+  console.log(hearted);
+}
+  
+
+  
+
 
   const ToggleHeart = async () => {
     if (hearted) {
@@ -108,7 +116,7 @@ const MealCard = ({
             </Text>
           </View>
           <Spacing marginTop={5} />
-          <Text style={styles.quantity}>Remaining Quantity:{quantity}</Text>
+          <Text style={styles.quantity}>Remaining Quantity: {quantity}</Text>
           <Text style={styles.price}>
             Price: RM {parseFloat(price).toFixed(2)}
           </Text>

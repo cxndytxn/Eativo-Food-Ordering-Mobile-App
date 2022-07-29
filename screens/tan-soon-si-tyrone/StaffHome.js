@@ -64,40 +64,44 @@ const StaffHome = () => {
   }, [isFocused]);
 
   const FetchOrders = async () => {
-    var uid = auth.currentUser?.uid;
-    var restaurantId = "";
-    const docRef = doc(firestore, "staffs", uid);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      const order = [];
-      restaurantId = docSnap.data().restaurantId;
-      const ref = await getDocs(
-        query(
-          collection(firestore, "orders"),
-          where("restaurantId", "==", restaurantId),
-          where("status", "==", "Order Received")
-        )
-      );
-      ref.forEach((doc) => {
-        order.push({
-          ...doc.data(),
-          key: doc.id,
+    try {
+      var uid = auth.currentUser?.uid;
+      var restaurantId = "";
+      const docRef = doc(firestore, "staffs", uid);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        const order = [];
+        restaurantId = docSnap.data().restaurantId;
+        const ref = await getDocs(
+          query(
+            collection(firestore, "orders"),
+            where("restaurantId", "==", restaurantId),
+            where("status", "==", "Order Received")
+          )
+        );
+        ref.forEach((doc) => {
+          order.push({
+            ...doc.data(),
+            key: doc.id,
+          });
         });
-      });
-      const secondRef = await getDocs(
-        query(
-          collection(firestore, "orders"),
-          where("restaurantId", "==", restaurantId),
-          where("status", "==", "In Kitchen")
-        )
-      );
-      secondRef.forEach((doc) => {
-        order.push({
-          ...doc.data(),
-          key: doc.id,
+        const secondRef = await getDocs(
+          query(
+            collection(firestore, "orders"),
+            where("restaurantId", "==", restaurantId),
+            where("status", "==", "In Kitchen")
+          )
+        );
+        secondRef.forEach((doc) => {
+          order.push({
+            ...doc.data(),
+            key: doc.id,
+          });
         });
-      });
-      setOrders(order);
+        setOrders(order);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -133,7 +137,7 @@ const StaffHome = () => {
           </Text>
         </View>
       </TouchableOpacity>
-      <Spacing marginBottom ={10} />
+      <Spacing marginBottom={10} />
       <Text style={styles.sectionHeader}>Incoming Orders</Text>
       <FlatList
         data={orders}

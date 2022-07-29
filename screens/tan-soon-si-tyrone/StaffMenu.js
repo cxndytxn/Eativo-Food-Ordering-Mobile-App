@@ -49,28 +49,39 @@ const StaffMenu = ({ navigation }) => {
     if (docSnap.exists()) {
       restaurantId = docSnap.data().restaurantId;
       setRestaurantId(restaurantId);
-      const q = query(
-        collection(firestore, "meals"),
-        where("restaurantId", "==", restaurantId)
+      const q = await getDocs(
+        query(
+          collection(firestore, "meals"),
+          where("restaurantId", "==", restaurantId)
+        )
       );
-      onSnapshot(q, (meals) => {
-        meals.docChanges().forEach((change) => {
-          if (change.doc.exists()) {
-            mealsList.push({
-              ...change.doc.data(),
-              key: change.doc.id,
-            });
-          }
+      if (!q.empty) {
+        q.forEach((docs) => {
+          mealsList.push({
+            ...docs.data(),
+            key: docs.id,
+          });
         });
-        // meals.forEach((meal) => {
-        //     mealsList.push({
-        //       ...meal.data(),
-        //       key: meal.id,
-        //     });
         setMeals(mealsList);
+      }
+      // onSnapshot(q, (meals) => {
+      //   meals.docChanges().forEach((change) => {
+      //     if (change.doc.exists()) {
+      //       mealsList.push({
+      //         ...change.doc.data(),
+      //         key: change.doc.id,
+      //       });
+      //     }
+      //   });
+      //   // meals.forEach((meal) => {
+      //   //     mealsList.push({
+      //   //       ...meal.data(),
+      //   //       key: meal.id,
+      //   //     });
+      //   setMeals(mealsList);
 
         //});
-      });
+      //});
     }
   };
 

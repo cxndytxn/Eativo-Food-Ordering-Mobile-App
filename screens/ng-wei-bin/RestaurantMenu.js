@@ -56,6 +56,7 @@ const RestaurantMenu = ({ navigation }) => {
   }, [isFocused]);
 
   const FetchMeals = async () => {
+    try{
     const mealsList = [];
 
     const q = await getDocs(
@@ -73,6 +74,9 @@ const RestaurantMenu = ({ navigation }) => {
       });
       setMeals(mealsList);
     }
+  }catch(error){
+    console.log(error);
+  }
   };
 
   const ListHeaderComponent = () => {

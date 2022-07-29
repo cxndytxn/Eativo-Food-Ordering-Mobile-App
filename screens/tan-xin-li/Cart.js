@@ -140,10 +140,16 @@ const Cart = ({ navigation, route }) => {
         where("status", "==", "In Cart")
       );
       const querySnapshot = await getDocs(q);
+      const size = querySnapshot.size
+      var counter = 0;
       querySnapshot.forEach((cart) => {
         UpdateDocument(cart);
         ids.push(cart.id);
         setCartIds(ids);
+        counter++;
+        if (counter == size) {
+          navigation.goBack();
+        }
       });
     }
   };
@@ -187,11 +193,11 @@ const Cart = ({ navigation, route }) => {
         console.log(error.message);
       })
       .then(async () => {
-        navigation.navigate("Home");
         Toast.show({
           type: "success",
           text1: "Your order had been received!",
         });
+        //navigation.goBack();
       });
   };
 

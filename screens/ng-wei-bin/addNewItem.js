@@ -38,7 +38,7 @@ const AddNewItem = ({ navigation, route }) => {
       setRestaurantName(snapshot.data().username);
     };
     setRestaurantId();
-    return () => setRestaurantId();
+    // return () => setRestaurantId();
   });
 
   const NewItem = async () => {

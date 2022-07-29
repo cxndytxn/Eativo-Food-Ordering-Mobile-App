@@ -130,7 +130,7 @@ const SubmitRatingReview = ({ navigation, route }) => {
           text1:
             "You'd submitted ratings and reviews for " + restaurantName + "!",
         });
-        navigation.navigate("Home");
+        navigation.goBack();
       });
     } else {
       Toast.show({

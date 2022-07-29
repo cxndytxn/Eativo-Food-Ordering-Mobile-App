@@ -51,16 +51,17 @@ const RestaurantHome = ({ navigation, route }) => {
   const [chip, setChip] = useState([]);
   const [selected, setSelected] = useState("All");
   const [orders, setOrders] = useState([]);
+  const [email, setEmail] = useState("");
+  const [contactNumber, setContactNumber] = useState("");
   const isFocused = useIsFocused();
-
+  const [username, setUsername] = useState("");
+  const [address, setAddress] = useState("");
+  const [uri, setUri] = useState("");
+  const [locationPermission, setLocationPermission] = useState(false);
+  
   const ListHeaderComponent = (props) => {
     const navigation = useNavigation();
-    const [username, setUsername] = useState("");
-    const [address, setAddress] = useState("");
-    const [uri, setUri] = useState("");
-    const [locationPermission, setLocationPermission] = useState(false);
-
-
+    
 
     const FlatListItemSeparator = () => {
       return (
@@ -74,20 +75,18 @@ const RestaurantHome = ({ navigation, route }) => {
         />
       );
     };
-  
+
     useEffect(() => {
       FetchOrders();
-  
-    },[isFocused]);
+    }, [isFocused]);
 
     const order = [];
-  
-    const FetchOrders = async () => {
 
+    const FetchOrders = async () => {
+      try{
       const docRef = doc(firestore, "restaurants", auth.currentUser.uid);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
-
         //restaurantId = docSnap.data().restaurantId;
         //restaurantId=auth.currentUser.uid
         setUsername(docSnap.data().username);
@@ -123,6 +122,9 @@ const RestaurantHome = ({ navigation, route }) => {
           });
         });
         setOrders(order);
+      }}catch(error){
+        console.log(error)
+      
       }
     };
 
@@ -196,28 +198,29 @@ const RestaurantHome = ({ navigation, route }) => {
         </ScrollView>
 
         <Text style={styles.sectionHeader}>Incoming Orders</Text>
-      <FlatList
-        data={orders}
-        renderItem={({ item, index }) => (
-          <RestOrderCard
-            orderId={item.key}
-            date={item.date}
-            time={item.time}
-            status={item.status}
-            totalPrice={item.total}
-            key={index}
-          />
-        )}
-        keyExtractor={(item) => item.index}
-        ItemSeparatorComponent={FlatListItemSeparator}
-        contentContainerStyle={{
-          paddingBottom: 70,
-          marginHorizontal: 10,
-          paddingTop: 30,
-        }}
-        //ListHeaderComponent={ListHeaderComponent}
-      />
-
+        <Spacing marginTop={10} />
+        <FlatList
+          data={orders}
+          renderItem={({ item, index }) => (
+            <RestOrderCard
+              orderId={item.key}
+              date={item.date}
+              time={item.time}
+              status={item.status}
+              totalPrice={item.total}
+              key={index}
+            />
+          )}
+          keyExtractor={(item) => item.index}
+          ItemSeparatorComponent={FlatListItemSeparator}
+          contentContainerStyle={{
+            paddingBottom: 70,
+            marginHorizontal: 10,
+            paddingHorizontal: 10,
+            paddingTop: 30,
+          }}
+          //ListHeaderComponent={ListHeaderComponent}
+        />
       </View>
     );
   };

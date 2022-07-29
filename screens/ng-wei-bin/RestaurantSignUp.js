@@ -70,9 +70,8 @@ const RestaurantSignUp = () => {
 
             //Start creating new restaurant account
             if (
-              password.trim() === confirmedPassword.trim() &&
-              lat !== 0.0 &&
-              lng !== 0.0
+              password.trim() === confirmedPassword.trim() 
+              
             ) {
               createUserWithEmailAndPassword(auth, email, password)
                 .then((userCredentials) => {

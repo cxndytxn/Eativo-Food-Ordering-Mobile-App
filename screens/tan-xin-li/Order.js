@@ -3,8 +3,9 @@ import {
   where,
   query,
   onSnapshot,
+  getDocs,
 } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import OrderCard from "../../components/cards/OrderCard";
 import NoRecords from "./empty-states/NoRecords";
@@ -21,26 +22,67 @@ const Order = ({ navigation }) => {
   const isFocused = useIsFocused();
 
   useEffect(() => {
+    const list = [];
     if (auth.currentUser != null) {
+      const q = query(
+        collection(firestore, "orders"),
+        where("uid", "==", auth.currentUser.uid)
+      );
+
+      const unsubscribe = onSnapshot(q, (snapshot) => {
+        if (snapshot.docChanges()) {
+          GetOrders();
+          console.log("subscribing");
+        }
+        // snapshot.docChanges().forEach((change) => {
+        //   if (change.type === "modified") {
+        //     list.push({
+        //       ...change.doc.data(),
+        //       key: change.doc.id,
+        //     });
+        //     setOrderList(list);
+        //   }
+        // });
+      });
       GetOrders();
+      return () => {
+        console.log("unsubscribe");
+        unsubscribe();
+      };
     }
   }, [isFocused]);
 
   const GetOrders = async () => {
     const list = [];
-    const q = query(
-      collection(firestore, "orders"),
-      where("uid", "==", auth.currentUser.uid)
+    const q = await getDocs(
+      query(
+        collection(firestore, "orders"),
+        where("uid", "==", auth.currentUser.uid)
+      )
     );
-    onSnapshot(q, (querySnapshots) => {
-      querySnapshots.forEach((snapshot) => {
+    if (!q.empty) {
+      q.forEach((docs) => {
         list.push({
-          ...snapshot.data(),
-          key: snapshot.id,
+          ...docs.data(),
+          key: docs.id,
         });
         setOrderList(list);
       });
-    });
+    }
+
+    // q.docChanges().forEach((change) => {
+    //   list.push({
+    //     ...change.doc.data(),
+    //     key: change.doc.id,
+    //   });
+    //   setOrderList(list);
+    // });
+
+    // onSnapshot(q, (querySnapshots) => {
+    //   querySnapshots.forEach((snapshot) => {
+
+    //   });
+    // });
   };
 
   return auth.currentUser != null ? (
@@ -89,8 +131,8 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   verticalRestaurantCard: {
-    paddingBottom: 15,
-    paddingTop: 20,
+    paddingBottom: 10,
+    paddingTop: 10,
   },
   infoSection: {
     backgroundColor: "white",
