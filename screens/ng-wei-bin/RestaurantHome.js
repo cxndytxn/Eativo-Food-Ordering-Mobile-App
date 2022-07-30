@@ -51,14 +51,18 @@ const RestaurantHome = ({ navigation, route }) => {
   const [chip, setChip] = useState([]);
   const [selected, setSelected] = useState("All");
   const [orders, setOrders] = useState([]);
+  const [email,setEmail]=useState("");
+  const [contactNumber,setContactNumber]=useState("");
   const isFocused = useIsFocused();
+  const [username, setUsername] = useState("");
+  const [address, setAddress] = useState("");
+  const [uri, setUri] = useState("");
 
   const ListHeaderComponent = (props) => {
     const navigation = useNavigation();
-    const [username, setUsername] = useState("");
-    const [address, setAddress] = useState("");
-    const [uri, setUri] = useState("");
+
     const [locationPermission, setLocationPermission] = useState(false);
+    var [counter,setCounter]=useState(0);
 
 
 
@@ -76,9 +80,12 @@ const RestaurantHome = ({ navigation, route }) => {
     };
   
     useEffect(() => {
-      FetchOrders();
   
+      FetchOrders();
+ 
     },[isFocused]);
+
+
 
     const order = [];
   
@@ -88,13 +95,14 @@ const RestaurantHome = ({ navigation, route }) => {
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
 
+
         //restaurantId = docSnap.data().restaurantId;
         //restaurantId=auth.currentUser.uid
-        setUsername(docSnap.data().username);
+      setUsername(docSnap.data().username);
         setAddress(docSnap.data()?.address);
         setUri(docSnap.data()?.imageUrl);
-        setEmail(docSnap.data().email);
-        setContactNumber(docSnap.data().contactNumber);
+      //  setEmail(docSnap.data().email);
+      //  setContactNumber(docSnap.data().contactNumber);
 
         const ref = await getDocs(
           query(
