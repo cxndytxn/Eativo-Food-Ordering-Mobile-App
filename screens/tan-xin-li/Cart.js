@@ -187,7 +187,7 @@ const Cart = ({ navigation, route }) => {
         console.log(error.message);
       })
       .then(async () => {
-        navigation.navigate("Home");
+        navigation.goBack();
         Toast.show({
           type: "success",
           text1: "Your order had been received!",

@@ -52,6 +52,8 @@ const RestaurantHome = ({ navigation, route }) => {
   const [selected, setSelected] = useState("All");
   const [orders, setOrders] = useState([]);
   const isFocused = useIsFocused();
+  const [email,setEmail]=useState("");
+  const [contactNumber,setContactNumber]=useState("");
 
   const ListHeaderComponent = (props) => {
     const navigation = useNavigation();
