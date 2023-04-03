@@ -1,5 +1,5 @@
 # Eativo: Food Ordering Mobile Application
-:spaghetti: MPMA-TTN is a food ordering mobile application built using React Native to fulfil a university group project. <br />
+:spaghetti: Eativo is a food ordering mobile application built using React Native to fulfil a university group project. <br />
 :speech_balloon: Authors had been tasked to work on different use cases (users, restaurant managers, and restaurant staffs). 
 
 # Authors
