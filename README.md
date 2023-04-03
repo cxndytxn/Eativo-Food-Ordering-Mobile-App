@@ -8,7 +8,7 @@
 - [@Tyr169](https://www.github.com/Tyr169) Tyrone
 
 # Designs
-:art: Sample UI designs done by [@cxndytxn] Xin Li using Marvel App.
+:art: Sample UI designs done by [@cxndytxn](https://www.github.com/cxndytxn) using Marvel App.
 
 ## Users
 <table>
