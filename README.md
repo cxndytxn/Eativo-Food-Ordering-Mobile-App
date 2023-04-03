@@ -60,8 +60,6 @@
   </tr>
   <tr>
     <td>
-![ss-sign-up-screen]()
-
       <img src="[https://user-images.githubusercontent.com/72306553/229405504-1d488ff3-30c4-4859-a77f-b0c94df5c985.png](https://user-images.githubusercontent.com/72306553/229405705-09895a9e-32df-4f35-9242-db084fab0640.png)" width="280" height="500" alt="Sign Up Screen" />
     </td>
     <td>
