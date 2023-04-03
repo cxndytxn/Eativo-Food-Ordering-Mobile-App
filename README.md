@@ -62,7 +62,7 @@
       <img src="https://user-images.githubusercontent.com/72306553/229406297-2acbcbda-774a-4a47-b230-30226673b023.png" width="300" height="600" alt="Sign Up Screen" />
     </td>
     <td>
-      <img src="https://user-images.githubusercontent.com/72306553/229403442-de873294-f4d6-4822-a65b-cc482c94499f.PNG" width="300" height="600" alt="Landing Screen" />
+      <img src="https://user-images.githubusercontent.com/72306553/229406702-757c3b10-01d7-4bc9-9a4e-cece758669c4.png" width="300" height="600" alt="Landing Screen" />
     </td>
     <td>
       <img src="https://user-images.githubusercontent.com/72306553/229406417-6b495e0f-5dbc-490b-b02e-da3c7231cadf.png" width="300" height="600" alt="Search Restaurants Screen" />
