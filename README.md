@@ -9,7 +9,7 @@
 
 # Tech Stack
 **Client:** React Native <br/>
-**Server:** Firebase Firestore
+**Server:** Firebase
 
 # UI Designs
 :art: Sample UI designs done by [@cxndytxn](https://www.github.com/cxndytxn) using Marvel App.
