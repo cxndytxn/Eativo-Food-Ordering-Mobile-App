@@ -22,7 +22,7 @@
   </tr>
   <tr>
     <td>
-      <img src="https://user-images.githubusercontent.com/72306553/229396060-9d89e97e-d585-4678-afe5-09d6015adf12.PNG" width="300" height="500" alt="Sign Up Screen" />
+      <img src="https://user-images.githubusercontent.com/72306553/229396060-9d89e97e-d585-4678-afe5-09d6015adf12.PNG" alt="Sign Up Screen" />
     </td>
     <td>
       <img src="https://user-images.githubusercontent.com/72306553/229395685-e0b4bd84-1c2c-4058-99d8-fae0b7d93557.PNG" width="300" height="500" alt="Landing Screen" />
