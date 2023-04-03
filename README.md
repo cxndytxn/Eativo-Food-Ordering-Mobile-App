@@ -11,20 +11,24 @@
 :art: Sample UI designs done by Xin Li using Marvel App.
 
 ## Use Case - Users
-<div style="display:flex;flex-direction:row;align-items:center>
-  <div style="display:flex;flex-direction:row;justify-content:center;align-items:center">
-    <img src="https://user-images.githubusercontent.com/72306553/229396060-9d89e97e-d585-4678-afe5-09d6015adf12.PNG" width="280" height="500" alt="Sign Up Screen" />
-    <label>Sign Up Screen</label>
-  </div>
-  <span>
-    <img src="https://user-images.githubusercontent.com/72306553/229395685-e0b4bd84-1c2c-4058-99d8-fae0b7d93557.PNG" width="280" height="500" alt="Landing Screen" />
-    <label>Landing Screen</label>
-  </span>
-  <span>
-    <img src="https://user-images.githubusercontent.com/72306553/229395799-5d65ec12-a1b3-4ce7-b461-b55f2e8a49fc.PNG" width="280" height="500" alt="Restaurants Screen" />
-    <label>Restaurants Screen</label>
-  </span>
-</div>
+<table>
+  <tr>
+    <td>
+      <img src="https://user-images.githubusercontent.com/72306553/229396060-9d89e97e-d585-4678-afe5-09d6015adf12.PNG" width="280" height="500" alt="Sign Up Screen" />
+    </td>
+    <td>
+      <img src="https://user-images.githubusercontent.com/72306553/229395685-e0b4bd84-1c2c-4058-99d8-fae0b7d93557.PNG" width="280" height="500" alt="Landing Screen" />
+    </td>
+    <td>
+      <img src="https://user-images.githubusercontent.com/72306553/229395799-5d65ec12-a1b3-4ce7-b461-b55f2e8a49fc.PNG" width="280" height="500" alt="Restaurants Screen" />
+    </td>
+  </tr>
+  <tr>
+    <td>Sign Up Screen</td>
+    <td>Landing Screen</td>
+    <td>Restaurants Screen</td>
+  </tr>
+</table>
 
 # Project Status
 This project had been completed successfully.
