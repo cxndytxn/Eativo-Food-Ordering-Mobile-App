@@ -1,6 +1,9 @@
 # MPMA-TTN
-:spaghetti: MPMA-TTN is a food ordering mobile application built using React Native to fulfil a university group project's requirement.
+:spaghetti: MPMA-TTN is a food ordering mobile application built using React Native to fulfil a university group project's requirement. <br />
 :speech_balloon: Three contributors had been tasked to work on different use cases (users, restaurant managers, and restaurant staffs). 
+
+# Authors
+
 
 # Designs
 :art: Sample UI designs done by Xin Li using Marvel App.
