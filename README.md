@@ -61,6 +61,9 @@
   </tr>
   <tr>
     <td>
+      ![ss-search-restaurants](https://user-images.githubusercontent.com/72306553/229405190-65329c77-065a-4a13-9bcc-1f896cb50e2b.png)
+
+      
       <img src="https://user-images.githubusercontent.com/72306553/229404996-5e0db301-5ded-402d-bef1-bee618f5ec2f.PNG" width="280" height="500" alt="Sign Up Screen" />
     </td>
     <td>
