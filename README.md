@@ -3,12 +3,15 @@
 :speech_balloon: Authors had been tasked to work on different use cases (users, restaurant managers, and restaurant staffs). 
 
 # Authors
-- [@cxndytxn](https://www.github.com/cxndytxn) Xin Li
-- [@TYFE99](https://www.github.com/TYFE99) Wei Bin
-- [@Tyr169](https://www.github.com/Tyr169) Tyrone
+- [@cxndytxn](https://www.github.com/cxndytxn) Xin Li - Users
+- [@TYFE99](https://www.github.com/TYFE99) Wei Bin - Restaurant Managers
+- [@Tyr169](https://www.github.com/Tyr169) Tyrone - Restaurant Staffs
 
-# Designs
-:art: Sample UI designs done by [@cxndytxn](https://www.github.com/cxndytxn) using Marvel App.
+# Project Status
+This project had been completed successfully.
+
+# UI Designs
+:art: Sample designs done by [@cxndytxn](https://www.github.com/cxndytxn) using Marvel App.
 
 ## Users
 <table>
@@ -31,7 +34,24 @@
 </table>
 
 ## Restaurant Managers
+<table>
+  <tr>
+    <td>Sign Up Screen</td>
+    <td>Landing Screen</td>
+    <td>Restaurants Screen</td>
+  </tr>
+  <tr>
+    <td>
+      <img src="https://user-images.githubusercontent.com/72306553/229396060-9d89e97e-d585-4678-afe5-09d6015adf12.PNG" width="280" height="500" alt="Sign Up Screen" />
+    </td>
+    <td>
+      <img src="https://user-images.githubusercontent.com/72306553/229395685-e0b4bd84-1c2c-4058-99d8-fae0b7d93557.PNG" width="280" height="500" alt="Landing Screen" />
+    </td>
+    <td>
+      <img src="https://user-images.githubusercontent.com/72306553/229395799-5d65ec12-a1b3-4ce7-b461-b55f2e8a49fc.PNG" width="280" height="500" alt="Restaurants Screen" />
+    </td>
+  </tr>
+</table>
 
-
-# Project Status
-This project had been completed successfully.
+# Screenshots
+Sample screenshots 
