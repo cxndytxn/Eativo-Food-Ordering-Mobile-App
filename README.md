@@ -61,7 +61,7 @@
   </tr>
   <tr>
     <td>
-      <img src="https://user-images.githubusercontent.com/72306553/229403591-11c45cbc-b248-4acc-813a-561ed055582e.PNG" width="280" height="500" alt="Sign Up Screen" />
+      <img src="https://user-images.githubusercontent.com/72306553/229404996-5e0db301-5ded-402d-bef1-bee618f5ec2f.PNG" width="280" height="500" alt="Sign Up Screen" />
     </td>
     <td>
       <img src="https://user-images.githubusercontent.com/72306553/229403442-de873294-f4d6-4822-a65b-cc482c94499f.PNG" width="280" height="500" alt="Landing Screen" />
