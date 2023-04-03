@@ -63,13 +63,13 @@
     <td>Search Restaurants Screen</td>
   </tr>
     <td>
-      <img src="https://user-images.githubusercontent.com/72306553/229406297-2acbcbda-774a-4a47-b230-30226673b023.png" height="500" alt="Sign Up Screen" />
+      <img src="https://user-images.githubusercontent.com/72306553/229406297-2acbcbda-774a-4a47-b230-30226673b023.png" height="530" alt="Sign Up Screen" />
     </td>
     <td>
-      <img src="https://user-images.githubusercontent.com/72306553/229406702-757c3b10-01d7-4bc9-9a4e-cece758669c4.png" height="500" alt="Landing Screen" />
+      <img src="https://user-images.githubusercontent.com/72306553/229406702-757c3b10-01d7-4bc9-9a4e-cece758669c4.png" height="530" alt="Landing Screen" />
     </td>
     <td>
-      <img src="https://user-images.githubusercontent.com/72306553/229406417-6b495e0f-5dbc-490b-b02e-da3c7231cadf.png" height="500" alt="Search Restaurants Screen" />
+      <img src="https://user-images.githubusercontent.com/72306553/229406417-6b495e0f-5dbc-490b-b02e-da3c7231cadf.png" height="530" alt="Search Restaurants Screen" />
     </td>
   </tr>
 </table>
@@ -82,13 +82,13 @@
   </tr>
   <tr>
     <td>
-      <img src="https://user-images.githubusercontent.com/72306553/229407075-ed8f8d3e-1126-4085-98bd-29ba1048d2e6.png" height="500" alt="Search Restaurants Screen" />
+      <img src="https://user-images.githubusercontent.com/72306553/229407075-ed8f8d3e-1126-4085-98bd-29ba1048d2e6.png" height="530" alt="Search Restaurants Screen" />
     </td>
     <td>
-      <img src="https://user-images.githubusercontent.com/72306553/229407252-7a5753cf-4bea-4321-8eda-0c589938a4db.png" height="500" alt="Landing Screen" />
+      <img src="https://user-images.githubusercontent.com/72306553/229407252-7a5753cf-4bea-4321-8eda-0c589938a4db.png" height="530" alt="Landing Screen" />
     </td>
     <td>
-      <img src="https://user-images.githubusercontent.com/72306553/229407336-fb68557d-c4b5-4d89-a4c8-366017a373aa.png" height="500" alt="Search Restaurants Screen" />
+      <img src="https://user-images.githubusercontent.com/72306553/229407336-fb68557d-c4b5-4d89-a4c8-366017a373aa.png" height="530" alt="Search Restaurants Screen" />
     </td>
   </tr>
 </table>
