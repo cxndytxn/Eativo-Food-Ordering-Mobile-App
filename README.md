@@ -8,9 +8,8 @@
 - [@Tyr169](https://www.github.com/Tyr169) Tyrone - Restaurant Staffs
 
 # UI Designs
-:art: Sample designs done by [@cxndytxn](https://www.github.com/cxndytxn) using Marvel App.
+:art: Sample UI designs done by [@cxndytxn](https://www.github.com/cxndytxn) using Marvel App.
 
-## Users
 <table>
   <tr>
     <td>Sign Up Screen</td>
