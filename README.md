@@ -7,9 +7,6 @@
 - [@TYFE99](https://www.github.com/TYFE99) Wei Bin - Restaurant Managers
 - [@Tyr169](https://www.github.com/Tyr169) Tyrone - Restaurant Staffs
 
-# Project Status
-This project had been completed successfully.
-
 # UI Designs
 :art: Sample designs done by [@cxndytxn](https://www.github.com/cxndytxn) using Marvel App.
 
