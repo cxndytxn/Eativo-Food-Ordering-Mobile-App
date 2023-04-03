@@ -30,7 +30,7 @@
   </tr>
 </table>
 
-## Restaurant Managers/Staffs
+<!-- ## Restaurant Managers/Staffs
 <table>
   <tr>
     <td>Sign Up Screen</td>
@@ -48,7 +48,7 @@
       <img src="https://user-images.githubusercontent.com/72306553/229403726-557df992-964b-402d-883a-9a17d7989f41.PNG" width="280" height="500" alt="Restaurant Orders Screen" />
     </td>
   </tr>
-</table>
+</table> -->
 
 # Screenshots
 📷 Sample screenshots of the actual application.
