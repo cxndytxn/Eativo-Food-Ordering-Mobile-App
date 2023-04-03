@@ -63,13 +63,13 @@
     <td>Search Restaurants Screen</td>
   </tr>
     <td>
-      <img src="https://user-images.githubusercontent.com/72306553/229406297-2acbcbda-774a-4a47-b230-30226673b023.png" width="300" height="500" alt="Sign Up Screen" />
+      <img src="https://user-images.githubusercontent.com/72306553/229406297-2acbcbda-774a-4a47-b230-30226673b023.png" alt="Sign Up Screen" />
     </td>
     <td>
-      <img src="https://user-images.githubusercontent.com/72306553/229406702-757c3b10-01d7-4bc9-9a4e-cece758669c4.png" width="300" height="500" alt="Landing Screen" />
+      <img src="https://user-images.githubusercontent.com/72306553/229406702-757c3b10-01d7-4bc9-9a4e-cece758669c4.png" alt="Landing Screen" />
     </td>
     <td>
-      <img src="https://user-images.githubusercontent.com/72306553/229406417-6b495e0f-5dbc-490b-b02e-da3c7231cadf.png" width="300" height="500" alt="Search Restaurants Screen" />
+      <img src="https://user-images.githubusercontent.com/72306553/229406417-6b495e0f-5dbc-490b-b02e-da3c7231cadf.png" alt="Search Restaurants Screen" />
     </td>
   </tr>
 </table>
