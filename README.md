@@ -8,7 +8,8 @@
 - [@Tyr169](https://www.github.com/Tyr169) Tyrone - Restaurant Staffs
 
 # Tech Stack
-**Client:** React Native, 
+**Client:** React Native
+**Server:** Firebase Firestore
 
 # UI Designs
 :art: Sample UI designs done by [@cxndytxn](https://www.github.com/cxndytxn) using Marvel App.
@@ -21,13 +22,13 @@
   </tr>
   <tr>
     <td>
-      <img src="https://user-images.githubusercontent.com/72306553/229396060-9d89e97e-d585-4678-afe5-09d6015adf12.PNG" width="300" height="550" alt="Sign Up Screen" />
+      <img src="https://user-images.githubusercontent.com/72306553/229396060-9d89e97e-d585-4678-afe5-09d6015adf12.PNG" width="300" height="500" alt="Sign Up Screen" />
     </td>
     <td>
-      <img src="https://user-images.githubusercontent.com/72306553/229395685-e0b4bd84-1c2c-4058-99d8-fae0b7d93557.PNG" width="300" height="550" alt="Landing Screen" />
+      <img src="https://user-images.githubusercontent.com/72306553/229395685-e0b4bd84-1c2c-4058-99d8-fae0b7d93557.PNG" width="300" height="500" alt="Landing Screen" />
     </td>
     <td>
-      <img src="https://user-images.githubusercontent.com/72306553/229395799-5d65ec12-a1b3-4ce7-b461-b55f2e8a49fc.PNG" width="300" height="550" alt="Restaurants Screen" />
+      <img src="https://user-images.githubusercontent.com/72306553/229395799-5d65ec12-a1b3-4ce7-b461-b55f2e8a49fc.PNG" width="300" height="500" alt="Restaurants Screen" />
     </td>
   </tr>
 </table>
@@ -62,13 +63,13 @@
     <td>Search Restaurants Screen</td>
   </tr>
     <td>
-      <img src="https://user-images.githubusercontent.com/72306553/229406297-2acbcbda-774a-4a47-b230-30226673b023.png" width="300" height="600" alt="Sign Up Screen" />
+      <img src="https://user-images.githubusercontent.com/72306553/229406297-2acbcbda-774a-4a47-b230-30226673b023.png" width="300" height="500" alt="Sign Up Screen" />
     </td>
     <td>
-      <img src="https://user-images.githubusercontent.com/72306553/229406702-757c3b10-01d7-4bc9-9a4e-cece758669c4.png" width="300" height="600" alt="Landing Screen" />
+      <img src="https://user-images.githubusercontent.com/72306553/229406702-757c3b10-01d7-4bc9-9a4e-cece758669c4.png" width="300" height="500" alt="Landing Screen" />
     </td>
     <td>
-      <img src="https://user-images.githubusercontent.com/72306553/229406417-6b495e0f-5dbc-490b-b02e-da3c7231cadf.png" width="300" height="600" alt="Search Restaurants Screen" />
+      <img src="https://user-images.githubusercontent.com/72306553/229406417-6b495e0f-5dbc-490b-b02e-da3c7231cadf.png" width="300" height="500" alt="Search Restaurants Screen" />
     </td>
   </tr>
 </table>
@@ -81,13 +82,13 @@
   </tr>
   <tr>
     <td>
-      <img src="https://user-images.githubusercontent.com/72306553/229407075-ed8f8d3e-1126-4085-98bd-29ba1048d2e6.png" width="300" height="600" alt="Search Restaurants Screen" />
+      <img src="https://user-images.githubusercontent.com/72306553/229407075-ed8f8d3e-1126-4085-98bd-29ba1048d2e6.png" width="300" height="500" alt="Search Restaurants Screen" />
     </td>
     <td>
-      <img src="https://user-images.githubusercontent.com/72306553/229407252-7a5753cf-4bea-4321-8eda-0c589938a4db.png" width="300" height="600" alt="Landing Screen" />
+      <img src="https://user-images.githubusercontent.com/72306553/229407252-7a5753cf-4bea-4321-8eda-0c589938a4db.png" width="300" height="500" alt="Landing Screen" />
     </td>
     <td>
-      <img src="https://user-images.githubusercontent.com/72306553/229407336-fb68557d-c4b5-4d89-a4c8-366017a373aa.png" width="300" height="600" alt="Search Restaurants Screen" />
+      <img src="https://user-images.githubusercontent.com/72306553/229407336-fb68557d-c4b5-4d89-a4c8-366017a373aa.png" width="300" height="500" alt="Search Restaurants Screen" />
     </td>
   </tr>
 </table>
