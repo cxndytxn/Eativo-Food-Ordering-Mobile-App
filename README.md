@@ -60,13 +60,13 @@
   </tr>
   <tr>
     <td>
-      <img src="https://user-images.githubusercontent.com/72306553/229405504-1d488ff3-30c4-4859-a77f-b0c94df5c985.png" width="280" height="500" alt="Sign Up Screen" />
+      <img src="https://user-images.githubusercontent.com/72306553/229405504-1d488ff3-30c4-4859-a77f-b0c94df5c985.png" width="300" height="550" alt="Sign Up Screen" />
     </td>
     <td>
-      <img src="https://user-images.githubusercontent.com/72306553/229403442-de873294-f4d6-4822-a65b-cc482c94499f.PNG" width="280" height="500" alt="Landing Screen" />
+      <img src="https://user-images.githubusercontent.com/72306553/229403442-de873294-f4d6-4822-a65b-cc482c94499f.PNG" width="300" height="550" alt="Landing Screen" />
     </td>
     <td>
-      <img src="https://user-images.githubusercontent.com/72306553/229403726-557df992-964b-402d-883a-9a17d7989f41.PNG" width="280" height="500" alt="Restaurant Orders Screen" />
+      <img src="https://user-images.githubusercontent.com/72306553/229403726-557df992-964b-402d-883a-9a17d7989f41.PNG" width="300" height="550" alt="Restaurant Orders Screen" />
     </td>
   </tr>
 </table>
