@@ -8,9 +8,9 @@
 - [@Tyr169](https://www.github.com/Tyr169) Tyrone
 
 # Designs
-:art: Sample UI designs done by Xin Li using Marvel App.
+:art: Sample UI designs done by [@cxndytxn] Xin Li using Marvel App.
 
-## Use Case - Users
+## Users
 <table>
   <tr>
     <td>Sign Up Screen</td>
@@ -29,6 +29,9 @@
     </td>
   </tr>
 </table>
+
+## Restaurant Managers
+
 
 # Project Status
 This project had been completed successfully.
