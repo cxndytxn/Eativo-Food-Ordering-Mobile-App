@@ -13,6 +13,11 @@
 ## Use Case - Users
 <table>
   <tr>
+    <td>Sign Up Screen</td>
+    <td>Landing Screen</td>
+    <td>Restaurants Screen</td>
+  </tr>
+  <tr>
     <td>
       <img src="https://user-images.githubusercontent.com/72306553/229396060-9d89e97e-d585-4678-afe5-09d6015adf12.PNG" width="280" height="500" alt="Sign Up Screen" />
     </td>
@@ -22,11 +27,6 @@
     <td>
       <img src="https://user-images.githubusercontent.com/72306553/229395799-5d65ec12-a1b3-4ce7-b461-b55f2e8a49fc.PNG" width="280" height="500" alt="Restaurants Screen" />
     </td>
-  </tr>
-  <tr>
-    <td>Sign Up Screen</td>
-    <td>Landing Screen</td>
-    <td>Restaurants Screen</td>
   </tr>
 </table>
 
