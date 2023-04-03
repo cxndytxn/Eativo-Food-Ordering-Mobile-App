@@ -8,7 +8,7 @@
 - [@Tyr169](https://www.github.com/Tyr169) Tyrone - Restaurant Staffs
 
 # Tech Stack
-**Client:** React Native
+**Client:** React Native <br/>
 **Server:** Firebase Firestore
 
 # UI Designs
