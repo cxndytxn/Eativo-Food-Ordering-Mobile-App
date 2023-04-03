@@ -12,7 +12,7 @@
 
 ## Use Case - Users
 <div style="display:flex;flex-direction:row;align-items:center>
-  <div style="display:flex;flex-direction:row;justify-content:center;align-items:center>
+  <div style="display:flex;flex-direction:row;justify-content:center;align-items:center">
     <img src="https://user-images.githubusercontent.com/72306553/229396060-9d89e97e-d585-4678-afe5-09d6015adf12.PNG" width="280" height="500" alt="Sign Up Screen" />
     <label>Sign Up Screen</label>
   </div>
