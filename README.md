@@ -38,17 +38,17 @@ This project had been completed successfully.
   <tr>
     <td>Sign Up Screen</td>
     <td>Landing Screen</td>
-    <td>Restaurants Screen</td>
+    <td>Orders Screen</td>
   </tr>
   <tr>
     <td>
-      <img src="https://user-images.githubusercontent.com/72306553/229396060-9d89e97e-d585-4678-afe5-09d6015adf12.PNG" width="280" height="500" alt="Sign Up Screen" />
+      <img src="https://user-images.githubusercontent.com/72306553/229403591-11c45cbc-b248-4acc-813a-561ed055582e.PNG" width="280" height="500" alt="Sign Up Screen" />
     </td>
     <td>
-      <img src="https://user-images.githubusercontent.com/72306553/229395685-e0b4bd84-1c2c-4058-99d8-fae0b7d93557.PNG" width="280" height="500" alt="Landing Screen" />
+      <img src="https://user-images.githubusercontent.com/72306553/229403442-de873294-f4d6-4822-a65b-cc482c94499f.PNG" width="280" height="500" alt="Landing Screen" />
     </td>
     <td>
-      <img src="https://user-images.githubusercontent.com/72306553/229395799-5d65ec12-a1b3-4ce7-b461-b55f2e8a49fc.PNG" width="280" height="500" alt="Restaurants Screen" />
+      <img src="https://user-images.githubusercontent.com/72306553/229403726-557df992-964b-402d-883a-9a17d7989f41.PNG" width="280" height="500" alt="Restaurant Orders Screen" />
     </td>
   </tr>
 </table>
