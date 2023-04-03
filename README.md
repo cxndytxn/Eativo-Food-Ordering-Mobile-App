@@ -68,19 +68,23 @@
       <img src="https://user-images.githubusercontent.com/72306553/229406417-6b495e0f-5dbc-490b-b02e-da3c7231cadf.png" width="300" height="600" alt="Search Restaurants Screen" />
     </td>
   </tr>
+</table>
+  
+<table>
   <tr>
     <td>Restaurants Screen</td>
-    <td>Orders Screen</td>
-    <td></td>
+    <td>Order Details Screen</td>
+    <td>Review Screen</td>
   </tr>
   <tr>
     <td>
       <img src="https://user-images.githubusercontent.com/72306553/229407075-ed8f8d3e-1126-4085-98bd-29ba1048d2e6.png" width="300" height="600" alt="Search Restaurants Screen" />
     </td>
-  <td>
+    <td>
       <img src="https://user-images.githubusercontent.com/72306553/229407252-7a5753cf-4bea-4321-8eda-0c589938a4db.png" width="300" height="600" alt="Landing Screen" />
     </td>
     <td>
       <img src="https://user-images.githubusercontent.com/72306553/229407336-fb68557d-c4b5-4d89-a4c8-366017a373aa.png" width="300" height="600" alt="Search Restaurants Screen" />
+    </td>
   </tr>
 </table>
