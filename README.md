@@ -4,7 +4,7 @@
 
 # Authors
 - [@cxndytxn](https://www.github.com/cxndytxn)
-- [@TYFE](https://www.github.com/TYFE)
+- [@TYFE99](https://www.github.com/TYFE99)
 - [@Tyr169](https://www.github.com/Tyr169)
 
 # Designs
